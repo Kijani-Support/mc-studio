@@ -24,7 +24,7 @@ const StartUpDirectoryPage = () => {
 
 
   return (
-    <div className="grid w-full   ">
+    <div className="grid w-full   overflow-x-hidden">
       <NavBar />
 
     <section className="justify-items-center  ">
@@ -135,21 +135,21 @@ const StartUpDirectoryPage = () => {
       </section>
 
       {/* Our startup section */}
-      <section className="grid gap-8 w-full p-18 px-4 sm:px-18  bg-gray-100">
+      <section className="grid gap-8 w-full py-18 px-4 sm:px-20  bg-gray-100">
         <h1 className="font-extrabold text-3xl">Our StartUps</h1>
 
-        <div  className="relative">
+        <div className="relative w-full overflow-hidden">
+
          {/* Left Scroll Button */}
           <button
         onClick={scrollLeft}
-        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 p-3 rounded-full shadow-lg z-10 hover:bg-orange-500 transition-colors duration-300"
+        className="absolute left-0 text-blue-800 top-1/2 transform-translate-y-1/2  p-3 rounded-full shadow-lg z-10 font-extrabold hover:bg-blue-500 transition-colors duration-300 sm:hidden  "
       >
         {"<<"}
       </button>
 
         <div ref={scrollRef} 
-        className=" grid sm:grid-cols-4 gap-4 gap-y-16 "
-        // className="overflow-x-scroll flex space-x-4 sm:space-x-8 scrollbar-hide"
+        className="flex gap-4 gap-y-16  flex-nowrap sm:flex-wrap  overflow-x-auto scroll-smooth scrollbar-hide"
         >
           {/* one */}
           <OurStartUpComponent 
@@ -232,7 +232,7 @@ const StartUpDirectoryPage = () => {
          {/* Right Scroll Button */}
          <button
         onClick={scrollRight}
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 p-3 rounded-full shadow-lg z-10 hover:bg-orange-500 transition-colors duration-300"
+        className="absolute sm:hidden right-0 top-1/2 transform-translate-y-1/2 font-extrabold text-blue-800 p-3 rounded-full shadow-lg z-10 hover:bg-blue-500 transition-colors duration-300"
       >
         {">>"}
       </button>

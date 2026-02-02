@@ -1,5 +1,6 @@
 import Footer from "../components/Footer";
 import Capture from "../assets/images/algo2.jpg";
+import HomePageImage from "../assets/images/HomePage.jpg";
 import NavBar from "../components/NavBar";
 import Portfolios from "../components/home_page/Portfolios"
 
@@ -27,7 +28,7 @@ const HomePage = () => {
           </div>
           <div className="  rounded-md grid items-center justify-items-center">
             <img
-              src={Capture}
+              src={HomePageImage}
               alt="white board   presentation"
               className="rounded-2xl w-[70%] shadow-gray-700 shadow-md  "
             />

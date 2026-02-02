@@ -1,6 +1,7 @@
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Capture from "../assets/images/algo2.jpg"
+import ProfilePageImage from "../assets/images/ProfilePage.jpg"
 import Achievements from "../components/profile_page/Achievements"
 import Services from "../components/profile_page/Services"
 import CaseStudies from "../components/profile_page/CaseStudies"
@@ -39,7 +40,7 @@ const StartUpProfilePage = () => {
           </div>
         </div>
         <div className="grid  text-center items-center rounded-md  w-full h-full">
-          <img src={Capture} alt="a new dawn"  className=" shadow-xl rounded-xl"/>
+          <img src={ProfilePageImage} alt="Devs collaborating"  className=" shadow-xl rounded-xl"/>
         </div>
       </section>
 

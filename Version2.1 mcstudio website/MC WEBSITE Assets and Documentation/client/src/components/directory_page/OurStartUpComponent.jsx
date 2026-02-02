@@ -2,7 +2,7 @@
 
 const OurStartUpComponent = ({pic, title,stage, subTitle, solution, services}) => {
   return (
-    <div className=" bg-white/80 p-6 h-fit w-70 sm:w-fit  shadow-black/10 shadow-md rounded-lg">
+    <div className=" bg-white/80 py-6 px-6 sm:px-3 h-fit max-w-70 sm:max-w-50 flex-shrink-0 sm:w-fit  shadow-black/10 shadow-md rounded-lg">
       <img
         src={pic}
         alt="replaceable host"
