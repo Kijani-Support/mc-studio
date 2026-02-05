@@ -1,0 +1,117 @@
+graph TB
+    subgraph "Public Pages"
+        HOME[Home Page]
+        STARTUPS_DIR[Startups Directory]
+        STARTUP_PROF[Startup Profile]
+        PROJECTS[Projects Map]
+        CASES[Case Studies]
+        SERVICES[Services Page]
+        PARTNERS[Partner Ecosystem]
+        IBM_PARTNER[IBM Partnership]
+        OW_PARTNER[OW Advocates Profile]
+        BECOME_PARTNER[Become Partner Form]
+        ARTICLE[Article Detail]
+    end
+    
+    subgraph "Legal Health Check Flow"
+        LHC_LANDING[Legal Health Check Landing]
+        LHC_ASSESS[Health Check Assessment<br/>7-Step Form]
+        LHC_RESULTS[Health Check Results]
+        LHC_FAQ[Legal Health Check FAQ]
+    end
+    
+    subgraph "Aikya Legal Services"
+        AIKYA_HUSTLE[Aikya Hustle Plan]
+        AIKYA_SERVICES[Services Overview]
+    end
+    
+    subgraph "Authenticated Pages"
+        DASHBOARD[Private Dashboard]
+    end
+    
+    subgraph "Database Entities"
+        DB_STARTUP[(STARTUP)]
+        DB_LHC[(LEGAL_HEALTH_CHECK)]
+        DB_ENGAGEMENT[(SERVICE_ENGAGEMENT)]
+        DB_QA[(QA_PROJECT)]
+        DB_DOC[(DOCUMENT)]
+        DB_CONTACT[(CONTACT)]
+        DB_PARTNER[(PARTNER)]
+        DB_COMM[(COMMUNICATION)]
+        DB_TEAM[(TEAM_MEMBER)]
+    end
+    
+    %% Homepage Interactions
+    HOME -->|"Displays featured"| DB_STARTUP
+    HOME -->|"Shows partner logos"| DB_PARTNER
+    
+    %% Startups Section
+    STARTUPS_DIR -->|"Lists & filters"| DB_STARTUP
+    STARTUP_PROF -->|"Reads full profile"| DB_STARTUP
+    STARTUP_PROF -->|"Shows services used"| DB_ENGAGEMENT
+    STARTUP_PROF -->|"Displays partners"| DB_PARTNER
+    
+    %% Projects
+    PROJECTS -->|"Maps locations"| DB_STARTUP
+    PROJECTS -->|"Shows partner involvement"| DB_PARTNER
+    
+    %% Case Studies
+    CASES -->|"References startups"| DB_STARTUP
+    CASES -->|"Shows outcomes"| DB_ENGAGEMENT
+    
+    %% Legal Health Check Flow
+    LHC_LANDING -->|"Explains process"| DB_LHC
+    LHC_ASSESS -->|"Creates new"| DB_LHC
+    LHC_ASSESS -->|"Associates with"| DB_STARTUP
+    LHC_RESULTS -->|"Displays score from"| DB_LHC
+    LHC_RESULTS -->|"Shows recommendations"| DB_LHC
+    LHC_RESULTS -->|"Suggests tier"| DB_ENGAGEMENT
+    
+    %% Aikya Services
+    AIKYA_HUSTLE -->|"Creates subscription"| DB_ENGAGEMENT
+    AIKYA_HUSTLE -->|"Links to startup"| DB_STARTUP
+    AIKYA_SERVICES -->|"Shows IBM services"| DB_QA
+    
+    %% Partners
+    PARTNERS -->|"Lists all"| DB_PARTNER
+    IBM_PARTNER -->|"Shows IBM details"| DB_PARTNER
+    IBM_PARTNER -->|"Displays QA projects"| DB_QA
+    OW_PARTNER -->|"Shows OW profile"| DB_PARTNER
+    OW_PARTNER -->|"Lists legal services"| DB_ENGAGEMENT
+    BECOME_PARTNER -->|"Creates application"| DB_PARTNER
+    BECOME_PARTNER -->|"Logs communication"| DB_COMM
+    
+    %% Dashboard
+    DASHBOARD -->|"Shows user's startup"| DB_STARTUP
+    DASHBOARD -->|"Displays health score"| DB_LHC
+    DASHBOARD -->|"Lists documents"| DB_DOC
+    DASHBOARD -->|"Shows action items"| DB_LHC
+    DASHBOARD -->|"Tracks progress"| DB_LHC
+    
+    %% Article
+    ARTICLE -->|"References"| DB_STARTUP
+    ARTICLE -->|"Mentions"| DB_PARTNER
+    
+    %% Backend Relationships
+    DB_STARTUP -.->|"has many"| DB_LHC
+    DB_STARTUP -.->|"has many"| DB_ENGAGEMENT
+    DB_STARTUP -.->|"has many"| DB_QA
+    DB_STARTUP -.->|"has many"| DB_DOC
+    DB_STARTUP -.->|"has many"| DB_CONTACT
+    DB_STARTUP -.->|"assigned to"| DB_TEAM
+    DB_LHC -.->|"recommends"| DB_ENGAGEMENT
+    DB_ENGAGEMENT -.->|"generates"| DB_DOC
+    DB_PARTNER -.->|"refers"| DB_STARTUP
+    
+    %% Styling
+    classDef publicPage fill:#667eea,stroke:#764ba2,stroke-width:2px,color:#fff
+    classDef lhcPage fill:#43e97b,stroke:#38f9d7,stroke-width:2px,color:#000
+    classDef aikyaPage fill:#fa709a,stroke:#fee140,stroke-width:2px,color:#000
+    classDef authPage fill:#f093fb,stroke:#4facfe,stroke-width:2px,color:#fff
+    classDef dbEntity fill:#2d3748,stroke:#4299e1,stroke-width:3px,color:#fff
+    
+    class HOME,STARTUPS_DIR,STARTUP_PROF,PROJECTS,CASES,SERVICES,PARTNERS,IBM_PARTNER,OW_PARTNER,BECOME_PARTNER,ARTICLE publicPage
+    class LHC_LANDING,LHC_ASSESS,LHC_RESULTS,LHC_FAQ lhcPage
+    class AIKYA_HUSTLE,AIKYA_SERVICES aikyaPage
+    class DASHBOARD authPage
+    class DB_STARTUP,DB_LHC,DB_ENGAGEMENT,DB_QA,DB_DOC,DB_CONTACT,DB_PARTNER,DB_COMM,DB_TEAM dbEntity
