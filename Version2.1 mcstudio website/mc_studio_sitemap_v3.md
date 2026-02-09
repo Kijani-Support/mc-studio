@@ -430,11 +430,46 @@ The website uses two distinct navigation patterns:
 │   └── Step 1: Company Information
 │       ├── Company Name (input)
 │       ├── Industry (dropdown: Select industry)
-│       ├── Country of Operation (input: e.g., Kenya)
+│       ├── What is your estimated annual revenue? (input: e.g., Kes 3,000,000)
 │       ├── Number of Employees (dropdown: Select range)
-│       ├── Company Registration Number (input)
-│       └── CTA: "Save & Continue →"
-│
+│       ├── Is your Company registered? (dropdown: yes, no)
+│       └── CTA: Yes "Save & Continue →" or No "Not Registered →"
+|── Form Panel (Right- Screen 2B)
+|   └── Step 2: Corporate Structure
+|       ├── What is your Country HQ? (dropdown: African countries alphabetically)
+|       ├── What is your Company's registration number? (input: e.g., PXXXXXXXXXX)
+|       ├── Confirm your Tax ID (input: e.g., PVT-XXXXXXXX)
+|       ├── Do you have a board of directors/ advisors in place? (dropdown: yes, need guidance)
+|       ├── Do you have a Shareholders agreement in place? (dropdown: yes, no)
+|       ├── Are you currently fundraising? (dropdown: yes, no)
+|       ├── Share your company/product website or Linkedin page. (input: e.g., http://example.com)
+|       └── CTA: "Save & Continue →" 
+|── Form Panel (Right- Screen 3)
+|    └── Step 3: Employment & HR
+|       ├── How many employees? (dropdown: 2-14, 15-59, 60-499)
+|       ├── Select what category describes your employee matrix. (dropdown: full-time, part-time, contract)
+|       ├── What system automates your HRM? (input: e.g., Zoho, Odoo, SAP)
+|       ├── What percentage of revenue goes to your Payroll? (input: e.g., 10%)
+|       ├── Select your current HR department? (dropdown: internal HR, Dedicated HR consultant, Outsourced to HR firm)
+|       └── CTA: "Save & Continue →"   
+│── Form Panel (Right- Screen 4)
+|    └── Step 4: Data Protection
+|       ├── Are you a registered Data Processor or Data Controller? (dropdown: yes, no)
+|       ├── Do you rely on 3rd party data processing apps? If yes, list them. (input: e.g., Google workspace)
+|       └── CTA: "Save & Continue →"
+│── Form Panel (Right- Screen 5)
+|    └── Step 5: Intellectual Property 
+|       ├── Do you own your startup content/media/mechanism? (dropdown: yes, no)
+|       ├── Do you have an established Research&Development liaison? (dropdown: yes, no)
+|       ├── Have you registered a Trademark or Copyright associated with your company? (dropdown: yes, no)
+|       └── CTA: "Save & Continue →"
+|── Form Panel (Right- Screen 6)
+|    └── Step 6: Tax & Compliance
+|       ├── What sector do you fall in? (dropdown: fintech, agritech, edtech, healthtech, retail&commerce, energy&manufacturing)
+|       ├── What taxes are you currently paying? (checkbox: PAYE, VAT, Excise duty)
+|       ├── Which tax resources would you give priority in need? (checkbox: legal services, accounting services, fundraising services)
+|       ├── What other compliance fees are you paying? (input: e.g., business license,housing levy)
+|       └── CTA: "Finish & Review →"
 └── Footer (Legal Footer)
 ```
 
