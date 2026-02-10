@@ -24,7 +24,7 @@ const StartUpDirectoryPage = () => {
 
 
   return (
-    <div className="grid w-full   overflow-x-hidden">
+    <div className="grid w-full font-display  overflow-x-hidden">
       <NavBar />
 
     <section className="justify-items-center  ">

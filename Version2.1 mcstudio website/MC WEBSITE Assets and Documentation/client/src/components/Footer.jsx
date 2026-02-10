@@ -1,3 +1,10 @@
+
+import facebookSvg from "../assets/images/footer/facebook_converted.svg"
+import twitterSvg from "../assets/images/footer/twitter_converted.svg"
+import instagramSvg from "../assets/images/footer/instagram_converted.svg"
+import youtubeSvg from "../assets/images/footer/youtube_converted.svg"
+import linkedinSvg from "../assets/images/footer/linkedin_converted.svg"
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
@@ -12,11 +19,22 @@ const Footer = () => {
             Empowering innovation through strategic design and development
           </p>
           {/* social media links and icons */}
-          <ul className="flex gap-2 no-bullets">
-            <li>icon</li>
-            <li>icon</li>
-            <li>icon</li>
-            <li>icon</li>
+          <ul className="flex p-2       gap-4 no-bullets">
+            <li >
+              <img src={linkedinSvg} alt="linkedin logo" className="h-5" />
+            </li>
+            <li >
+              <img src={twitterSvg} alt="twitter logo" className="h-5" />
+            </li>
+            <li >
+              <img src={facebookSvg} alt="facebook logo" className="h-5" />
+            </li>
+            <li >
+              <img src={instagramSvg} alt="instagram logo" className="h-5" />
+            </li>
+            <li >
+              <img src={youtubeSvg} alt="youtube logo" className="h-5" />
+            </li>
           </ul>
         </div>
 

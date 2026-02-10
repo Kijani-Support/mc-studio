@@ -2,190 +2,159 @@ import Footer from "../components/Footer";
 import Capture from "../assets/images/algo2.jpg";
 import HomePageImage from "../assets/images/HomePage.jpg";
 import NavBar from "../components/NavBar";
-import Portfolios from "../components/home_page/Portfolios"
+import Portfolios from "../components/home_page/Portfolios";
 
 const HomePage = () => {
   return (
-    <div className="grid w-full">
+    <div className="w-full font-display">
       <NavBar />
-      <div className="items-center  pt-24 sm:pt-40 text-center grid sm:gap-20 gap-2">
-        {/* intro part */}
-        <section className="sm:px-12 px-2 grid sm:grid-cols-2 grid-cols-1 gap-10">
-          <div className=" pl-12 grid gap-8 items-center text-left  py-8">
-            <h1 className="text-4xl max-w-[30%] font-extrabold  ">
+
+      <main className="pt-24 sm:pt-40 grid gap-24">
+        {/* HERO SECTION */}
+        <section className="px-4 sm:px-12 grid gap-12 sm:grid-cols-2 items-center">
+          {/* Text */}
+          <div className="grid gap-6 text-center sm:text-left">
+            <h1 className="text-3xl sm:text-5xl font-extrabold max-w-xl">
               Innovate, Create, Impact.
             </h1>
-            <p className=" max-w-[70%] text-sm">
+
+            <p className="text-sm sm:text-base max-w-xl text-gray-700">
               We empower visionary founders with bespoke web templates and
               strategic design, transforming ambitious ideas into impactful
               digital realities. Discover solutions designed to elevate your
               startup and projects.
             </p>
 
-            <button className="bg-blue-900 py-1 text-sm text-white rounded-lg w-38">
+            <button className="bg-blue-900 text-white py-1 sm:py-2 px-6 rounded-lg w-fit text-sm sm:text-md mx-auto sm:mx-0">
               Explore Our Work
             </button>
           </div>
-          <div className="  rounded-md grid items-center justify-items-center">
+
+          {/* Image */}
+          <div className="flex justify-center">
             <img
               src={HomePageImage}
-              alt="white board   presentation"
-              className="rounded-2xl w-[70%] shadow-gray-700 shadow-md  "
+              alt="presentation"
+              className="w-full sm:w-[80%] rounded-2xl shadow-md"
             />
           </div>
         </section>
 
-        {/* Latest report Section */}
-        <section className="px-4 sm:px-12 grid gap-6 justify-items-center items-center bg-gray-100 py-20">
-          <h1 className="font-extrabold text-2xl">
+        {/* PORTFOLIOS */}
+        <section className="bg-gray-100 py-20 px-4 sm:px-12 grid gap-12">
+          <h1 className="text-2xl font-extrabold text-center">
             Explore Our Startups Portfolio
           </h1>
-          <section className="grid  sm:grid-cols-3 grid-cols-1 sm:max-w-full max-w-[90%]  bg-gray-100 sm:gap-16 gap-4 sm:px-12 px-2">
 
-            {/* One */}
-            < Portfolios 
+          <div className="grid gap-6 sm:grid-cols-3">
+            <Portfolios
               pic={Capture}
               title="The Future of Web Design: Trends of 2024"
-              description="Explore the cutting-edge trends shaping web design in 2024, from AI-driven interfaces to immersive user experiences"
-              author="By Jane Doe| October 26, 2023"
+              description="Explore the cutting-edge trends shaping web design in 2024."
+              author="By Jane Doe | October 26, 2023"
             />
-          
-            {/* two */}
-            < Portfolios 
+
+            <Portfolios
               pic={Capture}
-              title="Building Scalable Startups: A Comprehensive Guide"
-              description="Understand the foundational principles and strategies required to build and scale a succesful startup in today's competitive"
-              author="By John Smith| October 20, 2023"
+              title="Building Scalable Startups"
+              description="Foundational principles to build and scale a startup."
+              author="By John Smith | October 20, 2023"
             />
-  
-            {/* Three */}
-            < Portfolios 
+
+            <Portfolios
               pic={Capture}
               title="Leverage AI in Project Management"
-              description="Discover how artificial intelligence in revolutionizing project management, enhancing efficiency, and predicting."
-              author="By Alice Johnson| October 15, 2023"
+              description="How AI enhances efficiency and prediction."
+              author="By Alice Johnson | October 15, 2023"
             />
-          </section>
+          </div>
         </section>
 
-        {/* StartUps Explore */}
-        <section className="p-4 sm:p-16 bg-white/700 grid gap-4">
-          <h1 className="font-extrabold text-2xl">
-            Explore Our Startups Portfolio
+        {/* STARTUPS GRID */}
+        <section className="px-4 sm:px-16 grid gap-12">
+          <h1 className="text-2xl font-extrabold text-center">
+            Our Startups
           </h1>
-          <div className="grid gap-8 sm:grid-cols-4">
 
-            <div className="shadow-xl rounded-xl grid gap-4 items-center justify-items-center  py-4">
-              <img src={Capture} alt="a pic" className="w-[40%]" />
-              <div className="grid text-sm w-[50%]">
-
-              <h1 className="font-bold text-xl">
-                CloudForge
-              </h1>
-              <p className="text-gray-700">
-                Innovating cloud infrastructure
-              </p>
-              </div>
-            </div>
-            <div className="shadow-xl rounded-xl grid gap-4 items-center justify-items-center  py-4">
-              <img src={Capture} alt="a pic" className="w-[40%]" />
-              <div className="grid text-sm w-[50%]">
-
-              <h1 className="font-bold text-xl">
-                BrightSpark
-              </h1>
-              <p className="text-gray-700">
-                Igniting creative solutions
-              </p>
-              </div>
-            </div>
-            <div className="shadow-xl rounded-xl grid gap-4 items-center justify-items-center  py-4">
-              <img src={Capture} alt="a pic" className="w-[40%]" />
-              <div className="grid text-sm w-[50%]">
-
-              <h1 className="font-bold text-xl">
-                NexusHub
-              </h1>
-              <p className="text-gray-700">
-                Connecting global communities
-              </p>
-              </div>
-            </div>
-            <div className="shadow-xl rounded-xl grid gap-4 items-center justify-items-center  py-4">
-              <img src={Capture} alt="a pic" className="w-[40%]" />
-              <div className="grid text-sm w-[50%]">
-
-              <h1 className="font-bold text-xl">
-                RocketReach
-              </h1>
-              <p className="text-gray-700">
-                Accelerating market entry
-              </p>
-              </div>
-            </div>
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {["CloudForge", "BrightSpark", "NexusHub", "RocketReach"].map(
+              (item) => (
+                <div
+                  key={item}
+                  className="shadow-xl rounded-xl p-6 grid gap-4 justify-items-center"
+                >
+                  <img src={Capture} alt="" className="w-24" />
+                  <div className="text-center">
+                    <h2 className="font-bold text-lg">{item}</h2>
+                    <p className="text-sm text-gray-600">
+                      Innovating digital solutions
+                    </p>
+                  </div>
+                </div>
+              )
+            )}
           </div>
         </section>
 
-        {/* Global Reach, Local Impact section */}
-        <section className="grid gap-8 py-16 w-full bg-gray-100 items-center justify-items-center">
-          <div className="grid gap-2 mx-auto  w-[50%]">
-            <h1 className="text-3xl font-bold">Global Reach, Local Impact</h1>
-            <p className=" ">
-              Explore our projects worldwide. Our interactive map showcases
-              where {"we've"} made a difference connecting innovative solutions
-              with communities across the globe.
-            </p>
-          </div>
-          <div className="bg-gray-200 rounded-lg h-60 w-[80%]"></div>
-        </section>
-
-        {/* Trusted by industry Leaders section */}
-        <section className="grid py-16 px-12 gap-8 justify-items-center items-center">
-          <h1 className="font-bold text-3xl">Trusted by industry Leaders</h1>
-          <div className=" grid sm:grid-cols-5 gap-8 ">
-            
-            <div className="h-20 w-40   ">
-              <img src={Capture} alt="a capture " className="object-cover rounded-sm w-full h-full" />
-            </div>
-            <div className="h-20 w-40   ">
-              <img src={Capture} alt="a capture " className="object-cover rounded-sm w-full h-full" />
-            </div>
-            <div className="h-20 w-40   ">
-              <img src={Capture} alt="a capture " className="object-cover rounded-sm w-full h-full" />
-            </div>
-            <div className="h-20 w-40   ">
-              <img src={Capture} alt="a capture " className="object-cover rounded-sm w-full h-full" />
-            </div>
-            <div className="h-20 w-40   ">
-              <img src={Capture} alt="a capture " className="object-cover rounded-sm w-full h-full" />
-            </div>
-          </div>
-        </section>
-
-        {/* Newsletter Section */}
-        <section className=" grid bg-gray-100 justify-items-center items-center gap-4 py-16  px-12">
-          <div className=" grid gap-4 items-center justify-items-center">
-            <h1 className="font-bold text-3xl w-[60%]">
-              Stay Ahead. Join Our Newsletter.
+        {/* GLOBAL REACH */}
+        <section className="bg-gray-100 py-20 px-4 grid gap-10 text-center">
+          <div className="max-w-2xl mx-auto grid gap-4">
+            <h1 className="text-3xl font-bold">
+              Global Reach, Local Impact
             </h1>
-            <p className=" w-[70%]">
-              Recieve exclusive insights, updates, and offers directly in your
-              inbox.
+            <p className="text-gray-700">
+              Explore our projects worldwide and how we connect communities
+              across the globe.
             </p>
           </div>
-          <div className="flex gap-2 items-center">
+
+          <div className="bg-gray-300 rounded-lg h-60 w-full max-w-4xl mx-auto" />
+        </section>
+
+        {/* TRUSTED BY */}
+        <section className="py-20 px-4 sm:px-12 grid gap-12 text-center">
+          <h1 className="text-3xl font-bold">
+            Trusted by Industry Leaders
+          </h1>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center">
+            {Array(5)
+              .fill(0)
+              .map((_, i) => (
+                <div key={i} className="h-20 w-32">
+                  <img
+                    src={Capture}
+                    alt=""
+                    className="w-full h-full object-cover rounded"
+                  />
+                </div>
+              ))}
+          </div>
+        </section>
+
+        {/* NEWSLETTER */}
+        <section className="bg-gray-100 py-20 px-4 grid gap-8 text-center">
+          <h1 className="text-3xl font-bold max-w-xl mx-auto">
+            Stay Ahead. Join Our Newsletter.
+          </h1>
+
+          <p className="max-w-lg mx-auto text-gray-700">
+            Receive exclusive insights, updates, and offers.
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <input
-              type="text"
-              className="border border-gray-400 rounded-sm py-1 px-3"
+              type="email"
               placeholder="Your Email Address"
+              className="border px-4 py-2 rounded-md w-full sm:w-80"
             />
-            <button className="bg-blue-800 py-1 px-2 rounded-md text-white">
+            <button className="bg-blue-800 text-white px-6 py-2 rounded-md">
               Subscribe
             </button>
           </div>
         </section>
-      </div>
-      {/* footer */}
+      </main>
+
       <Footer />
     </div>
   );

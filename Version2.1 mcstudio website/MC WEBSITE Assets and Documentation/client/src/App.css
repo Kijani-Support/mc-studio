@@ -1,4 +1,7 @@
 
-
-
 @import "tailwindcss";
+
+@theme{
+    --font-display:'Roboto';
+}
+
