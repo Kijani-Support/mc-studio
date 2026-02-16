@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import StartUpDirectoryPage from './pages/StartUpDirectoryPage';
 import StartUpProfilePage from './pages/StartUpProfilePage';
+import ProjectsPage from './pages/ProjectsPage';
+import CaseStudies from './pages/CaseStudies';
 
 
 
@@ -16,8 +18,12 @@ function App() {
             <Route path="/" element={<HomePage/>} />
             {/* StartUpDirectoryPage */}
             <Route path="/directory" element={<StartUpDirectoryPage/>} />
-            {/* StartUpDirectoryPage */}
+            {/* StartUpProfilePage */}
             <Route path="/profile" element={<StartUpProfilePage/>} />
+            {/* ProjectsPage */}
+            <Route path="/projects" element={<ProjectsPage/>} />
+            {/* CaseStudies */}
+            <Route path="/case-studies" element={<CaseStudies/>} />
           </Routes>
       </Router>
     </div>
