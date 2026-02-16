@@ -34,7 +34,7 @@ const NavBar = () => {
       <header
         className={`fixed top-0 left-0 w-full z-50 isolate transition-all duration-300 ${
           scrolled
-            ? "bg-gray-500/95 backdrop-blur-sm py-3 shadow-xl"
+            ? "bg-white/95 backdrop-blur-sm py-3 shadow-xl"
             : "bg-white/80 py-4 "
         }`}
       >
@@ -42,11 +42,11 @@ const NavBar = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex items-center">
-              <span className="text-2xl font-bold text-black sm:hidden">
-                SMC
+              <span className="text-sm font-bold text-blue-500 sm:hidden">
+                Modus Chora Studio
               </span>
-              <span className="hidden sm:inline text-xl font-semibold text-black">
-                Studio Modus Chora
+              <span className="hidden sm:inline text-xl  text-blue-800 font-extrabold">
+                Modus Chora Studio 
               </span>
             </Link>
 
@@ -58,8 +58,8 @@ const NavBar = () => {
                   to={item.link}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                     location.pathname === item.link
-                      ? " text-blue-500"
-                      : "text-black hover:bg-gray-800/50 hover:text-white"
+                      ? " text-blue-800"
+                      : "text-black  hover:text-blue-500"
                   }`}
                 >
                   {item.text}

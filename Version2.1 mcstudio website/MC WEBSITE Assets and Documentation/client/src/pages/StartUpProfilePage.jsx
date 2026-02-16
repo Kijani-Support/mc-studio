@@ -1,185 +1,151 @@
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import Capture from "../assets/images/algo2.jpg"
-import ProfilePageImage from "../assets/images/ProfilePage.jpg"
-import Achievements from "../components/profile_page/Achievements"
-import Services from "../components/profile_page/Services"
-import CaseStudies from "../components/profile_page/CaseStudies"
+import { useState, useEffect } from "react";
+import { AiOutlineClose, AiOutlineMenu } from "react-icons/ai";
+import { Link, useLocation } from "react-router-dom";
 
-const StartUpProfilePage = () => {
+const NavBar = () => {
+  const [nav, setNav] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const location = useLocation();
+
+  // Scroll effect
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 10);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Close menu on route change
+  useEffect(() => {
+    setNav(false);
+  }, [location.pathname]);
+
+  const navItems = [
+    { id: 1, text: "Home", link: "/" },
+    { id: 2, text: "StartUps", link: "/profile" },
+    { id: 3, text: "Projects", link: "/directory" },
+    { id: 4, text: "Case Studies", link: "/studies" },
+    { id: 5, text: "Services", link: "/services" },
+    { id: 6, text: "Media", link: "/media" },
+  ];
+
   return (
-    <div className="grid w-full">
-      <NavBar />
+    <>
+      {/* ================= HEADER ================= */}
+      <header
+        className={`fixed top-0 left-0 w-full z-50 isolate transition-all duration-300 ${
+          scrolled
+            ? "bg-white/95 backdrop-blur-sm py-3 shadow-xl"
+            : "bg-white/80 py-4 "
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link to="/" className="flex items-center">
+              <span className="text-sm font-bold text-blue-500 sm:hidden">
+                Modus Chora Studio
+              </span>
+              <span className="hidden sm:inline text-xl  text-blue-800 font-extrabold">
+                Modus Chora Studio 
+              </span>
+            </Link>
 
-      {/* section */}
-      <section className="py-24  w-full  pt-30 sm:pt-40 bg-gray-200 px-8 sm:px-12 grid gap-16 sm:gap-16 sm:grid-cols-2 items-center justify-items-center">
-        <div className="grid gap-2 sm:gap-4 w-full sm:w-[70%]">
-          <h1 className="text-3xl sm:text-4xl font-extrabold ">QuantumLeap Innovations</h1>
-          <h2 className="w-full sm:w-[60%] text-gray-400 font-bold text-xl  sm:text-2xl">
-            Pioneering the Future of{" "}
-            <span className="text-blue-700">AI-Driven Solutions</span>
-          </h2>
-          <p className="text-sm w-full sm:w-[86%] ">
-            QuantumLeap innovations is the forefront of developing
-            groundbreaking technologies that revolutionize industries. From
-            advanced predictive analytics to intelligent automation platforms.
-            Our solutions empower businesses to achieve unprecedented efficiency
-            and innovation. We are commited to pushing the boundaries of what is
-            possible with artificial intelligence, creating a smarter, more
-            connected world.
-          </p>
+            {/* Desktop Nav */}
+            <nav className="hidden md:flex items-center space-x-2">
+              {navItems.map((item) => (
+                <Link
+                  key={item.id}
+                  to={item.link}
+                  className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
+                    location.pathname === item.link
+                      ? " text-blue-800"
+                      : "text-black  hover:text-blue-500"
+                  }`}
+                >
+                  {item.text}
+                </Link>
+              ))}
 
-          {/* buttons */}
-          <div className="flex gap-4 pt-10">
-            <button className="bg-blue-700 text-sm rounded-lg py-1 px-4 text-white">
-              Apply Now
-            </button>
-            <button className="bg-black text-sm rounded-lg py-1 px-4 text-white">
-              Contact Us
+              <div className="col-span-1 py-1 px-2 text-center bg-blue-900 rounded-lg text-white">
+                Contact Us
+              </div>
+            </nav>
+
+            {/* Mobile Toggle */}
+            <button
+              onClick={() => setNav(true)}
+              aria-label="Open menu"
+              className="md:hidden p-2 rounded-md text-gray-900 hover:text-white hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <AiOutlineMenu size={24} />
             </button>
           </div>
         </div>
-        <div className="grid  text-center items-center rounded-md  w-full h-full">
-          <img src={ProfilePageImage} alt="Devs collaborating"  className=" shadow-xl rounded-xl"/>
-        </div>
-      </section>
+      </header>
 
-      {/* Achievement section */}
-      <section className="py-16 px-4 sm:px-12 grid gap-8 items-center justify-items-center bg-black/97 ">
-        <h1 className="font-bold text-white text-xl">
-          Key Metrices & Achievements
-        </h1>
+      {/* ================= MOBILE OVERLAY ================= */}
+      <div
+        onClick={() => setNav(false)}
+        className={`md:hidden fixed inset-0 z-[100] bg-black/60 transition-opacity duration-300 ${
+          nav
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
+        }`}
+      >
+        {/* ================= MOBILE PANEL ================= */}
+        <aside
+          onClick={(e) => e.stopPropagation()}
+          className={`fixed top-0 left-0 h-full w-4/5 sm:w-3/5 bg-gray-900 border-r border-gray-800 shadow-2xl z-[101] transform transition-transform duration-300 ${
+            nav ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <div className="flex flex-col h-full">
+            {/* Header with Close Button */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-800">
+              <Link
+                to="/"
+                className="text-2xl font-bold text-blue-500"
+                onClick={() => setNav(false)}
+              >
+                Studio Modus Chora
+              </Link>
 
-        {/* Achievements */}
-        <div className="grid sm:grid-cols-4 gap-12 justify-items-center ">
+              <button
+                onClick={() => setNav(false)}
+                aria-label="Close menu"
+                className="p-2 rounded-md text-gray-900 hover:text-white hover:bg-gray-800"
+              >
+                <AiOutlineClose size={24} />
+              </button>
+            </div>
 
-          {/* one */}
-          <Achievements
-            icon="icon"
-            title="$75M"
-            subTitle="Funding Raised"
-            description="Seed Series B secured"
-          />
-          {/* two */}
-          <Achievements
-            icon="icon"
-            title="120+"
-            subTitle="Employee Count"
-            description="Dedicated team of innovators"
-          />
-          {/* three */}
-          <Achievements
-            icon="icon"
-            title="150%"
-            subTitle="Annual Archive"
-            description="Year-over-year revenue increase"
-          />
-          {/* four */}
-          <Achievements
-            icon="icon"
-            title="5 Countries"
-            subTitle="Global Presence"
-            description="Expanding reach and impact"
-          />
+            {/* Links */}
+            <nav className="flex-1 p-4 space-y-2 overflow-y-auto">
+              {navItems.map((item) => (
+                <Link
+                  key={item.id}
+                  to={item.link}
+                  onClick={() => setNav(false)}
+                  className={`block px-4 py-3 rounded-md text-base font-medium transition-colors ${
+                    location.pathname === item.link
+                      ? "bg-gray-800 text-blue-500"
+                      : "text-gray-300 hover:bg-gray-800/50 hover:text-white"
+                  }`}
+                >
+                  {item.text}
+                </Link>
+              ))}
+            </nav>
 
-        </div>
-      </section>
-
-      {/*  Services section */}
-      <section className="py-16 pb-30 px-8 sm:px-20 gap-8 grid items-center justify-items-center bg-gray-200">
-        <h1 className="font-extrabold text-2xl ">Services Utilized</h1>
-        <div className="grid sm:grid-cols-3 gap-10">
-          
-
-          {/* 1 */}
-          <Services
-          icon="icon"
-          title="Custom software Development"
-          description="Tailored solutions for uniques business needs."
-          />
-          {/* 2 */}
-          <Services
-          icon="icon"
-          title="UI/UX Design & Prototyping"
-          description="Creating intuitive and engaging user experiences."
-          />
-          {/* 3 */}
-          <Services
-          icon="icon"
-          title="Cybersecurity consulting"
-          description="Ensuring robust protection against digital threats."
-          />
-          {/* 4 */}
-          <Services
-          icon="icon"
-          title="Strategic Market Entry"
-          description="Guidance for successful expansion into new markets."
-          />
-          {/* 4 */}
-          <Services
-          icon="icon"
-          title="Brand & Marketing Strategy"
-          description="Developing powerful branch and impactful campaigns."
-          />
-          {/* 5 */}
-          <Services
-          icon="icon"
-          title="Innovation Workshops"
-          description="Fostering creativity and problem-solving within teams."
-          />
-        </div>
-      </section>
-
-      {/* Case studies section */}
-      <section className="py-16 px-4 sm:px-12 grid bg-black items-center justify-items-center gap-8">
-        <h1 className="text-white font-bold text-2xl">
-          Impactful Case Studies{" "}
-        </h1>
-
-        <div className="grid justify-items-center items-center gap-12 ">
-
-          {/* case one */}
-          <CaseStudies
-            title="Enhancing Customer Engagement for E-commerce Gaint"
-            description=" Our AI chatbots and personalized recommendation engines boosted
-                conversation rates by 15% for a leading online retailer."
-            moreInfoBtn="Read More"
-          />
-         
-          {/* case two */}
-          <CaseStudies
-            title="Streamlining Financial Operations for a Fintech Startup"
-            description="Our AI chatbots and personalized recommendation engines boosted
-                conversation rates by 15% for a leading online retailer."
-            moreInfoBtn="Read More"
-          />
-         
-          {/* case three */}
-          <CaseStudies
-            title="Revolutionizing Agricultural Yield Production"
-            description="Our AI chatbots and personalized recommendation engines boosted
-                conversation rates by 15% for a leading online retailer."
-            moreInfoBtn="Read More"
-          />
-         
-
-        </div>
-      </section>
-
-
-      {/* Partners */}
-      <section className="grid w-full items-center justify-items-center py-16 px-12 gap-8">
-        <h1 className="font-bold text-2xl ">Our Valued Partners</h1>
-        <ul className="flex w-[70%] justify-between items-center no-bullets">
-            <li className="">One</li>
-            <li className="">One</li>
-            <li className="">One</li>
-            <li className="">One</li>
-        </ul>
-      </section>
-      <Footer />
-    </div>
+            {/* Footer */}
+            <div className="p-6 border-t border-gray-800 text-center text-sm text-gray-400">
+              © {new Date().getFullYear()} Studio Modus Chora
+            </div>
+          </div>
+        </aside>
+      </div>
+    </>
   );
 };
 
-export default StartUpProfilePage;
+export default NavBar;
