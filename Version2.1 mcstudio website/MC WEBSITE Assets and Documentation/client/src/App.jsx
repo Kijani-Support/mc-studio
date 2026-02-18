@@ -6,6 +6,7 @@ import StartUpDirectoryPage from './pages/StartUpDirectoryPage';
 import StartUpProfilePage from './pages/StartUpProfilePage';
 import ProjectsPage from './pages/ProjectsPage';
 import CaseStudies from './pages/CaseStudies';
+import ArticleDetail from './pages/ArticleDetail';
 
 
 
@@ -24,6 +25,8 @@ function App() {
             <Route path="/projects" element={<ProjectsPage/>} />
             {/* CaseStudies */}
             <Route path="/case-studies" element={<CaseStudies/>} />
+            {/* ArticleDetail */}
+            <Route path="/article/:id" element={<ArticleDetail/>} />
           </Routes>
       </Router>
     </div>

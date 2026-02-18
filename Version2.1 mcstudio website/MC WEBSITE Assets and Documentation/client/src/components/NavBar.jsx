@@ -19,11 +19,11 @@ const NavBar = () => {
     setNav(false);
   }, [location.pathname]);
 
-  const navItems = [
+   const navItems = [
     { id: 1, text: "Home", link: "/" },
     { id: 2, text: "StartUps", link: "/profile" },
-    { id: 3, text: "Projects", link: "/directory" },
-    { id: 4, text: "Case Studies", link: "/studies" },
+    { id: 3, text: "Projects", link: "/projects" },
+    { id: 4, text: "Case Studies", link: "/case-studies" },
     { id: 5, text: "Services", link: "/services" },
     { id: 6, text: "Media", link: "/media" },
   ];
@@ -34,7 +34,7 @@ const NavBar = () => {
       <header
         className={`fixed top-0 left-0 w-full z-50 isolate transition-all duration-300 ${
           scrolled
-            ? "bg-white/95 backdrop-blur-sm py-3 shadow-xl"
+            ? "bg-gray-500/95 backdrop-blur-sm py-3 shadow-xl"
             : "bg-white/80 py-4 "
         }`}
       >
@@ -42,11 +42,11 @@ const NavBar = () => {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex items-center">
-              <span className="text-sm font-bold text-blue-500 sm:hidden">
-                Modus Chora Studio
+              <span className="text-2xl font-bold text-black sm:hidden">
+                SMC
               </span>
-              <span className="hidden sm:inline text-xl  text-blue-800 font-extrabold">
-                Modus Chora Studio 
+              <span className="hidden sm:inline text-xl font-semibold text-black">
+                Studio Modus Chora
               </span>
             </Link>
 
@@ -58,8 +58,8 @@ const NavBar = () => {
                   to={item.link}
                   className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                     location.pathname === item.link
-                      ? " text-blue-800"
-                      : "text-black  hover:text-blue-500"
+                      ? " text-blue-500"
+                      : "text-black hover:bg-gray-800/50 hover:text-white"
                   }`}
                 >
                   {item.text}
