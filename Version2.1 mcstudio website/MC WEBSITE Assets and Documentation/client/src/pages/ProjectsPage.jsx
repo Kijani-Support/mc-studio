@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Globe from 'react-globe.gl';
 import { Search, MapPin } from 'lucide-react';
+//import globeImg from '../assets/images/Globe.jpg';
+import skyImg from '../assets/images/Globe_Background.jpg';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 
@@ -147,10 +149,12 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen bg-white font-sans overflow-hidden">
-      <NavBar />
+    <div className="flex flex-col h-screen bg-white font-sans">
+      <header className="sticky top-0 z-50 w-full">
+        <NavBar />
+      </header>
 
-      <main className="flex flex-1 overflow-hidden relative">
+      <main className="flex flex-1 overflow-hidden relative"> 
         
         {/* LEFT COLUMN: INTERACTIVE GLOBE */}
         <div ref={containerRef} className="flex-1 bg-slate-900 relative overflow-hidden">
@@ -165,7 +169,7 @@ export default function App() {
               width={dimensions.width}
               height={dimensions.height}
               globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
-              backgroundImageUrl="//unpkg.com/three-globe/example/img/night-sky.png"
+              backgroundImageUrl={skyImg}
               pointsData={PROJECTS}
               pointLat="lat"
               pointLng="lng"
