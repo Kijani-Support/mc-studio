@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Globe from 'react-globe.gl';
 import { Search, MapPin } from 'lucide-react';
-//import globeImg from '../assets/images/Globe.jpg';
+import globeImg from '../assets/images/Globe.png';
 import skyImg from '../assets/images/Globe_Background.jpg';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
@@ -168,7 +168,7 @@ export default function App() {
               ref={globeRef}
               width={dimensions.width}
               height={dimensions.height}
-              globeImageUrl="//unpkg.com/three-globe/example/img/earth-night.jpg"
+              globeImageUrl={globeImg}
               backgroundImageUrl={skyImg}
               pointsData={PROJECTS}
               pointLat="lat"
