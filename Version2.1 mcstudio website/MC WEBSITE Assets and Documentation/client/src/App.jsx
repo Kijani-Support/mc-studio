@@ -7,6 +7,7 @@ import StartUpProfilePage from './pages/StartUpProfilePage';
 import ProjectsPage from './pages/ProjectsPage';
 import CaseStudies from './pages/CaseStudies';
 import ArticleDetail from './pages/ArticleDetail';
+import Services from './pages/Services';
 
 
 
@@ -27,6 +28,8 @@ function App() {
             <Route path="/case-studies" element={<CaseStudies/>} />
             {/* ArticleDetail */}
             <Route path="/article/:id" element={<ArticleDetail/>} />
+            {/* Services */}
+            <Route path="/services" element={<Services/>} />
           </Routes>
       </Router>
     </div>

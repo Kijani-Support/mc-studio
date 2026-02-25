@@ -74,12 +74,16 @@ const PROJECTS = [
 
 const FilterSection = ({ title, options }) => (
   <div className="mb-6">
-    <h3 className="font-bold text-gray-800 mb-3">{title}</h3>
+    <h3 className="font-bold text-gray-900 text-sm mb-3">{title}</h3>
     <div className="flex flex-wrap gap-2">
       {options.map((opt, idx) => (
         <button 
           key={idx} 
-          className="px-3 py-1 border border-gray-300 rounded-full text-xs text-gray-600 hover:bg-gray-100 hover:border-gray-400 transition-all"
+          className={`px-4 py-1.5 border border-gray-200 rounded-full text-xs font-medium transition-all duration-200 ${
+            idx === 0 
+              ? 'text-gray-900 border-gray-300 bg-gray-50' 
+              : 'text-gray-600 bg-white hover:bg-gray-50 hover:border-gray-300'
+          }`}
         >
           {opt}
         </button>
@@ -89,30 +93,31 @@ const FilterSection = ({ title, options }) => (
 );
 
 const ProjectCard = ({ project }) => (
-  <div className="bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow mb-6">
-    <div className="h-32 w-full overflow-hidden relative">
+  <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 mb-6 group flex flex-col">
+    <div className="h-40 w-full overflow-hidden relative">
       <img 
         src={project.image} 
         alt={project.title} 
-        className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
       />
-      <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
     </div>
-    <div className="p-4">
-      <h3 className="font-bold text-gray-900 text-lg mb-2 leading-tight">{project.title}</h3>
+    <div className="p-5 flex flex-col flex-grow">
+      <h3 className="font-bold text-gray-900 text-lg mb-3 leading-tight group-hover:text-blue-700 transition-colors">
+        {project.title}
+      </h3>
       
       <div className="flex flex-wrap gap-2 mb-3">
-        <span className="bg-blue-100 text-blue-800 text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wide">
+        <span className="bg-[#1e3a8a] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide">
           {project.region}
         </span>
         {project.partners.map((partner, i) => (
-          <span key={i} className="bg-gray-100 text-gray-600 text-[10px] px-2 py-0.5 rounded border border-gray-200">
+          <span key={i} className="bg-white text-gray-600 text-[10px] font-medium px-3 py-1 rounded-full border border-gray-200">
             {partner}
           </span>
         ))}
       </div>
       
-      <p className="text-gray-500 text-xs leading-relaxed mb-3">
+      <p className="text-gray-500 text-xs leading-relaxed mt-1">
         {project.description}
       </p>
     </div>
@@ -124,7 +129,10 @@ const ProjectCard = ({ project }) => (
 export default function App() {
   const globeRef = useRef();
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [showFooter, setShowFooter] = useState(true);
   const containerRef = useRef(null);
+  const sidebarRef = useRef(null);
+  const scrollTimeoutRef = useRef(null);
 
   // Handle globe resizing
   useEffect(() => {
@@ -148,21 +156,40 @@ export default function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Handle scroll to auto-hide/show footer
+  useEffect(() => {
+    const sidebar = sidebarRef.current;
+    if (!sidebar) return;
+
+    function handleScroll() {
+      setShowFooter(false);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+      scrollTimeoutRef.current = setTimeout(() => {
+        setShowFooter(true);
+      }, 1500);
+    }
+
+    sidebar.addEventListener('scroll', handleScroll);
+    return () => {
+      sidebar.removeEventListener('scroll', handleScroll);
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className="flex flex-col h-screen bg-white font-sans">
-      <header className="sticky top-0 z-50 w-full">
+    <div className="flex flex-col h-screen bg-white font-sans text-gray-900">
+      <header className="relative top-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm">
         <NavBar />
       </header>
 
-      <main className="flex flex-1 overflow-hidden relative"> 
+      <main className="flex flex-1 overflow-hidden relative transition-all duration-300 ease-in-out"> 
         
         {/* LEFT COLUMN: INTERACTIVE GLOBE */}
         <div ref={containerRef} className="flex-1 bg-slate-900 relative overflow-hidden">
-          {/* Decorative Overlay for Map Look */}
-          <div className="absolute top-0 left-0 p-8 z-10 pointer-events-none">
-             <div className="text-white/80 text-6xl font-bold opacity-10 tracking-widest">AFRICA</div>
-          </div>
-
           {dimensions.width > 0 && (
             <Globe
               ref={globeRef}
@@ -182,25 +209,25 @@ export default function App() {
           )}
           
           {/* Map pins description overlay */}
-          <div className="absolute bottom-8 left-8 z-10 bg-white/10 backdrop-blur-md p-4 rounded-lg border border-white/20">
-             <div className="flex items-center space-x-2 text-white text-xs">
-                <MapPin size={14} className="text-blue-400" />
+          <div className="absolute bottom-8 left-8 z-10 bg-black/40 backdrop-blur-md px-5 py-3 rounded-xl border border-white/10 shadow-lg">
+             <div className="flex items-center space-x-3 text-white text-xs font-medium">
+                <MapPin size={16} className="text-blue-400" />
                 <span>Interact to explore global project locations</span>
              </div>
           </div>
         </div>
 
         {/* RIGHT COLUMN: SIDEBAR */}
-        <div className="w-full md:w-[480px] flex-shrink-0 border-l border-gray-200 overflow-y-auto bg-white custom-scrollbar">
+        <div ref={sidebarRef} className="w-full lg:w-[480px] flex-shrink-0 border-l border-gray-200 overflow-y-auto bg-gray-50/50 custom-scrollbar">
           <div className="p-8">
             
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Find Projects</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-5">Find Projects</h2>
             <div className="relative mb-8">
-              <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+              <Search className="absolute left-3.5 top-3 text-gray-400" size={16} />
               <input 
                 type="text" 
                 placeholder="Search projects..." 
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-all"
               />
             </div>
 
@@ -211,12 +238,12 @@ export default function App() {
             
             <FilterSection 
               title="Partners" 
-              options={["All", "IBM", "Microsoft", "Siemens", "EDF", "Philips", "World Bank"]} 
+              options={["All", "IBM", "Microsoft", "Siemens", "EDF", "Philips", "Telemed Asia", "AgriChain Solutions", "World Bank", "CityNet Africa"]} 
             />
 
             <FilterSection 
               title="Case Studies" 
-              options={["All", "AI Transformation", "Green Energy", "Healthcare Access", "Smart Cities"]} 
+              options={["All", "AI Transformation at Scale", "Green Energy for Smart Cities", "Healthcare Access in Rural Asia", "Transparent Food Supply", "Smart Cities for a Brighter Future", "Urban Innovation"]} 
             />
 
             <div className="my-8 h-px bg-gray-200" />
@@ -225,17 +252,19 @@ export default function App() {
               <h2 className="text-lg font-bold text-gray-900">Filtered Results ({PROJECTS.length})</h2>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-6">
               {PROJECTS.map(project => (
                 <ProjectCard key={project.id} project={project} />
               ))}
             </div>
-
           </div>
-          
-          <Footer />
         </div>
       </main>
+
+      {/* FULL WIDTH FOOTER (Auto-Hiding based on scroll) */}
+      <div className={`bg-gray-50 transition-all duration-500 ease-in-out overflow-hidden border-t border-gray-200 ${showFooter ? 'opacity-100 max-h-[500px]' : 'opacity-0 max-h-0 border-t-0'}`}>
+        <Footer />
+      </div>
     </div>
   );
 }
