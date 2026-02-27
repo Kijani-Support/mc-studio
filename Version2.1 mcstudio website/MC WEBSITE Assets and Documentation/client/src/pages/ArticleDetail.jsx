@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, ArrowRight, Clock, User, Sun, Moon, ChevronLeft } from 'lucide-react';
+import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, ArrowRight, Clock, User } from 'lucide-react';
+import NavBar from '../components/NavBar';
 
 // --- Articles Database ---
 const ARTICLES_DATABASE = [
@@ -68,61 +69,6 @@ const getRecentArticles = (currentArticleId) => {
 
 // --- Components ---
 
-const Header = ({ isDarkMode, toggleTheme, onNavigate }) => (
-  <header className={`flex items-center justify-between px-8 py-5 border-b sticky top-0 z-50 transition-colors duration-300 ${
-    isDarkMode ? 'bg-black border-gray-800' : 'bg-white border-gray-200'
-  }`}>
-    <div className="flex items-center space-x-4">
-      <button 
-        onClick={() => onNavigate('/')}
-        className={`p-2 rounded-full transition-all ${
-          isDarkMode 
-            ? 'hover:bg-gray-800' 
-            : 'hover:bg-gray-100'
-        }`}
-      >
-        <ChevronLeft className={isDarkMode ? 'text-gray-400' : 'text-gray-600'} size={24} />
-      </button>
-      <div 
-        onClick={() => onNavigate('/')}
-        className={`text-2xl font-bold cursor-pointer transition-colors ${isDarkMode ? 'text-blue-500 hover:text-blue-400' : 'text-blue-900 hover:text-blue-800'}`}>
-        modus chora studio
-      </div>
-    </div>
-    
-    <nav className={`hidden md:flex space-x-8 text-sm font-medium ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
-      {['Home', 'Startups', 'Projects', 'Case Studies', 'Services'].map((item) => (
-        <a key={item} href="#" className={`transition-colors ${isDarkMode ? 'hover:text-white' : 'hover:text-blue-700'}`}>
-          {item}
-        </a>
-      ))}
-      <a href="#" className={`${isDarkMode ? 'text-blue-500 border-blue-500' : 'text-blue-700 border-blue-700'} font-bold border-b-2 pb-1`}>
-        Media
-      </a>
-    </nav>
-
-    <div className="flex items-center space-x-4">
-      <button 
-        onClick={toggleTheme}
-        className={`p-2 rounded-full transition-all duration-300 ${
-          isDarkMode 
-            ? 'bg-gray-800 text-yellow-400 hover:bg-gray-700' 
-            : 'bg-gray-100 text-slate-700 hover:bg-gray-200'
-        }`}
-      >
-        {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
-      </button>
-
-      <button className={`px-5 py-2 rounded text-sm font-medium transition-colors shadow-lg ${
-        isDarkMode 
-          ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-900/20' 
-          : 'bg-blue-800 text-white hover:bg-blue-900 shadow-blue-200'
-      }`}>
-        Contact Us
-      </button>
-    </div>
-  </header>
-);
 
 const SidebarCard = ({ article, isDarkMode, onClick }) => (
   <div 
@@ -239,15 +185,11 @@ export default function ArticleDetailPage() {
     navigate(`/article/${articleId}`);
   };
 
-  const handleNavigateHome = (path) => {
-    navigate(path);
-  };
-
   return (
     <div className={`min-h-screen font-sans transition-colors duration-300 ${
       isDarkMode ? 'bg-black text-gray-300' : 'bg-gray-50 text-gray-600'
     }`}>
-      <Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} onNavigate={handleNavigateHome} />
+      <NavBar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
