@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Globe from 'react-globe.gl';
 import { Search, MapPin } from 'lucide-react';
-import globeImg from '../assets/images/Globe.png';
+import globeImg from '../assets/images/earth-dark.jpg';
 import skyImg from '../assets/images/Globe_Background.jpg';
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';

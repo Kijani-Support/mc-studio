@@ -3,8 +3,8 @@ import {
   Facebook, Twitter, Instagram, Linkedin, Youtube, 
   Lightbulb, Palette, Code, Users, CheckCircle2, ChevronDown, ChevronUp 
 } from 'lucide-react';
-//import NavBar from '../components/NavBar';
-//import Footer from '../components/Footer';
+import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
 
 // --- Mock Data ---
 
@@ -85,19 +85,8 @@ const FAQS = [
 // --- Components ---
 
 const Header = () => (
-  <header className="flex items-center justify-between px-8 py-5 bg-white border-b border-gray-200 sticky top-0 z-50">
-    <div className="text-2xl font-bold text-blue-900">modus chora studio</div>
-    <nav className="hidden md:flex space-x-8 text-sm font-medium text-gray-600">
-      <a href="#" className="hover:text-blue-700">Home</a>
-      <a href="#" className="hover:text-blue-700">Startups</a>
-      <a href="#" className="hover:text-blue-700">Projects</a>
-      <a href="#" className="hover:text-blue-700">Case Studies</a>
-      <a href="#" className="text-blue-700 font-bold border-b-2 border-blue-700 pb-1">Services</a>
-      <a href="#" className="hover:text-blue-700">Media</a>
-    </nav>
-    <button className="bg-blue-800 text-white px-5 py-2 rounded text-sm font-medium hover:bg-blue-900 transition-colors">
-      Contact Us
-    </button>
+  <header className="relative top-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm">
+   <NavBar />
   </header>
 );
 
@@ -122,70 +111,7 @@ const FAQItem = ({ faq }) => {
   );
 };
 
-const Footer = () => (
-  <footer className="bg-gray-50 pt-16 pb-8 px-8 border-t border-gray-200 text-xs mt-20">
-    <div className="max-w-7xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
-        <div className="col-span-1 md:col-span-2 pr-8">
-          <h4 className="text-xl font-bold text-blue-900 mb-4">modus chora studio</h4>
-          <p className="text-gray-500 mb-6 max-w-xs leading-relaxed">
-            Empowering innovation through strategic design and development.
-          </p>
-          <div className="flex space-x-4 text-gray-400">
-            <Linkedin size={18} className="hover:text-blue-700 cursor-pointer" />
-            <Twitter size={18} className="hover:text-blue-400 cursor-pointer" />
-            <Facebook size={18} className="hover:text-blue-600 cursor-pointer" />
-            <Instagram size={18} className="hover:text-pink-600 cursor-pointer" />
-            <Youtube size={18} className="hover:text-red-600 cursor-pointer" />
-          </div>
-        </div>
-        
-        <div>
-          <h5 className="font-bold text-gray-900 mb-4 uppercase tracking-wider text-[10px]">Company</h5>
-          <ul className="space-y-3 text-gray-500">
-            <li><a href="#" className="hover:text-blue-700">About Us</a></li>
-            <li><a href="#" className="hover:text-blue-700">Contact</a></li>
-            <li><a href="#" className="hover:text-blue-700">Partners</a></li>
-            <li><a href="#" className="hover:text-blue-700">Blog</a></li>
-          </ul>
-        </div>
-        
-        <div>
-          <h5 className="font-bold text-gray-900 mb-4 uppercase tracking-wider text-[10px]">Services</h5>
-          <ul className="space-y-3 text-gray-500">
-            <li><a href="#" className="hover:text-blue-700">Strategy</a></li>
-            <li><a href="#" className="hover:text-blue-700">Design</a></li>
-            <li><a href="#" className="hover:text-blue-700">Development</a></li>
-            <li><a href="#" className="hover:text-blue-700">Consulting</a></li>
-          </ul>
-        </div>
 
-        <div>
-          <h5 className="font-bold text-gray-900 mb-4 uppercase tracking-wider text-[10px]">Resources</h5>
-          <ul className="space-y-3 text-gray-500">
-            <li><a href="#" className="hover:text-blue-700">Case Studies</a></li>
-            <li><a href="#" className="hover:text-blue-700">Projects</a></li>
-            <li><a href="#" className="hover:text-blue-700">Startups</a></li>
-            <li><a href="#" className="hover:text-blue-700">IBM Products</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h5 className="font-bold text-gray-900 mb-4 uppercase tracking-wider text-[10px]">Legal</h5>
-          <ul className="space-y-3 text-gray-500">
-            <li><a href="#" className="hover:text-blue-700">Privacy Policy</a></li>
-            <li><a href="#" className="hover:text-blue-700">Terms of Service</a></li>
-            <li><a href="#" className="hover:text-blue-700">Cookie Policy</a></li>
-            <li><a href="#" className="hover:text-blue-700">Admin Portal</a></li>
-          </ul>
-        </div>
-      </div>
-      <div className="text-center text-gray-400 pt-8 border-t border-gray-200">
-        &copy; 2024 Modus Chora Studio. All rights reserved.
-      </div>
-    </div>
-  </footer>
-);
 
 // --- Main Page ---
 
