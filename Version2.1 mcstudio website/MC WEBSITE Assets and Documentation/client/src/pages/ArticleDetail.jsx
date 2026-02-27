@@ -173,7 +173,7 @@ const Footer = ({ isDarkMode }) => (
 export default function ArticleDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
 

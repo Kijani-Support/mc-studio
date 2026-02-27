@@ -2,13 +2,13 @@ import { useState } from "react";
 import { Sun, Moon } from "lucide-react";
 import { Link, useLocation } from "react-router-dom";
 
-const NavBar = () => {
-  const [isDarkMode, setIsDarkMode] = useState(false);
+const NavBar = ({ isDarkMode: propIsDarkMode, toggleTheme: propToggleTheme }) => {
+  const [internalIsDarkMode, setInternalIsDarkMode] = useState(false);
   const location = useLocation();
 
-  const toggleTheme = () => {
-    setIsDarkMode(!isDarkMode);
-  };
+  // Use prop values if provided, otherwise manage internal state
+  const isDarkMode = propIsDarkMode !== undefined ? propIsDarkMode : internalIsDarkMode;
+  const toggleTheme = propToggleTheme || (() => setInternalIsDarkMode(!internalIsDarkMode));
 
   const navItems = [
     { text: "Home", link: "/" },
@@ -16,7 +16,7 @@ const NavBar = () => {
     { text: "Projects", link: "/projects" },
     { text: "Case Studies", link: "/case-studies" },
     { text: "Services", link: "/services" },
-    { text: "Media", link: "/" },
+    { text: "Media", link: "/article/1" },
   ];
 
   return (
