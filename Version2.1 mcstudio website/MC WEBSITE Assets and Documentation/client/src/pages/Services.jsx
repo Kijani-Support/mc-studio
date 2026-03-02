@@ -84,26 +84,37 @@ const FAQS = [
 
 // --- Components ---
 
-const Header = () => (
-  <header className="relative top-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm">
-   <NavBar />
+const Header = ({ isDarkMode, toggleTheme }) => (
+  <header className={`sticky top-0 z-50 w-full border-b shadow-sm transition-colors duration-300 ${
+    isDarkMode ? 'bg-black border-gray-800' : 'bg-white border-gray-100'
+  }`}>
+   <NavBar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
   </header>
 );
 
-const FAQItem = ({ faq }) => {
+const FAQItem = ({ faq, isDarkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-gray-200 py-4">
+    <div className={`border-b py-4 transition-colors duration-300 ${
+      isDarkMode ? 'border-gray-800' : 'border-gray-200'
+    }`}>
       <button 
         className="w-full flex justify-between items-center text-left focus:outline-none"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="font-semibold text-gray-900">{faq.question}</span>
-        {isOpen ? <ChevronUp className="text-gray-500" size={20} /> : <ChevronDown className="text-gray-500" size={20} />}
+        <span className={`font-semibold transition-colors duration-300 ${
+          isDarkMode ? 'text-gray-200' : 'text-gray-900'
+        }`}>{faq.question}</span>
+        {isOpen 
+          ? <ChevronUp className={isDarkMode ? 'text-gray-400' : 'text-gray-500'} size={20} /> 
+          : <ChevronDown className={isDarkMode ? 'text-gray-400' : 'text-gray-500'} size={20} />
+        }
       </button>
       {isOpen && (
-        <div className="mt-4 text-gray-600 text-sm leading-relaxed pr-8">
+        <div className={`mt-4 text-sm leading-relaxed pr-8 transition-colors duration-300 ${
+          isDarkMode ? 'text-gray-400' : 'text-gray-600'
+        }`}>
           {faq.answer}
         </div>
       )}
@@ -112,26 +123,37 @@ const FAQItem = ({ faq }) => {
 };
 
 
-
 // --- Main Page ---
 
 export default function ServicesPage() {
+  // Dark mode state - you will pass the toggle function to NavBar (via Header)
+  const [isDarkMode, setIsDarkMode] = useState(false);
+  const toggleTheme = () => setIsDarkMode(!isDarkMode);
+
   return (
-    <div className="min-h-screen bg-white font-sans text-gray-900">
-      <Header />
+    <div className={`min-h-screen font-sans transition-colors duration-300 ${
+      isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'
+    }`}>
+      <Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
       
       <main>
         {/* HERO SECTION */}
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24">
           <div className="flex flex-col md:flex-row items-center gap-12">
             <div className="w-full md:w-1/2 space-y-6">
-              <h1 className="text-4xl md:text-5xl font-extrabold text-gray-900 leading-tight">
+              <h1 className={`text-4xl md:text-5xl font-extrabold leading-tight transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>
                 Innovate, Design, Develop: Our Integrated Services
               </h1>
-              <p className="text-gray-600 text-lg leading-relaxed">
+              <p className={`text-lg leading-relaxed transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 We empower businesses by bridging the gap between design and technology. Our comprehensive services are engineered to propel your brand forward, foster innovation, and ensure sustainable growth.
               </p>
-              <button className="bg-blue-700 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors">
+              <button className={`px-8 py-3 rounded-lg font-medium transition-colors ${
+                isDarkMode ? 'bg-blue-600 hover:bg-blue-500 text-white' : 'bg-blue-700 hover:bg-blue-800 text-white'
+              }`}>
                 Explore Services
               </button>
             </div>
@@ -139,14 +161,19 @@ export default function ServicesPage() {
               <img 
                 src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200" 
                 alt="Team working together" 
-                className="rounded-2xl shadow-xl w-full h-auto object-cover"
+                className={`rounded-2xl w-full h-auto object-cover transition-all duration-300 ${
+                  isDarkMode ? 'shadow-2xl shadow-blue-900/20 opacity-90' : 'shadow-xl'
+                }`}
               />
             </div>
           </div>
         </section>
 
         {/* CORE COMPETENCIES (DARK SECTION) */}
-        <section className="bg-slate-900 py-20 px-4 sm:px-6 lg:px-8">
+        {/* Adjusted background slightly for dark mode so it separates from global black bg */}
+        <section className={`py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
+          isDarkMode ? 'bg-gray-900/40 border-t border-gray-800' : 'bg-slate-900'
+        }`}>
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
               <h2 className="text-3xl font-bold text-white mb-4">Our Core Competencies</h2>
@@ -157,13 +184,23 @@ export default function ServicesPage() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {COMPETENCIES.map((comp, idx) => (
-                <div key={idx} className="bg-white rounded-xl p-8 flex flex-col items-center text-center hover:-translate-y-1 transition-transform duration-300">
+                <div key={idx} className={`rounded-xl p-8 flex flex-col items-center text-center hover:-translate-y-1 transition-all duration-300 ${
+                  isDarkMode ? 'bg-gray-900 border border-gray-800 shadow-lg' : 'bg-white shadow-sm'
+                }`}>
                   {comp.icon}
-                  <h3 className="text-xl font-bold text-gray-900 mb-4">{comp.title}</h3>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-8 flex-grow">
+                  <h3 className={`text-xl font-bold mb-4 transition-colors duration-300 ${
+                    isDarkMode ? 'text-white' : 'text-gray-900'
+                  }`}>{comp.title}</h3>
+                  <p className={`text-sm leading-relaxed mb-8 flex-grow transition-colors duration-300 ${
+                    isDarkMode ? 'text-gray-400' : 'text-gray-600'
+                  }`}>
                     {comp.description}
                   </p>
-                  <button className="text-blue-600 font-semibold text-sm border border-blue-200 px-6 py-2 rounded-full hover:bg-blue-50 transition-colors w-full">
+                  <button className={`font-semibold text-sm border px-6 py-2 rounded-full transition-colors w-full ${
+                    isDarkMode 
+                      ? 'text-blue-400 border-blue-900 hover:bg-blue-900/30' 
+                      : 'text-blue-600 border-blue-200 hover:bg-blue-50'
+                  }`}>
                     {comp.linkText}
                   </button>
                 </div>
@@ -173,11 +210,17 @@ export default function ServicesPage() {
         </section>
 
         {/* PRICING PLANS (LIGHT GREEN SECTION) */}
-        <section className="bg-[#f0fdf4] py-20 px-4 sm:px-6 lg:px-8">
+        <section className={`py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
+          isDarkMode ? 'bg-green-950/20 border-t border-gray-800' : 'bg-[#f0fdf4]'
+        }`}>
           <div className="max-w-7xl mx-auto">
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Tailored Solutions: Kijani.co Plans</h2>
-              <p className="text-gray-600 max-w-2xl mx-auto">
+              <h2 className={`text-3xl font-bold mb-4 transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>Tailored Solutions: Kijani.co Plans</h2>
+              <p className={`max-w-2xl mx-auto transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 Flexible pricing designed to grow with your business. Select the plan that matches your current operational needs and scale effortlessly.
               </p>
             </div>
@@ -186,16 +229,22 @@ export default function ServicesPage() {
               {PRICING_PLANS.map((plan, idx) => (
                 <div 
                   key={idx} 
-                  className={`rounded-2xl p-8 flex flex-col ${
+                  className={`rounded-2xl p-8 flex flex-col transition-all duration-300 ${
                     plan.isPopular 
-                      ? 'bg-[#2f4f2f] text-white shadow-2xl scale-105 transform z-10' 
-                      : 'bg-white text-gray-900 shadow-lg border border-gray-100'
+                      ? 'bg-[#2f4f2f] text-white shadow-2xl scale-105 transform z-10 border border-[#3e663e]' 
+                      : isDarkMode 
+                        ? 'bg-gray-900 text-gray-300 border border-gray-800 shadow-lg'
+                        : 'bg-white text-gray-900 shadow-lg border border-gray-100'
                   }`}
                 >
-                  <h3 className={`text-lg font-bold mb-2 ${plan.isPopular ? 'text-green-300' : 'text-gray-500'}`}>
+                  <h3 className={`text-lg font-bold mb-2 ${
+                    plan.isPopular ? 'text-green-300' : (isDarkMode ? 'text-gray-400' : 'text-gray-500')
+                  }`}>
                     {plan.title}
                   </h3>
-                  <div className="text-4xl font-extrabold mb-8">{plan.price}</div>
+                  <div className={`text-4xl font-extrabold mb-8 ${!plan.isPopular && isDarkMode ? 'text-white' : ''}`}>
+                    {plan.price}
+                  </div>
                   
                   <ul className="space-y-4 mb-8 flex-grow text-sm">
                     {plan.features.map((feature, i) => (
@@ -210,10 +259,12 @@ export default function ServicesPage() {
                   </ul>
 
                   <button 
-                    className={`w-full py-3 rounded-lg font-bold transition-colors ${
+                    className={`w-full py-3 rounded-lg font-bold transition-all duration-300 ${
                       plan.isPopular 
                         ? 'bg-green-500 hover:bg-green-400 text-gray-900' 
-                        : 'bg-white border-2 border-gray-200 hover:border-blue-600 hover:text-blue-600 text-gray-700'
+                        : isDarkMode
+                          ? 'bg-transparent border-2 border-gray-700 hover:border-blue-500 hover:text-blue-400 text-gray-300'
+                          : 'bg-white border-2 border-gray-200 hover:border-blue-600 hover:text-blue-600 text-gray-700'
                     }`}
                   >
                     {plan.buttonText}
@@ -225,29 +276,45 @@ export default function ServicesPage() {
         </section>
 
         {/* CTA SECTION */}
-        <section className="py-20 px-4 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">Building for a Customised Dataroom?</h2>
-          <p className="text-gray-600 mb-8 max-w-xl mx-auto">
+        <section className={`py-20 px-4 text-center transition-colors duration-300 ${
+          isDarkMode ? 'bg-black' : 'bg-white'
+        }`}>
+          <h2 className={`text-2xl font-bold mb-4 transition-colors duration-300 ${
+            isDarkMode ? 'text-white' : 'text-gray-900'
+          }`}>Building for a Customised Dataroom?</h2>
+          <p className={`mb-8 max-w-xl mx-auto transition-colors duration-300 ${
+            isDarkMode ? 'text-gray-400' : 'text-gray-600'
+          }`}>
             If you have unique requirements, let's discuss your specific challenges and how we can architect a bespoke digital workspace tailored to your enterprise.
           </p>
-          <button className="bg-blue-700 text-white px-8 py-3 rounded-lg font-medium hover:bg-blue-800 transition-colors shadow-lg shadow-blue-900/20">
+          <button className={`px-8 py-3 rounded-lg font-medium transition-colors shadow-lg ${
+            isDarkMode ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-900/20' : 'bg-blue-700 hover:bg-blue-800 text-white shadow-blue-900/20'
+          }`}>
             Get a Custom Quote
           </button>
         </section>
 
         {/* FAQ SECTION */}
-        <section className="bg-gray-50 py-20 px-4 sm:px-6 lg:px-8 border-t border-gray-200">
+        <section className={`py-20 px-4 sm:px-6 lg:px-8 border-t transition-colors duration-300 ${
+          isDarkMode ? 'bg-gray-900/30 border-gray-800' : 'bg-gray-50 border-gray-200'
+        }`}>
           <div className="max-w-3xl mx-auto">
             <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-4">Frequently Asked Questions</h2>
-              <p className="text-gray-600">
+              <h2 className={`text-3xl font-bold mb-4 transition-colors duration-300 ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>Frequently Asked Questions</h2>
+              <p className={`transition-colors duration-300 ${
+                isDarkMode ? 'text-gray-400' : 'text-gray-600'
+              }`}>
                 Find answers to common inquiries about our services, processes, and how we collaborate with our clients.
               </p>
             </div>
             
-            <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-200">
+            <div className={`p-6 md:p-8 rounded-2xl shadow-sm border transition-colors duration-300 ${
+              isDarkMode ? 'bg-black border-gray-800' : 'bg-white border-gray-200'
+            }`}>
               {FAQS.map((faq, idx) => (
-                <FAQItem key={idx} faq={faq} />
+                <FAQItem key={idx} faq={faq} isDarkMode={isDarkMode} />
               ))}
             </div>
           </div>
@@ -255,7 +322,7 @@ export default function ServicesPage() {
 
       </main>
 
-      <Footer />
+      <Footer isDarkMode={isDarkMode} />
     </div>
   );
 }
