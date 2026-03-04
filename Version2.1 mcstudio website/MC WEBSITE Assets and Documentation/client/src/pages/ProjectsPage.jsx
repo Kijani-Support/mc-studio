@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Globe from 'react-globe.gl';
 import { Search, MapPin } from 'lucide-react';
+import { useTheme } from '../components/context/ThemeContext'; // <-- Import the hook
 import globeImg from '../assets/images/earth-dark.jpg';
 import skyImg from '../assets/images/Globe_Background.jpg';
 import NavBar from '../components/NavBar';
@@ -72,17 +73,25 @@ const PROJECTS = [
 
 // --- Components ---
 
-const FilterSection = ({ title, options }) => (
+const FilterSection = ({ title, options, isDarkMode }) => (
   <div className="mb-6">
-    <h3 className="font-bold text-gray-900 text-sm mb-3">{title}</h3>
+    <h3 className={`font-bold text-sm mb-3 transition-colors ${
+      isDarkMode ? 'text-gray-200' : 'text-gray-900'
+    }`}>
+      {title}
+    </h3>
     <div className="flex flex-wrap gap-2">
       {options.map((opt, idx) => (
         <button 
           key={idx} 
-          className={`px-4 py-1.5 border border-gray-200 rounded-full text-xs font-medium transition-all duration-200 ${
+          className={`px-4 py-1.5 border rounded-full text-xs font-medium transition-all duration-200 ${
             idx === 0 
-              ? 'text-gray-900 border-gray-300 bg-gray-50' 
-              : 'text-gray-600 bg-white hover:bg-gray-50 hover:border-gray-300'
+              ? (isDarkMode 
+                  ? 'text-white border-gray-600 bg-gray-700 shadow-sm' 
+                  : 'text-gray-900 border-gray-300 bg-gray-50 shadow-sm')
+              : (isDarkMode 
+                  ? 'text-gray-400 bg-gray-900 border-gray-800 hover:bg-gray-800 hover:text-white' 
+                  : 'text-gray-600 bg-white border-gray-200 hover:bg-gray-50 hover:border-gray-300')
           }`}
         >
           {opt}
@@ -92,8 +101,10 @@ const FilterSection = ({ title, options }) => (
   </div>
 );
 
-const ProjectCard = ({ project }) => (
-  <div className="bg-white border border-gray-200 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 mb-6 group flex flex-col">
+const ProjectCard = ({ project, isDarkMode }) => (
+  <div className={`border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 mb-6 group flex flex-col ${
+    isDarkMode ? 'bg-gray-900 border-gray-800 hover:border-gray-700' : 'bg-white border-gray-200 hover:border-blue-200'
+  }`}>
     <div className="h-40 w-full overflow-hidden relative">
       <img 
         src={project.image} 
@@ -102,7 +113,9 @@ const ProjectCard = ({ project }) => (
       />
     </div>
     <div className="p-5 flex flex-col flex-grow">
-      <h3 className="font-bold text-gray-900 text-lg mb-3 leading-tight group-hover:text-blue-700 transition-colors">
+      <h3 className={`font-bold text-lg mb-3 leading-tight transition-colors ${
+        isDarkMode ? 'text-white group-hover:text-blue-400' : 'text-gray-900 group-hover:text-blue-700'
+      }`}>
         {project.title}
       </h3>
       
@@ -111,13 +124,17 @@ const ProjectCard = ({ project }) => (
           {project.region}
         </span>
         {project.partners.map((partner, i) => (
-          <span key={i} className="bg-white text-gray-600 text-[10px] font-medium px-3 py-1 rounded-full border border-gray-200">
+          <span key={i} className={`text-[10px] font-medium px-3 py-1 rounded-full border transition-colors ${
+            isDarkMode ? 'bg-gray-800 text-gray-300 border-gray-700' : 'bg-white text-gray-600 border-gray-200'
+          }`}>
             {partner}
           </span>
         ))}
       </div>
       
-      <p className="text-gray-500 text-xs leading-relaxed mt-1">
+      <p className={`text-xs leading-relaxed mt-1 transition-colors ${
+        isDarkMode ? 'text-gray-400' : 'text-gray-500'
+      }`}>
         {project.description}
       </p>
     </div>
@@ -126,7 +143,9 @@ const ProjectCard = ({ project }) => (
 
 // --- Main App ---
 
-export default function App() {
+export default function ProjectsPage() {
+  const { isDarkMode } = useTheme(); // <-- Get the global theme state
+  
   const globeRef = useRef();
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const [showFooter, setShowFooter] = useState(true);
@@ -181,8 +200,14 @@ export default function App() {
   }, []);
 
   return (
-    <div className="flex flex-col h-screen bg-white font-sans text-gray-900">
-      <header className="relative top-0 z-50 w-full bg-white border-b border-gray-100 shadow-sm">
+    <div className={`flex flex-col h-screen font-sans overflow-hidden transition-colors duration-300 ${
+      isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'
+    }`}>
+      
+      <header className={`relative top-0 z-50 w-full border-b shadow-sm transition-colors duration-300 ${
+        isDarkMode ? 'bg-black border-gray-800' : 'bg-white border-gray-100'
+      }`}>
+        {/* NavBar handles its own theme */}
         <NavBar />
       </header>
 
@@ -218,43 +243,64 @@ export default function App() {
         </div>
 
         {/* RIGHT COLUMN: SIDEBAR */}
-        <div ref={sidebarRef} className="w-full lg:w-[480px] flex-shrink-0 border-l border-gray-200 overflow-y-auto bg-gray-50/50 custom-scrollbar">
+        <div 
+          ref={sidebarRef} 
+          className={`w-full lg:w-[480px] flex-shrink-0 border-l overflow-y-auto custom-scrollbar transition-colors duration-300 ${
+            isDarkMode ? 'bg-gray-900/50 border-gray-800' : 'bg-gray-50/50 border-gray-200'
+          }`}
+        >
           <div className="p-8">
             
-            <h2 className="text-2xl font-bold text-gray-900 mb-5">Find Projects</h2>
+            <h2 className={`text-2xl font-bold mb-5 transition-colors ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}>
+              Find Projects
+            </h2>
+            
             <div className="relative mb-8">
-              <Search className="absolute left-3.5 top-3 text-gray-400" size={16} />
+              <Search className={`absolute left-3.5 top-3 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} size={16} />
               <input 
                 type="text" 
                 placeholder="Search projects..." 
-                className="w-full pl-10 pr-4 py-2.5 bg-white border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-600 focus:ring-1 focus:ring-blue-600 shadow-sm transition-all"
+                className={`w-full pl-10 pr-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-1 transition-all ${
+                  isDarkMode 
+                    ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500' 
+                    : 'bg-white border-gray-200 text-gray-900 focus:border-blue-600 focus:ring-blue-600'
+                }`}
               />
             </div>
 
             <FilterSection 
               title="Region" 
               options={["All", "North America", "Europe", "Asia", "South America", "Africa"]} 
+              isDarkMode={isDarkMode}
             />
             
             <FilterSection 
               title="Partners" 
               options={["All", "IBM", "Microsoft", "Siemens", "EDF", "Philips", "Telemed Asia", "AgriChain Solutions", "World Bank", "CityNet Africa"]} 
+              isDarkMode={isDarkMode}
             />
 
             <FilterSection 
               title="Case Studies" 
               options={["All", "AI Transformation at Scale", "Green Energy for Smart Cities", "Healthcare Access in Rural Asia", "Transparent Food Supply", "Smart Cities for a Brighter Future", "Urban Innovation"]} 
+              isDarkMode={isDarkMode}
             />
 
-            <div className="my-8 h-px bg-gray-200" />
+            <div className={`my-8 h-px transition-colors ${isDarkMode ? 'bg-gray-800' : 'bg-gray-200'}`} />
 
             <div className="flex justify-between items-center mb-6">
-              <h2 className="text-lg font-bold text-gray-900">Filtered Results ({PROJECTS.length})</h2>
+              <h2 className={`text-lg font-bold transition-colors ${
+                isDarkMode ? 'text-white' : 'text-gray-900'
+              }`}>
+                Filtered Results ({PROJECTS.length})
+              </h2>
             </div>
 
             <div className="space-y-6">
               {PROJECTS.map(project => (
-                <ProjectCard key={project.id} project={project} />
+                <ProjectCard key={project.id} project={project} isDarkMode={isDarkMode} />
               ))}
             </div>
           </div>
@@ -262,7 +308,12 @@ export default function App() {
       </main>
 
       {/* FULL WIDTH FOOTER (Auto-Hiding based on scroll) */}
-      <div className={`bg-gray-50 transition-all duration-500 ease-in-out overflow-hidden border-t border-gray-200 ${showFooter ? 'opacity-100 max-h-[500px]' : 'opacity-0 max-h-0 border-t-0'}`}>
+      <div className={`transition-all duration-500 ease-in-out overflow-hidden border-t ${
+        showFooter ? 'opacity-100 max-h-[500px]' : 'opacity-0 max-h-0 border-t-0'
+      } ${
+        isDarkMode ? 'bg-black border-gray-800' : 'bg-gray-50 border-gray-200'
+      }`}>
+        {/* Footer handles its own theme context */}
         <Footer />
       </div>
     </div>
