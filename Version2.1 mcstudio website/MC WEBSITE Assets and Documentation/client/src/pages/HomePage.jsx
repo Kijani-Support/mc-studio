@@ -1,3 +1,5 @@
+import React from "react";
+import { useTheme } from "../components/context/ThemeContext"; // <-- Import the hook
 import Footer from "../components/Footer";
 import Capture from "../assets/images/algo2.jpg";
 import HomePageImage from "../assets/images/HomePage.jpg";
@@ -5,27 +7,46 @@ import NavBar from "../components/NavBar";
 import Portfolios from "../components/home_page/Portfolios";
 
 const HomePage = () => {
-  return (
-    <div className="w-full font-display">
-      <NavBar />
+  // Get the global dark mode state
+  const { isDarkMode } = useTheme();
 
-      <main className="pt-24 sm:pt-40 grid gap-24">
+  return (
+    <div className={`flex flex-col min-h-screen font-display w-full overflow-x-hidden transition-colors duration-300 ${
+      isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'
+    }`}>
+      
+      {/* Pinned NavBar Wrapper */}
+      <div className="fixed top-0 left-0 w-full z-50">
+        <NavBar />
+      </div>
+
+      {/* Added pt-24 sm:pt-32 to push content safely below the pinned navbar */}
+      <main className="flex-grow pt-24 sm:pt-32 grid gap-24 pb-20">
+        
         {/* HERO SECTION */}
-        <section className="px-4 sm:px-12 grid gap-12 sm:grid-cols-2 items-center">
+        <section className="px-4 sm:px-12 grid gap-12 sm:grid-cols-2 items-center mt-8 sm:mt-12">
           {/* Text */}
           <div className="grid gap-6 text-center sm:text-left">
-            <h1 className="text-3xl sm:text-5xl font-extrabold max-w-xl">
+            <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold max-w-xl leading-tight ${
+              isDarkMode ? 'text-white' : 'text-gray-900'
+            }`}>
               Innovate, Create, Impact.
             </h1>
 
-            <p className="text-sm sm:text-base max-w-xl text-gray-700">
+            <p className={`text-sm sm:text-base max-w-xl leading-relaxed ${
+              isDarkMode ? 'text-gray-300' : 'text-gray-700'
+            }`}>
               We empower visionary founders with bespoke web templates and
               strategic design, transforming ambitious ideas into impactful
               digital realities. Discover solutions designed to elevate your
               startup and projects.
             </p>
 
-            <button className="bg-blue-900 text-white py-1 sm:py-2 px-6 rounded-lg w-fit text-sm sm:text-md mx-auto sm:mx-0">
+            <button className={`py-2.5 px-6 rounded-lg w-fit text-sm sm:text-md font-semibold mx-auto sm:mx-0 transition-colors shadow-lg ${
+              isDarkMode 
+                ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-900/20' 
+                : 'bg-blue-900 hover:bg-blue-800 text-white shadow-blue-200'
+            }`}>
               Explore Our Work
             </button>
           </div>
@@ -35,33 +56,39 @@ const HomePage = () => {
             <img
               src={HomePageImage}
               alt="presentation"
-              className="w-full sm:w-[80%] rounded-2xl shadow-md"
+              className={`w-full sm:w-[90%] lg:w-[80%] rounded-2xl object-cover transition-all ${
+                isDarkMode ? 'shadow-2xl shadow-blue-900/20 opacity-90' : 'shadow-xl shadow-gray-200'
+              }`}
             />
           </div>
         </section>
 
         {/* PORTFOLIOS */}
-        <section className="bg-gray-100 py-20 px-4 sm:px-12 grid gap-12">
-          <h1 className="text-2xl font-extrabold text-center">
+        <section className={`py-20 px-4 sm:px-12 grid gap-12 transition-colors duration-300 ${
+          isDarkMode ? 'bg-gray-900/40 border-y border-gray-800' : 'bg-gray-50 border-y border-gray-100'
+        }`}>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-center">
             Explore Our Startups Portfolio
-          </h1>
+          </h2>
 
-          <div className="grid gap-6 sm:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto w-full">
+            {/* Note: Pass isDarkMode to your Portfolios component! */}
             <Portfolios
+              isDarkMode={isDarkMode}
               pic={Capture}
               title="The Future of Web Design: Trends of 2024"
               description="Explore the cutting-edge trends shaping web design in 2024."
               author="By Jane Doe | October 26, 2023"
             />
-
             <Portfolios
+              isDarkMode={isDarkMode}
               pic={Capture}
               title="Building Scalable Startups"
               description="Foundational principles to build and scale a startup."
               author="By John Smith | October 20, 2023"
             />
-
             <Portfolios
+              isDarkMode={isDarkMode}
               pic={Capture}
               title="Leverage AI in Project Management"
               description="How AI enhances efficiency and prediction."
@@ -71,22 +98,26 @@ const HomePage = () => {
         </section>
 
         {/* STARTUPS GRID */}
-        <section className="px-4 sm:px-16 grid gap-12">
-          <h1 className="text-2xl font-extrabold text-center">
+        <section className="px-4 sm:px-16 grid gap-12 max-w-7xl mx-auto w-full">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-center">
             Our Startups
-          </h1>
+          </h2>
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {["CloudForge", "BrightSpark", "NexusHub", "RocketReach"].map(
               (item) => (
                 <div
                   key={item}
-                  className="shadow-xl rounded-xl p-6 grid gap-4 justify-items-center"
+                  className={`rounded-xl p-6 grid gap-4 justify-items-center transition-all duration-300 ${
+                    isDarkMode 
+                      ? 'bg-gray-900/80 border border-gray-800 hover:shadow-blue-900/10' 
+                      : 'bg-white shadow-xl hover:shadow-2xl shadow-gray-200'
+                  }`}
                 >
-                  <img src={Capture} alt="" className="w-24" />
+                  <img src={Capture} alt="" className="w-24 rounded-lg object-cover" />
                   <div className="text-center">
-                    <h2 className="font-bold text-lg">{item}</h2>
-                    <p className="text-sm text-gray-600">
+                    <h3 className="font-bold text-lg">{item}</h3>
+                    <p className={`text-sm mt-1 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
                       Innovating digital solutions
                     </p>
                   </div>
@@ -97,35 +128,41 @@ const HomePage = () => {
         </section>
 
         {/* GLOBAL REACH */}
-        <section className="bg-gray-100 py-20 px-4 grid gap-10 text-center">
+        <section className={`py-20 px-4 grid gap-10 text-center transition-colors duration-300 ${
+          isDarkMode ? 'bg-gray-900/30' : 'bg-gray-50'
+        }`}>
           <div className="max-w-2xl mx-auto grid gap-4">
-            <h1 className="text-3xl font-bold">
+            <h2 className="text-3xl font-bold">
               Global Reach, Local Impact
-            </h1>
-            <p className="text-gray-700">
+            </h2>
+            <p className={`leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>
               Explore our projects worldwide and how we connect communities
               across the globe.
             </p>
           </div>
 
-          <div className="bg-gray-300 rounded-lg h-60 w-full max-w-4xl mx-auto" />
+          <div className={`rounded-lg h-60 sm:h-80 w-full max-w-5xl mx-auto transition-colors duration-300 ${
+            isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-gray-300'
+          }`} />
         </section>
 
         {/* TRUSTED BY */}
-        <section className="py-20 px-4 sm:px-12 grid gap-12 text-center">
-          <h1 className="text-3xl font-bold">
+        <section className="px-4 sm:px-12 grid gap-12 text-center max-w-7xl mx-auto w-full">
+          <h2 className="text-2xl sm:text-3xl font-bold">
             Trusted by Industry Leaders
-          </h1>
+          </h2>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6 justify-items-center">
+          <div className="flex flex-wrap gap-8 justify-center items-center opacity-70">
             {Array(5)
               .fill(0)
               .map((_, i) => (
-                <div key={i} className="h-20 w-32">
+                <div key={i} className={`h-16 w-28 sm:h-20 sm:w-32 rounded-lg overflow-hidden ${
+                  isDarkMode ? 'bg-gray-800' : 'bg-gray-200'
+                }`}>
                   <img
                     src={Capture}
-                    alt=""
-                    className="w-full h-full object-cover rounded"
+                    alt="Partner Logo"
+                    className="w-full h-full object-cover mix-blend-multiply filter grayscale"
                   />
                 </div>
               ))}
@@ -133,28 +170,47 @@ const HomePage = () => {
         </section>
 
         {/* NEWSLETTER */}
-        <section className="bg-gray-100 py-20 px-4 grid gap-8 text-center">
-          <h1 className="text-3xl font-bold max-w-xl mx-auto">
+        <section className={`py-24 px-4 grid gap-8 text-center transition-colors duration-300 ${
+          isDarkMode ? 'bg-gray-900/50 border-t border-gray-800' : 'bg-gray-100 border-t border-gray-200'
+        }`}>
+          <h2 className="text-2xl sm:text-3xl font-bold max-w-xl mx-auto">
             Stay Ahead. Join Our Newsletter.
-          </h1>
+          </h2>
 
-          <p className="max-w-lg mx-auto text-gray-700">
+          <p className={`max-w-lg mx-auto ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>
             Receive exclusive insights, updates, and offers.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <form 
+            onSubmit={(e) => e.preventDefault()} 
+            className="flex flex-col sm:flex-row gap-4 justify-center max-w-2xl mx-auto w-full"
+          >
             <input
               type="email"
               placeholder="Your Email Address"
-              className="border px-4 py-2 rounded-md w-full sm:w-80"
+              className={`px-4 py-3 rounded-lg w-full sm:w-80 border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
+                isDarkMode 
+                  ? 'bg-black border-gray-700 text-white placeholder-gray-500' 
+                  : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
+              }`}
+              required
             />
-            <button className="bg-blue-800 text-white px-6 py-2 rounded-md">
+            <button 
+              type="submit"
+              className={`font-semibold px-8 py-3 rounded-lg transition-colors ${
+                isDarkMode 
+                  ? 'bg-blue-600 hover:bg-blue-500 text-white' 
+                  : 'bg-blue-900 hover:bg-blue-800 text-white'
+              }`}
+            >
               Subscribe
             </button>
-          </div>
+          </form>
         </section>
+
       </main>
 
+      {/* Footer */}
       <Footer />
     </div>
   );

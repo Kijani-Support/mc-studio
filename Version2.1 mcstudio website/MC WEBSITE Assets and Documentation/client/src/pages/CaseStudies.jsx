@@ -224,14 +224,22 @@ export default function CaseStudiesPage() {
   });
 
   return (
-    <div className={`min-h-screen font-sans transition-colors duration-300 ${
+    <div className={`flex flex-col min-h-screen font-sans transition-colors duration-300 ${
       isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'
     }`}>
-      {/* NavBar handles its own theme via Context now */}
-      <NavBar />
       
-      <main>
-        {/* Featured Case Study - Pass isDarkMode down to sub-components that need it */}
+      {/* FIX: Pinned NavBar Wrapper
+        Uses fixed positioning and z-index to stay on top
+      */}
+      <div className="fixed top-0 left-0 w-full z-50">
+        <NavBar />
+      </div>
+      
+      {/* FIX: Added pt-24 sm:pt-32 to push content down 
+        so it doesn't overlap with the fixed navbar 
+      */}
+      <main className="flex-grow pt-24 sm:pt-32">
+        {/* Featured Case Study */}
         <HeroSection isDarkMode={isDarkMode} />
 
         {/* Main Content Area */}

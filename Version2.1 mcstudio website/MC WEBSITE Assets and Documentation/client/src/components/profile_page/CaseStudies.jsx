@@ -1,27 +1,35 @@
+import React from 'react';
 
-
-
-
-
-
-
-
-const CaseStudies = ({title, description, moreInfoBtn}) => {
+const CaseStudies = ({ title, description, moreInfoBtn, isDarkMode }) => {
   return (
-    <div className="grid sm:grid-cols-2 w-[90%] sm:w-[70%] items-center ">
-      <div className="grid   justify-self-start">
-        <h1 className="font-bold text-white  ">
-          {title}
-        </h1>
-        <p className="text-sm text-gray-500">
-          {description}
-        </p>
-      </div>
-      <div className="justify-self-end">
-        <button className="border rouded-md text-gray-600 rounded-md border-gray-600 px-2 text-sm py-1">
-          {moreInfoBtn}
-        </button>
-      </div>
+    <div className={`flex flex-col h-full p-6 sm:p-8 rounded-2xl border transition-all duration-300 ${
+      isDarkMode 
+        ? 'bg-gray-900 border-gray-800 hover:border-gray-700' 
+        : 'bg-white border-gray-200 hover:border-blue-300 hover:shadow-lg'
+    }`}>
+      
+      {/* THE FIX: Explicitly setting text-black when not in dark mode */}
+      <h3 className={`text-xl font-bold mb-4 leading-snug transition-colors ${
+        isDarkMode ? 'text-white' : 'text-black'
+      }`}>
+        {title}
+      </h3>
+      
+      <p className={`text-sm leading-relaxed mb-8 flex-grow transition-colors ${
+        isDarkMode ? 'text-gray-400' : 'text-gray-600'
+      }`}>
+        {description}
+      </p>
+
+      {/* Button styling to match the outline style in your screenshot */}
+      <button className={`inline-flex items-center justify-center px-5 py-2 border rounded-md text-sm font-bold w-max transition-colors ${
+        isDarkMode 
+          ? 'border-gray-700 text-gray-300 hover:bg-gray-800 hover:text-white' 
+          : 'border-gray-300 text-gray-700 hover:bg-gray-50 hover:text-black'
+      }`}>
+        {moreInfoBtn} 
+      </button>
+      
     </div>
   );
 };

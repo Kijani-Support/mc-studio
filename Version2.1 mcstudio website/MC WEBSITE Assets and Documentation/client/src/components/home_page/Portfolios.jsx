@@ -1,31 +1,45 @@
+import React from 'react';
 
-
-
-
-const Portfolios = ({pic, title, description, author}) => {
+const Portfolios = ({ pic, title, description, author, isDarkMode }) => {
   return (
-    <section className="h-100 rounded-xl   text-start shadow-md">
-      <div className="relative h-[50%]   overflow-hidden">
-        <img
-          src={pic}
-          alt="another image"
-          className="absolute inset-0 w-full h-full rounded-t-xl object-cover"
+    <div className={`flex flex-col rounded-2xl overflow-hidden border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${
+      isDarkMode 
+        ? 'bg-gray-900 border-gray-800 hover:shadow-blue-900/20' 
+        : 'bg-white border-gray-200 hover:shadow-gray-300'
+    }`}>
+      {/* Image Container */}
+      <div className="h-48 sm:h-56 w-full overflow-hidden relative group">
+        <img 
+          src={pic} 
+          alt={title} 
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
-        <div className="absolute inset-x-0 bottom-0 left-0 backdrop-blur-sm bg-gradient-to-t from-white/90 via-white/70 to-transparent right-0 p-12  text-black [mask-image:linear-gradient(to_top,white,transparent)] "></div>
+        {/* Optional subtle overlay on hover */}
+        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
       </div>
-      <div className="py-2 px-6 grid gap-2">
-        <h1 className="font-bold text-xl">
+
+      {/* Content Container */}
+      <div className="p-6 flex flex-col flex-grow">
+        <h3 className={`font-bold text-xl mb-3 leading-snug transition-colors duration-300 ${
+          isDarkMode ? 'text-white' : 'text-gray-900'
+        }`}>
           {title}
-        </h1>
-        <p className="text-sm opacity-90 text-black/70">
+        </h3>
+        
+        <p className={`text-sm mb-6 flex-grow leading-relaxed transition-colors duration-300 ${
+          isDarkMode ? 'text-gray-400' : 'text-gray-600'
+        }`}>
           {description}
         </p>
-
-        <p className="text-xs text-black/50 mt-2">
-         {author}
-        </p>
+        
+        {/* Author / Date */}
+        <div className={`text-xs font-semibold pt-4 border-t transition-colors duration-300 ${
+          isDarkMode ? 'border-gray-800 text-gray-500' : 'border-gray-100 text-gray-400'
+        }`}>
+          {author}
+        </div>
       </div>
-    </section>
+    </div>
   );
 };
 

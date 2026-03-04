@@ -19,10 +19,15 @@ const StartUpProfilePage = () => {
 
   return (
     <div className={`flex flex-col min-h-screen font-sans w-full overflow-x-hidden transition-colors duration-300 ${
-      isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'
+      isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'
     }`}>
-      {/* NavBar handles its own theme via Context */}
-      <NavBar />
+      
+      {/* FIX ADDED HERE: 
+        Wrap the NavBar in a fixed container with high z-index to pin it to the top.
+      */}
+      <div className="fixed top-0 left-0 w-full z-50">
+        <NavBar />
+      </div>
 
       <main className="flex-grow">
         {/* Hero Section */}
