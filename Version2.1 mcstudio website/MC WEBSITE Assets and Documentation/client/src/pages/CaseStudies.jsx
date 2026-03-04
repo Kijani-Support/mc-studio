@@ -73,7 +73,7 @@ const SUCCESS_STORIES = [
   }
 ];
 
-const FILTER_CATEGORIES = ["All", "Technology", "Healthcare", "Finance", "Education", "Automotive", "Energy"];
+const FILTER_CATEGORIES = ["All", "E-commerce", "Fintech", "Automotive", "Education", "Cloud", "Energy"];
 
 // --- Components ---
 
@@ -198,16 +198,35 @@ const StoryCard = ({ story, isDarkMode }) => (
 
 export default function CaseStudiesPage() {
   const [activeFilter, setActiveFilter] = useState("All");
+  const [searchQuery, setSearchQuery] = useState(""); // <-- New state for search input
   
-  // Dark mode state - you will pass the toggle function to NavBar
+  // Dark mode state
   const [isDarkMode, setIsDarkMode] = useState(false);
   const toggleTheme = () => setIsDarkMode(!isDarkMode);
+
+  // --- FILTER & SEARCH LOGIC ---
+  const filteredStories = SUCCESS_STORIES.filter(story => {
+    // 1. Check Category match
+    const matchesCategory = activeFilter === "All" || story.tags.includes(activeFilter);
+    
+    // 2. Check Search query match
+    const query = searchQuery.toLowerCase();
+    const matchesSearch = 
+      query === "" || 
+      story.title.toLowerCase().includes(query) ||
+      story.description.toLowerCase().includes(query) ||
+      story.partners.toLowerCase().includes(query) ||
+      story.projects.toLowerCase().includes(query) ||
+      story.tags.some(tag => tag.toLowerCase().includes(query));
+
+    // Must match BOTH conditions to show up
+    return matchesCategory && matchesSearch;
+  });
 
   return (
     <div className={`min-h-screen font-sans transition-colors duration-300 ${
       isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'
     }`}>
-      {/* NavBar expects isDarkMode and toggleTheme to handle the UI toggle */}
       <NavBar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
       
       <main>
@@ -230,6 +249,8 @@ export default function CaseStudiesPage() {
               <input 
                 type="text" 
                 placeholder="Search case studies..." 
+                value={searchQuery} // <-- Bind input value to state
+                onChange={(e) => setSearchQuery(e.target.value)} // <-- Update state on change
                 className={`w-full pl-9 pr-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 shadow-sm transition-colors duration-300 ${
                   isDarkMode 
                     ? 'bg-gray-900 border-gray-800 text-white placeholder-gray-500' 
@@ -263,9 +284,16 @@ export default function CaseStudiesPage() {
 
           {/* Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {SUCCESS_STORIES.map(story => (
+            {filteredStories.map(story => (
               <StoryCard key={story.id} story={story} isDarkMode={isDarkMode} />
             ))}
+            
+            {/* Empty State UI */}
+            {filteredStories.length === 0 && (
+              <div className={`col-span-full text-center py-12 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                No case studies found matching your criteria.
+              </div>
+            )}
           </div>
 
         </section>
