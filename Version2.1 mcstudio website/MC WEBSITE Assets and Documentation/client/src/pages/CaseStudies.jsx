@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Facebook, Twitter, Instagram, Linkedin, Youtube, ArrowRight, ExternalLink } from 'lucide-react';
+import { useTheme } from '../components/context/ThemeContext'; // <-- Import the custom hook
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 
@@ -198,11 +199,10 @@ const StoryCard = ({ story, isDarkMode }) => (
 
 export default function CaseStudiesPage() {
   const [activeFilter, setActiveFilter] = useState("All");
-  const [searchQuery, setSearchQuery] = useState(""); // <-- New state for search input
+  const [searchQuery, setSearchQuery] = useState(""); 
   
-  // Dark mode state
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const toggleTheme = () => setIsDarkMode(!isDarkMode);
+  // Get the global dark mode state from context
+  const { isDarkMode } = useTheme();
 
   // --- FILTER & SEARCH LOGIC ---
   const filteredStories = SUCCESS_STORIES.filter(story => {
@@ -227,10 +227,11 @@ export default function CaseStudiesPage() {
     <div className={`min-h-screen font-sans transition-colors duration-300 ${
       isDarkMode ? 'bg-black text-white' : 'bg-gray-50 text-gray-900'
     }`}>
-      <NavBar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+      {/* NavBar handles its own theme via Context now */}
+      <NavBar />
       
       <main>
-        {/* Featured Case Study */}
+        {/* Featured Case Study - Pass isDarkMode down to sub-components that need it */}
         <HeroSection isDarkMode={isDarkMode} />
 
         {/* Main Content Area */}
@@ -249,8 +250,8 @@ export default function CaseStudiesPage() {
               <input 
                 type="text" 
                 placeholder="Search case studies..." 
-                value={searchQuery} // <-- Bind input value to state
-                onChange={(e) => setSearchQuery(e.target.value)} // <-- Update state on change
+                value={searchQuery} 
+                onChange={(e) => setSearchQuery(e.target.value)} 
                 className={`w-full pl-9 pr-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-blue-500 shadow-sm transition-colors duration-300 ${
                   isDarkMode 
                     ? 'bg-gray-900 border-gray-800 text-white placeholder-gray-500' 
@@ -299,7 +300,8 @@ export default function CaseStudiesPage() {
         </section>
       </main>
 
-      <Footer isDarkMode={isDarkMode} />
+      {/* Footer handles its own theme via Context now */}
+      <Footer />
     </div>
   );
 }

@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, ArrowRight, Clock, User } from 'lucide-react';
+import { useTheme } from '../components/context/ThemeContext'; // <-- Import the hook
 import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
 
 // --- Articles Database ---
 const ARTICLES_DATABASE = [
@@ -69,7 +71,6 @@ const getRecentArticles = (currentArticleId) => {
 
 // --- Components ---
 
-
 const SidebarCard = ({ article, isDarkMode, onClick }) => (
   <div 
     onClick={onClick}
@@ -124,58 +125,14 @@ const NewsletterWidget = ({ isDarkMode }) => (
   </div>
 );
 
-const Footer = ({ isDarkMode }) => (
-  <footer className={`pt-16 pb-8 px-8 border-t text-xs mt-20 transition-colors duration-300 ${
-    isDarkMode ? 'bg-black border-gray-800' : 'bg-gray-50 border-gray-200'
-  }`}>
-    <div className="max-w-7xl mx-auto">
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-8 mb-12">
-        <div className="col-span-1 md:col-span-2 pr-8">
-          <h4 className={`text-xl font-bold mb-4 ${isDarkMode ? 'text-blue-500' : 'text-blue-900'}`}>
-            modus chora studio
-          </h4>
-          <p className={`mb-6 max-w-xs leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-            Empowering innovation through strategic design and development.
-          </p>
-          <div className={`flex space-x-4 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`}>
-            <Linkedin size={18} className="hover:text-blue-500 cursor-pointer transition-colors" />
-            <Twitter size={18} className="hover:text-blue-400 cursor-pointer transition-colors" />
-            <Facebook size={18} className="hover:text-blue-600 cursor-pointer transition-colors" />
-            <Instagram size={18} className="hover:text-pink-500 cursor-pointer transition-colors" />
-            <Youtube size={18} className="hover:text-red-500 cursor-pointer transition-colors" />
-          </div>
-        </div>
-        
-        {['Company', 'Services', 'Legal'].map((section, idx) => (
-          <div key={idx}>
-            <h5 className={`font-bold mb-4 uppercase tracking-wider text-[10px] ${
-              isDarkMode ? 'text-white' : 'text-gray-900'
-            }`}>
-              {section}
-            </h5>
-            <ul className={`space-y-3 ${isDarkMode ? 'text-gray-500' : 'text-gray-500'}`}>
-              {[1, 2, 3, 4].map((item) => (
-                <li key={item}><a href="#" className="hover:text-blue-500 transition-colors">Link Item {item}</a></li>
-              ))}
-            </ul>
-          </div>
-        ))}
-      </div>
-      <div className={`text-center pt-8 border-t ${isDarkMode ? 'text-gray-600 border-gray-800' : 'text-gray-400 border-gray-200'}`}>
-        &copy; 2024 Modus Chora Studio. All rights reserved.
-      </div>
-    </div>
-  </footer>
-);
-
 // --- Main App ---
 
 export default function ArticleDetailPage() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const [isDarkMode, setIsDarkMode] = useState(false);
-
-  const toggleTheme = () => setIsDarkMode(!isDarkMode);
+  
+  // Get the global dark mode state
+  const { isDarkMode } = useTheme();
 
   // Get the current article or default to first article
   const currentArticle = ARTICLES_DATABASE.find(article => article.id === parseInt(id)) || ARTICLES_DATABASE[0];
@@ -189,7 +146,8 @@ export default function ArticleDetailPage() {
     <div className={`min-h-screen font-sans transition-colors duration-300 ${
       isDarkMode ? 'bg-black text-gray-300' : 'bg-gray-50 text-gray-600'
     }`}>
-      <NavBar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+      {/* NavBar manages its own theme now */}
+      <NavBar />
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -309,7 +267,8 @@ export default function ArticleDetailPage() {
         </div>
       </main>
 
-      <Footer isDarkMode={isDarkMode} />
+      {/* Footer manages its own theme now */}
+      <Footer />
     </div>
   );
 }

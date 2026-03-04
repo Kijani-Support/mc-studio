@@ -3,6 +3,7 @@ import {
   Facebook, Twitter, Instagram, Linkedin, Youtube, 
   Lightbulb, Palette, Code, Users, CheckCircle2, ChevronDown, ChevronUp 
 } from 'lucide-react';
+import { useTheme } from '../components/context/ThemeContext'; // <-- Import the hook
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 
@@ -84,13 +85,19 @@ const FAQS = [
 
 // --- Components ---
 
-const Header = ({ isDarkMode, toggleTheme }) => (
-  <header className={`sticky top-0 z-50 w-full border-b shadow-sm transition-colors duration-300 ${
-    isDarkMode ? 'bg-black border-gray-800' : 'bg-white border-gray-100'
-  }`}>
-   <NavBar isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
-  </header>
-);
+const Header = () => {
+  // Pull dark mode state for the sticky header wrapper
+  const { isDarkMode } = useTheme();
+  
+  return (
+    <header className={`sticky top-0 z-50 w-full border-b shadow-sm transition-colors duration-300 ${
+      isDarkMode ? 'bg-black border-gray-800' : 'bg-white border-gray-100'
+    }`}>
+     {/* NavBar handles its own theme context now */}
+     <NavBar />
+    </header>
+  );
+};
 
 const FAQItem = ({ faq, isDarkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -122,19 +129,17 @@ const FAQItem = ({ faq, isDarkMode }) => {
   );
 };
 
-
 // --- Main Page ---
 
 export default function ServicesPage() {
-  // Dark mode state - you will pass the toggle function to NavBar (via Header)
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const toggleTheme = () => setIsDarkMode(!isDarkMode);
+  // Get the global dark mode state
+  const { isDarkMode } = useTheme();
 
   return (
     <div className={`min-h-screen font-sans transition-colors duration-300 ${
       isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'
     }`}>
-      <Header isDarkMode={isDarkMode} toggleTheme={toggleTheme} />
+      <Header />
       
       <main>
         {/* HERO SECTION */}
@@ -170,7 +175,6 @@ export default function ServicesPage() {
         </section>
 
         {/* CORE COMPETENCIES (DARK SECTION) */}
-        {/* Adjusted background slightly for dark mode so it separates from global black bg */}
         <section className={`py-20 px-4 sm:px-6 lg:px-8 transition-colors duration-300 ${
           isDarkMode ? 'bg-gray-900/40 border-t border-gray-800' : 'bg-slate-900'
         }`}>
@@ -322,7 +326,8 @@ export default function ServicesPage() {
 
       </main>
 
-      <Footer isDarkMode={isDarkMode} />
+      {/* Footer handles its own theme via Context now */}
+      <Footer />
     </div>
   );
 }
