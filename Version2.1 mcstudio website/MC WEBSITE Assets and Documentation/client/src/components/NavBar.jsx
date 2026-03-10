@@ -1,11 +1,30 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom'; // <-- Import useLocation
 import { Sun, Moon } from 'lucide-react';
-import { useTheme } from '../components/context/ThemeContext'; // <-- Adjust this path to wherever your ThemeContext is
+import { useTheme } from '../components/context/ThemeContext';
 
 const NavBar = () => {
-  // 1. Pull the state and the toggle function right out of the context!
   const { isDarkMode, toggleTheme } = useTheme();
+  const location = useLocation(); // <-- Get the current route/URL
+
+  // Helper function to dynamically set the link styles based on the active page
+  const getLinkClass = (path) => {
+    // Check if the current URL matches the link's path
+    // (Added a check so that any article page highlights the "Media" link)
+    const isActive = location.pathname === path || (path.startsWith('/article') && location.pathname.startsWith('/article'));
+
+    if (isActive) {
+      // ACTIVE STATE
+      return `transition-colors font-bold ${
+        isDarkMode ? 'text-blue-400' : 'text-blue-700'
+      }`;
+    }
+    
+    // INACTIVE STATE
+    return `transition-colors font-medium hover:text-blue-500 ${
+      isDarkMode ? 'text-gray-400' : 'text-gray-600'
+    }`;
+  };
 
   return (
     <nav className={`flex items-center justify-between px-8 py-5 w-full transition-colors duration-300 ${
@@ -20,24 +39,23 @@ const NavBar = () => {
       </div>
 
       {/* NAVIGATION LINKS */}
-      <div className="hidden md:flex space-x-8 text-sm font-medium">
-        <Link to="/" className={`transition-colors hover:text-blue-500 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+      <div className="hidden md:flex space-x-8 text-sm">
+        <Link to="/" className={getLinkClass('/')}>
           Home
         </Link>
-        <Link to="/directory" className={`transition-colors hover:text-blue-500 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+        <Link to="/directory" className={getLinkClass('/directory')}>
           Startups
         </Link>
-        <Link to="/projects" className={`transition-colors hover:text-blue-500 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+        <Link to="/projects" className={getLinkClass('/projects')}>
           Projects
         </Link>
-        <Link to="/case-studies" className={`transition-colors hover:text-blue-500 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+        <Link to="/case-studies" className={getLinkClass('/case-studies')}>
           Case Studies
         </Link>
-        <Link to="/services" className={`transition-colors hover:text-blue-500 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+        <Link to="/services" className={getLinkClass('/services')}>
           Services
         </Link>
-        {/* Example of linking to a specific article, change as needed */}
-        <Link to="/article/1" className={`transition-colors hover:text-blue-500 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+        <Link to="/article/1" className={getLinkClass('/article/1')}>
           Media
         </Link>
       </div>
@@ -45,7 +63,7 @@ const NavBar = () => {
       {/* ACTIONS: THEME TOGGLE & CONTACT BUTTON */}
       <div className="flex items-center space-x-4">
         
-        {/* 2. The Global Theme Toggle Button */}
+        {/* The Global Theme Toggle Button */}
         <button 
           onClick={toggleTheme} 
           className={`p-2 rounded-full transition-all duration-300 ${
