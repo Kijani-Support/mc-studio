@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { useTheme } from '../components/context/ThemeContext'; // <-- Import the custom hook
+import { useTheme } from "../components/Context/ThemeContext"; // <-- Import the custom hook
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Capture from "../assets/images/algo2.jpg";

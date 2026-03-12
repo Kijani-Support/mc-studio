@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme } from '../components/context/ThemeContext'; // <-- Import the hook
+import { useTheme } from "../components/Context/ThemeContext"; // <-- Import the hook
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import ProfilePageImage from "../assets/images/ProfilePage.jpg";

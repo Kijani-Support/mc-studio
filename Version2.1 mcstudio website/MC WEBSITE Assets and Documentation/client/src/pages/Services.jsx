@@ -3,7 +3,7 @@ import {
   Facebook, Twitter, Instagram, Linkedin, Youtube, 
   Lightbulb, Palette, Code, Users, CheckCircle2, ChevronDown, ChevronUp 
 } from 'lucide-react';
-import { useTheme } from '../components/context/ThemeContext'; // <-- Import the hook
+import { useTheme } from "../components/Context/ThemeContext"; // <-- Import the hook
 import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 

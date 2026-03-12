@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { ThemeProvider } from './components/context/ThemeContext';
+import { ThemeProvider } from './components/Context/ThemeContext'; // <-- Import the ThemeProvider
 
 import HomePage from './pages/HomePage';
 import StartUpDirectoryPage from './pages/StartUpDirectoryPage';
