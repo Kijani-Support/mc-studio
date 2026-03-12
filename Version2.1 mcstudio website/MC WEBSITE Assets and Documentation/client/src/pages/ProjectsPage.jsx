@@ -1,83 +1,50 @@
-import React, { useState, useEffect, useRef } from 'react';
-import Globe from 'react-globe.gl';
-import { Search, MapPin } from 'lucide-react';
-import { useTheme } from '../components/context/ThemeContext'; // <-- Import the hook
-import globeImg from '../assets/images/earth-dark.jpg';
-import skyImg from '../assets/images/Globe_Background.jpg';
+import React, { useState } from 'react'; 
+import { ComposableMap, Geographies, Geography, ZoomableGroup, Marker } from "react-simple-maps";
+import { Search, MapPin, ZoomIn, ZoomOut } from 'lucide-react';
+import { useTheme } from '../components/Context/ThemeContext';
 import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
+// Removed Footer import
+
+const geoUrl = "https://unpkg.com/world-atlas@2.0.2/countries-110m.json";
 
 // --- Mock Data ---
 const PROJECTS = [
   {
-    id: 1,
-    title: "Global AI Integration Initiative",
-    category: "Technology",
-    region: "North America",
-    partners: ["IBM", "Microsoft"],
-    description: "A groundbreaking project to integrate advanced AI solutions across various industries, focusing on automation.",
+    id: 1, title: "Global AI Integration Initiative", category: "Technology", region: "North America",
+    partners: ["IBM", "Microsoft"], description: "A groundbreaking project to integrate advanced AI solutions across various industries, focusing on automation.",
     image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?auto=format&fit=crop&q=80&w=800",
-    lat: 40.7128,
-    lng: -74.0060, // NYC
-    color: "#4f46e5"
+    lat: 40.7128, lng: -74.0060, color: "#4f46e5"
   },
   {
-    id: 2,
-    title: "Sustainable Energy Grid Deployment",
-    category: "Energy",
-    region: "Europe",
-    partners: ["Siemens", "EDF"],
-    description: "Developing and deploying sustainable energy solutions across European cities, promoting green power.",
+    id: 2, title: "Sustainable Energy Grid Deployment", category: "Energy", region: "Europe",
+    partners: ["Siemens", "EDF"], description: "Developing and deploying sustainable energy solutions across European cities, promoting green power.",
     image: "https://images.unsplash.com/photo-1466611653911-95081537e5b7?auto=format&fit=crop&q=80&w=800",
-    lat: 48.8566,
-    lng: 2.3522, // Paris
-    color: "#10b981"
+    lat: 48.8566, lng: 2.3522, color: "#10b981"
   },
   {
-    id: 3,
-    title: "Digital Healthcare Platform",
-    category: "Healthcare",
-    region: "Asia",
-    partners: ["Philips", "Telemed Asia"],
-    description: "Creating an accessible digital healthcare platform to connect patients with medical professionals remotely.",
+    id: 3, title: "Digital Healthcare Platform", category: "Healthcare", region: "Asia",
+    partners: ["Philips", "Telemed Asia"], description: "Creating an accessible digital healthcare platform to connect patients with medical professionals remotely.",
     image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=800",
-    lat: 35.6762,
-    lng: 139.6503, // Tokyo
-    color: "#8b5cf6"
+    lat: 35.6762, lng: 139.6503, color: "#8b5cf6"
   },
   {
-    id: 4,
-    title: "Blockchain Supply Chain Optimization",
-    category: "Logistics",
-    region: "South America",
-    partners: ["AgriChain", "LogiTech"],
-    description: "Implementing blockchain technology to optimize supply chain transparency and security.",
+    id: 4, title: "Blockchain Supply Chain Optimization", category: "Logistics", region: "South America",
+    partners: ["AgriChain", "LogiTech"], description: "Implementing blockchain technology to optimize supply chain transparency and security.",
     image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800",
-    lat: -23.5505,
-    lng: -46.6333, // Sao Paulo
-    color: "#ec4899"
+    lat: -23.5505, lng: -46.6333, color: "#ec4899"
   },
   {
-    id: 5,
-    title: "Smart City Infrastructure Project",
-    category: "Infrastructure",
-    region: "Africa",
-    partners: ["World Bank", "CityNet Africa"],
-    description: "Developing intelligent urban infrastructure to improve quality of life and resource management.",
+    id: 5, title: "Smart City Infrastructure Project", category: "Infrastructure", region: "Africa",
+    partners: ["World Bank", "CityNet Africa"], description: "Developing intelligent urban infrastructure to improve quality of life and resource management.",
     image: "https://images.unsplash.com/photo-1480714378408-67cf0d13bc1b?auto=format&fit=crop&q=80&w=800",
-    lat: -1.2921,
-    lng: 36.8219, // Nairobi
-    color: "#f59e0b"
+    lat: -1.2921, lng: 36.8219, color: "#f59e0b"
   }
 ];
 
 // --- Components ---
-
 const FilterSection = ({ title, options, isDarkMode }) => (
   <div className="mb-6">
-    <h3 className={`font-bold text-sm mb-3 transition-colors ${
-      isDarkMode ? 'text-gray-200' : 'text-gray-900'
-    }`}>
+    <h3 className={`font-bold text-sm mb-3 transition-colors ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
       {title}
     </h3>
     <div className="flex flex-wrap gap-2">
@@ -86,12 +53,8 @@ const FilterSection = ({ title, options, isDarkMode }) => (
           key={idx} 
           className={`px-4 py-1.5 border rounded-full text-xs font-medium transition-all duration-200 ${
             idx === 0 
-              ? (isDarkMode 
-                  ? 'text-white border-gray-600 bg-gray-700 shadow-sm' 
-                  : 'text-gray-900 border-gray-300 bg-gray-50 shadow-sm')
-              : (isDarkMode 
-                  ? 'text-gray-400 bg-gray-900 border-gray-800 hover:bg-gray-800 hover:text-white' 
-                  : 'text-gray-600 bg-white border-gray-200 hover:bg-gray-50 hover:border-gray-300')
+              ? (isDarkMode ? 'text-white border-gray-600 bg-gray-700 shadow-sm' : 'text-gray-900 border-gray-300 bg-gray-50 shadow-sm')
+              : (isDarkMode ? 'text-gray-400 bg-gray-900 border-gray-800 hover:bg-gray-800 hover:text-white' : 'text-gray-600 bg-white border-gray-200 hover:bg-gray-50 hover:border-gray-300')
           }`}
         >
           {opt}
@@ -101,159 +64,212 @@ const FilterSection = ({ title, options, isDarkMode }) => (
   </div>
 );
 
-const ProjectCard = ({ project, isDarkMode }) => (
-  <div className={`border rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 mb-6 group flex flex-col ${
-    isDarkMode ? 'bg-gray-900 border-gray-800 hover:border-gray-700' : 'bg-white border-gray-200 hover:border-blue-200'
-  }`}>
+const ProjectCard = ({ project, isDarkMode, isHovered, onMouseEnter, onMouseLeave }) => (
+  <div 
+    onMouseEnter={onMouseEnter}
+    onMouseLeave={onMouseLeave}
+    className={`border rounded-xl overflow-hidden transition-all duration-300 mb-6 group flex flex-col cursor-pointer ${
+      isDarkMode 
+        ? `bg-gray-900 ${isHovered ? 'border-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.3)] -translate-y-1' : 'border-gray-800 hover:border-gray-700 shadow-sm'}` 
+        : `bg-white ${isHovered ? 'border-blue-500 shadow-lg shadow-blue-500/20 -translate-y-1' : 'border-gray-200 hover:border-blue-200 shadow-sm'}`
+    }`}
+  >
     <div className="h-40 w-full overflow-hidden relative">
-      <img 
-        src={project.image} 
-        alt={project.title} 
-        className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
-      />
+      <img src={project.image} alt={project.title} className={`w-full h-full object-cover transform transition-transform duration-500 ${isHovered ? 'scale-105' : 'group-hover:scale-105'}`} />
     </div>
     <div className="p-5 flex flex-col flex-grow">
-      <h3 className={`font-bold text-lg mb-3 leading-tight transition-colors ${
-        isDarkMode ? 'text-white group-hover:text-blue-400' : 'text-gray-900 group-hover:text-blue-700'
-      }`}>
+      <h3 className={`font-bold text-lg mb-3 leading-tight transition-colors ${isDarkMode ? 'text-white' : 'text-gray-900'} ${isHovered ? (isDarkMode ? 'text-blue-400' : 'text-blue-700') : 'group-hover:text-blue-600'}`}>
         {project.title}
       </h3>
-      
       <div className="flex flex-wrap gap-2 mb-3">
         <span className="bg-[#1e3a8a] text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wide">
           {project.region}
         </span>
         {project.partners.map((partner, i) => (
-          <span key={i} className={`text-[10px] font-medium px-3 py-1 rounded-full border transition-colors ${
-            isDarkMode ? 'bg-gray-800 text-gray-300 border-gray-700' : 'bg-white text-gray-600 border-gray-200'
-          }`}>
+          <span key={i} className={`text-[10px] font-medium px-3 py-1 rounded-full border transition-colors ${isDarkMode ? 'bg-gray-800 text-gray-300 border-gray-700' : 'bg-white text-gray-600 border-gray-200'}`}>
             {partner}
           </span>
         ))}
       </div>
-      
-      <p className={`text-xs leading-relaxed mt-1 transition-colors ${
-        isDarkMode ? 'text-gray-400' : 'text-gray-500'
-      }`}>
+      <p className={`text-xs leading-relaxed mt-1 transition-colors ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
         {project.description}
       </p>
     </div>
   </div>
 );
 
-// --- Main App ---
-
 export default function ProjectsPage() {
-  const { isDarkMode } = useTheme(); // <-- Get the global theme state
-  
-  const globeRef = useRef();
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  const [showFooter, setShowFooter] = useState(true);
-  const containerRef = useRef(null);
-  const sidebarRef = useRef(null);
-  const scrollTimeoutRef = useRef(null);
+  const { isDarkMode } = useTheme(); 
 
-  // Handle globe resizing
-  useEffect(() => {
-    function handleResize() {
-      if (containerRef.current) {
-        setDimensions({
-          width: containerRef.current.offsetWidth,
-          height: containerRef.current.offsetHeight
-        });
-      }
-    }
-    window.addEventListener('resize', handleResize);
-    handleResize(); // Initial size
-    
-    // Auto-rotate globe
-    if (globeRef.current) {
-      globeRef.current.controls().autoRotate = true;
-      globeRef.current.controls().autoRotateSpeed = 0.5;
-    }
+  // --- Search & Interaction State ---
+  const [searchQuery, setSearchQuery] = useState("");
+  const [hoveredProject, setHoveredProject] = useState(null); 
 
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
+  // --- Map Zoom State ---
+  const [position, setPosition] = useState({ coordinates: [0, 20], zoom: 1 }); 
 
-  // Handle scroll to auto-hide/show footer
-  useEffect(() => {
-    const sidebar = sidebarRef.current;
-    if (!sidebar) return;
+  const handleZoomIn = () => {
+    if (position.zoom >= 8) return;
+    setPosition((pos) => ({ ...pos, zoom: pos.zoom * 1.2 }));
+  };
 
-    function handleScroll() {
-      setShowFooter(false);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-      scrollTimeoutRef.current = setTimeout(() => {
-        setShowFooter(true);
-      }, 1500);
-    }
+  const handleZoomOut = () => {
+    if (position.zoom <= 1) return;
+    setPosition((pos) => ({ ...pos, zoom: Math.max(1, pos.zoom / 1.2) }));
+  };
 
-    sidebar.addEventListener('scroll', handleScroll);
-    return () => {
-      sidebar.removeEventListener('scroll', handleScroll);
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-      }
-    };
-  }, []);
+  const handleMoveEnd = (position) => {
+    setPosition(position);
+  };
+
+  // --- Filtering Logic ---
+  const filteredProjects = PROJECTS.filter((project) => {
+    if (!searchQuery) return true; 
+
+    const lowerQuery = searchQuery.toLowerCase();
+    return (
+      project.title.toLowerCase().includes(lowerQuery) ||
+      project.description.toLowerCase().includes(lowerQuery) ||
+      project.region.toLowerCase().includes(lowerQuery) ||
+      project.partners.some(partner => partner.toLowerCase().includes(lowerQuery))
+    );
+  });
 
   return (
     <div className={`flex flex-col h-screen font-sans overflow-hidden transition-colors duration-300 ${
       isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'
     }`}>
       
-      <header className={`relative top-0 z-50 w-full border-b shadow-sm transition-colors duration-300 ${
+      {/* HEADER */}
+      <header className={`flex-none relative top-0 z-50 w-full border-b shadow-sm transition-colors duration-300 ${
         isDarkMode ? 'bg-black border-gray-800' : 'bg-white border-gray-100'
       }`}>
-        {/* NavBar handles its own theme */}
         <NavBar />
       </header>
 
+      {/* MAIN CONTENT AREA */}
       <main className="flex flex-1 overflow-hidden relative transition-all duration-300 ease-in-out"> 
         
-        {/* LEFT COLUMN: INTERACTIVE GLOBE */}
-        <div ref={containerRef} className="flex-1 bg-slate-900 relative overflow-hidden">
-          {dimensions.width > 0 && (
-            <Globe
-              ref={globeRef}
-              width={dimensions.width}
-              height={dimensions.height}
-              globeImageUrl={globeImg}
-              backgroundImageUrl={skyImg}
-              pointsData={PROJECTS}
-              pointLat="lat"
-              pointLng="lng"
-              pointColor="color"
-              pointAltitude={0.1}
-              pointRadius={0.5}
-              atmosphereColor="#3b82f6"
-              atmosphereAltitude={0.25}
-            />
-          )}
+        {/* LEFT COLUMN: 2D INTERACTIVE MAP */}
+        <div className={`flex-1 relative overflow-hidden flex items-center justify-center transition-colors duration-300 ${
+          isDarkMode ? 'bg-[#0f172a]' : 'bg-[#e0e7ff]' 
+        }`}>
           
-          {/* Map pins description overlay */}
-          <div className="absolute bottom-8 left-8 z-10 bg-black/40 backdrop-blur-md px-5 py-3 rounded-xl border border-white/10 shadow-lg">
-             <div className="flex items-center space-x-3 text-white text-xs font-medium">
-                <MapPin size={16} className="text-blue-400" />
-                <span>Interact to explore global project locations</span>
+          <ComposableMap 
+            projection="geoMercator"
+            projectionConfig={{ scale: 130 }} 
+            width={800} 
+            height={600}
+            className="w-full h-full outline-none"
+            style={{ width: "100%", height: "100%" }}
+          >
+            <ZoomableGroup 
+              zoom={position.zoom} 
+              center={position.coordinates} 
+              onMoveEnd={handleMoveEnd}
+              minZoom={1} 
+              maxZoom={8}
+              translateExtent={[[-50, -50], [850, 650]]}
+            >
+              <Geographies geography={geoUrl}>
+                {({ geographies }) =>
+                  geographies.map((geo) => (
+                    <Geography
+                      key={geo.rsmKey}
+                      geography={geo}
+                      fill={isDarkMode ? "#1f2937" : "#ffffff"} 
+                      stroke={isDarkMode ? "#374151" : "#cbd5e1"} 
+                      strokeWidth={0.5}
+                      style={{
+                        default: { outline: "none" },
+                        hover: { fill: isDarkMode ? "#4b5563" : "#f1f5f9", outline: "none", cursor: "pointer" },
+                        pressed: { outline: "none" },
+                      }}
+                    />
+                  ))
+                }
+              </Geographies>
+
+              {/* DYNAMIC PINS WITH HOVER LOGIC */}
+              {filteredProjects.map((project) => {
+                const isHovered = hoveredProject === project.id;
+                const scale = 1 / position.zoom;
+                const activeScale = isHovered ? scale * 1.4 : scale; 
+                const showText = position.zoom > 1.5 || isHovered; 
+
+                return (
+                  <Marker 
+                    key={project.id} 
+                    coordinates={[project.lng, project.lat]}
+                    onMouseEnter={() => setHoveredProject(project.id)}
+                    onMouseLeave={() => setHoveredProject(null)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <circle 
+                      r={14 * activeScale} 
+                      fill={project.color} 
+                      opacity={isHovered ? 0.6 : 0.3} 
+                      style={{ transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)" }}
+                    />
+                    <circle 
+                      r={5 * activeScale} 
+                      fill={project.color} 
+                      stroke={isDarkMode ? "#0f172a" : "#e0e7ff"} 
+                      strokeWidth={2 * scale} 
+                      style={{ transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)" }}
+                    />
+                    <text
+                      textAnchor="middle"
+                      y={-22 * activeScale} 
+                      style={{ 
+                        fontFamily: "system-ui, sans-serif", fill: isDarkMode ? "#f8fafc" : "#0f172a", 
+                        fontSize: `${11 * activeScale}px`, fontWeight: "800", pointerEvents: "none",
+                        opacity: showText ? 1 : 0, transition: "all 0.3s ease-in-out",
+                        stroke: isDarkMode ? "#000000" : "#ffffff", strokeWidth: `${3 * scale}px`,
+                        paintOrder: "stroke fill", strokeLinejoin: "round",
+                      }}
+                    >
+                      {project.title}
+                    </text>
+                  </Marker>
+                );
+              })}
+            </ZoomableGroup>
+          </ComposableMap>
+          
+          <div className={`absolute bottom-8 left-8 z-10 backdrop-blur-md px-5 py-3 rounded-xl border shadow-lg transition-colors ${
+            isDarkMode ? 'bg-black/40 border-white/10' : 'bg-white/70 border-gray-200'
+          }`}>
+             <div className={`flex items-center space-x-3 text-xs font-medium ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
+                <MapPin size={16} className="text-blue-500" />
+                <span>Pan & zoom to explore global projects</span>
              </div>
+          </div>
+
+          <div className={`absolute right-8 top-8 z-10 flex flex-col gap-2 rounded-lg border shadow-sm overflow-hidden backdrop-blur-md transition-colors ${
+            isDarkMode ? 'bg-black/40 border-gray-700' : 'bg-white/80 border-gray-200'
+          }`}>
+            <button onClick={handleZoomIn} className={`p-2 transition-colors ${isDarkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'}`}>
+              <ZoomIn size={18} />
+            </button>
+            <div className={`h-px w-full ${isDarkMode ? 'bg-gray-700' : 'bg-gray-200'}`} />
+            <button 
+              onClick={handleZoomOut} disabled={position.zoom <= 1}
+              className={`p-2 transition-colors disabled:opacity-50 disabled:cursor-not-allowed ${isDarkMode ? 'hover:bg-gray-700 text-gray-300' : 'hover:bg-gray-100 text-gray-700'}`}
+            >
+              <ZoomOut size={18} />
+            </button>
           </div>
         </div>
 
         {/* RIGHT COLUMN: SIDEBAR */}
         <div 
-          ref={sidebarRef} 
           className={`w-full lg:w-[480px] flex-shrink-0 border-l overflow-y-auto custom-scrollbar transition-colors duration-300 ${
             isDarkMode ? 'bg-gray-900/50 border-gray-800' : 'bg-gray-50/50 border-gray-200'
           }`}
         >
           <div className="p-8">
-            
-            <h2 className={`text-2xl font-bold mb-5 transition-colors ${
-              isDarkMode ? 'text-white' : 'text-gray-900'
-            }`}>
+            <h2 className={`text-2xl font-bold mb-5 transition-colors ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
               Find Projects
             </h2>
             
@@ -261,61 +277,48 @@ export default function ProjectsPage() {
               <Search className={`absolute left-3.5 top-3 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} size={16} />
               <input 
                 type="text" 
-                placeholder="Search projects..." 
+                placeholder="Search projects by title, region, or partner..." 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 className={`w-full pl-10 pr-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-1 transition-all ${
-                  isDarkMode 
-                    ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500' 
-                    : 'bg-white border-gray-200 text-gray-900 focus:border-blue-600 focus:ring-blue-600'
+                  isDarkMode ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500' : 'bg-white border-gray-200 text-gray-900 focus:border-blue-600 focus:ring-blue-600'
                 }`}
               />
             </div>
 
-            <FilterSection 
-              title="Region" 
-              options={["All", "North America", "Europe", "Asia", "South America", "Africa"]} 
-              isDarkMode={isDarkMode}
-            />
-            
-            <FilterSection 
-              title="Partners" 
-              options={["All", "IBM", "Microsoft", "Siemens", "EDF", "Philips", "Telemed Asia", "AgriChain Solutions", "World Bank", "CityNet Africa"]} 
-              isDarkMode={isDarkMode}
-            />
-
-            <FilterSection 
-              title="Case Studies" 
-              options={["All", "AI Transformation at Scale", "Green Energy for Smart Cities", "Healthcare Access in Rural Asia", "Transparent Food Supply", "Smart Cities for a Brighter Future", "Urban Innovation"]} 
-              isDarkMode={isDarkMode}
-            />
+            <FilterSection title="Region" options={["All", "North America", "Europe", "Asia", "South America", "Africa"]} isDarkMode={isDarkMode} />
+            <FilterSection title="Partners" options={["All", "IBM", "Microsoft", "Siemens", "EDF", "Philips", "Telemed Asia", "AgriChain Solutions", "World Bank", "CityNet Africa"]} isDarkMode={isDarkMode} />
+            <FilterSection title="Case Studies" options={["All", "AI Transformation at Scale", "Green Energy for Smart Cities", "Healthcare Access in Rural Asia", "Transparent Food Supply", "Smart Cities for a Brighter Future", "Urban Innovation"]} isDarkMode={isDarkMode} />
 
             <div className={`my-8 h-px transition-colors ${isDarkMode ? 'bg-gray-800' : 'bg-gray-200'}`} />
 
             <div className="flex justify-between items-center mb-6">
-              <h2 className={`text-lg font-bold transition-colors ${
-                isDarkMode ? 'text-white' : 'text-gray-900'
-              }`}>
-                Filtered Results ({PROJECTS.length})
+              <h2 className={`text-lg font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+                Filtered Results ({filteredProjects.length})
               </h2>
             </div>
 
             <div className="space-y-6">
-              {PROJECTS.map(project => (
-                <ProjectCard key={project.id} project={project} isDarkMode={isDarkMode} />
-              ))}
+              {filteredProjects.length > 0 ? (
+                filteredProjects.map(project => (
+                  <ProjectCard 
+                    key={project.id} 
+                    project={project} 
+                    isDarkMode={isDarkMode} 
+                    isHovered={hoveredProject === project.id}
+                    onMouseEnter={() => setHoveredProject(project.id)}
+                    onMouseLeave={() => setHoveredProject(null)}
+                  />
+                ))
+              ) : (
+                <div className={`text-sm text-center py-10 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                  No projects match your search. Try a different keyword!
+                </div>
+              )}
             </div>
           </div>
         </div>
       </main>
-
-      {/* FULL WIDTH FOOTER (Auto-Hiding based on scroll) */}
-      <div className={`transition-all duration-500 ease-in-out overflow-hidden border-t ${
-        showFooter ? 'opacity-100 max-h-[500px]' : 'opacity-0 max-h-0 border-t-0'
-      } ${
-        isDarkMode ? 'bg-black border-gray-800' : 'bg-gray-50 border-gray-200'
-      }`}>
-        {/* Footer handles its own theme context */}
-        <Footer />
-      </div>
     </div>
   );
 }
