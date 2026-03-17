@@ -3,11 +3,9 @@ import { ComposableMap, Geographies, Geography, ZoomableGroup, Marker } from "re
 import { Search, MapPin, ZoomIn, ZoomOut } from 'lucide-react';
 import { useTheme } from '../components/Context/ThemeContext';
 import NavBar from '../components/NavBar';
-// Removed Footer import
 
 const geoUrl = "https://unpkg.com/world-atlas@2.0.2/countries-110m.json";
 
-// --- Mock Data ---
 const PROJECTS = [
   {
     id: 1, title: "Global AI Integration Initiative", category: "Technology", region: "North America",
@@ -41,25 +39,28 @@ const PROJECTS = [
   }
 ];
 
-// --- Components ---
-const FilterSection = ({ title, options, isDarkMode }) => (
+const FilterSection = ({ title, options, activeFilter, onFilterChange, isDarkMode }) => (
   <div className="mb-6">
     <h3 className={`font-bold text-sm mb-3 transition-colors ${isDarkMode ? 'text-gray-200' : 'text-gray-900'}`}>
       {title}
     </h3>
     <div className="flex flex-wrap gap-2">
-      {options.map((opt, idx) => (
-        <button 
-          key={idx} 
-          className={`px-4 py-1.5 border rounded-full text-xs font-medium transition-all duration-200 ${
-            idx === 0 
-              ? (isDarkMode ? 'text-white border-gray-600 bg-gray-700 shadow-sm' : 'text-gray-900 border-gray-300 bg-gray-50 shadow-sm')
-              : (isDarkMode ? 'text-gray-400 bg-gray-900 border-gray-800 hover:bg-gray-800 hover:text-white' : 'text-gray-600 bg-white border-gray-200 hover:bg-gray-50 hover:border-gray-300')
-          }`}
-        >
-          {opt}
-        </button>
-      ))}
+      {options.map((opt, idx) => {
+        const isActive = activeFilter === opt;
+        return (
+          <button 
+            key={idx} 
+            onClick={() => onFilterChange(opt)}
+            className={`px-4 py-1.5 border rounded-full text-xs font-medium transition-all duration-200 ${
+              isActive 
+                ? (isDarkMode ? 'text-white border-blue-500 bg-blue-600 shadow-sm' : 'text-white border-blue-600 bg-blue-600 shadow-sm')
+                : (isDarkMode ? 'text-gray-400 bg-gray-900 border-gray-800 hover:bg-gray-800 hover:text-white' : 'text-gray-600 bg-white border-gray-200 hover:bg-gray-50 hover:border-gray-300')
+            }`}
+          >
+            {opt}
+          </button>
+        );
+      })}
     </div>
   </div>
 );
@@ -101,12 +102,13 @@ const ProjectCard = ({ project, isDarkMode, isHovered, onMouseEnter, onMouseLeav
 export default function ProjectsPage() {
   const { isDarkMode } = useTheme(); 
 
-  // --- Search & Interaction State ---
   const [searchQuery, setSearchQuery] = useState("");
   const [hoveredProject, setHoveredProject] = useState(null); 
-
-  // --- Map Zoom State ---
   const [position, setPosition] = useState({ coordinates: [0, 20], zoom: 1 }); 
+
+  const [regionFilter, setRegionFilter] = useState("All");
+  const [partnerFilter, setPartnerFilter] = useState("All");
+  const [categoryFilter, setCategoryFilter] = useState("All");
 
   const handleZoomIn = () => {
     if (position.zoom >= 8) return;
@@ -118,43 +120,38 @@ export default function ProjectsPage() {
     setPosition((pos) => ({ ...pos, zoom: Math.max(1, pos.zoom / 1.2) }));
   };
 
-  const handleMoveEnd = (position) => {
-    setPosition(position);
-  };
-
-  // --- Filtering Logic ---
   const filteredProjects = PROJECTS.filter((project) => {
-    if (!searchQuery) return true; 
+    if (searchQuery) {
+      const lowerQuery = searchQuery.toLowerCase();
+      return (
+        project.title.toLowerCase().includes(lowerQuery) ||
+        project.description.toLowerCase().includes(lowerQuery) ||
+        project.region.toLowerCase().includes(lowerQuery) ||
+        project.partners.some(partner => partner.toLowerCase().includes(lowerQuery))
+      );
+    }
 
-    const lowerQuery = searchQuery.toLowerCase();
-    return (
-      project.title.toLowerCase().includes(lowerQuery) ||
-      project.description.toLowerCase().includes(lowerQuery) ||
-      project.region.toLowerCase().includes(lowerQuery) ||
-      project.partners.some(partner => partner.toLowerCase().includes(lowerQuery))
-    );
+    const matchRegion = regionFilter === "All" || project.region === regionFilter;
+    const matchPartner = partnerFilter === "All" || project.partners.includes(partnerFilter);
+    const matchCategory = categoryFilter === "All" || project.category === categoryFilter;
+
+    return matchRegion && matchPartner && matchCategory;
   });
 
   return (
     <div className={`flex flex-col h-screen font-sans overflow-hidden transition-colors duration-300 ${
       isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'
     }`}>
-      
-      {/* HEADER */}
       <header className={`flex-none relative top-0 z-50 w-full border-b shadow-sm transition-colors duration-300 ${
         isDarkMode ? 'bg-black border-gray-800' : 'bg-white border-gray-100'
       }`}>
         <NavBar />
       </header>
 
-      {/* MAIN CONTENT AREA */}
       <main className="flex flex-1 overflow-hidden relative transition-all duration-300 ease-in-out"> 
-        
-        {/* LEFT COLUMN: 2D INTERACTIVE MAP */}
         <div className={`flex-1 relative overflow-hidden flex items-center justify-center transition-colors duration-300 ${
           isDarkMode ? 'bg-[#0f172a]' : 'bg-[#e0e7ff]' 
         }`}>
-          
           <ComposableMap 
             projection="geoMercator"
             projectionConfig={{ scale: 130 }} 
@@ -166,10 +163,10 @@ export default function ProjectsPage() {
             <ZoomableGroup 
               zoom={position.zoom} 
               center={position.coordinates} 
-              onMoveEnd={handleMoveEnd}
+              onMoveEnd={setPosition}
               minZoom={1} 
               maxZoom={8}
-              translateExtent={[[-50, -50], [850, 650]]}
+              translateExtent={[[0, 0], [800, 600]]}
             >
               <Geographies geography={geoUrl}>
                 {({ geographies }) =>
@@ -190,12 +187,10 @@ export default function ProjectsPage() {
                 }
               </Geographies>
 
-              {/* DYNAMIC PINS WITH HOVER LOGIC */}
               {filteredProjects.map((project) => {
                 const isHovered = hoveredProject === project.id;
                 const scale = 1 / position.zoom;
                 const activeScale = isHovered ? scale * 1.4 : scale; 
-                const showText = position.zoom > 1.5 || isHovered; 
 
                 return (
                   <Marker 
@@ -218,19 +213,6 @@ export default function ProjectsPage() {
                       strokeWidth={2 * scale} 
                       style={{ transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)" }}
                     />
-                    <text
-                      textAnchor="middle"
-                      y={-22 * activeScale} 
-                      style={{ 
-                        fontFamily: "system-ui, sans-serif", fill: isDarkMode ? "#f8fafc" : "#0f172a", 
-                        fontSize: `${11 * activeScale}px`, fontWeight: "800", pointerEvents: "none",
-                        opacity: showText ? 1 : 0, transition: "all 0.3s ease-in-out",
-                        stroke: isDarkMode ? "#000000" : "#ffffff", strokeWidth: `${3 * scale}px`,
-                        paintOrder: "stroke fill", strokeLinejoin: "round",
-                      }}
-                    >
-                      {project.title}
-                    </text>
                   </Marker>
                 );
               })}
@@ -242,7 +224,7 @@ export default function ProjectsPage() {
           }`}>
              <div className={`flex items-center space-x-3 text-xs font-medium ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
                 <MapPin size={16} className="text-blue-500" />
-                <span>Pan & zoom to explore global projects</span>
+                <span>Pan & scroll to explore global projects</span>
              </div>
           </div>
 
@@ -262,9 +244,7 @@ export default function ProjectsPage() {
           </div>
         </div>
 
-        {/* RIGHT COLUMN: SIDEBAR */}
-        <div 
-          className={`w-full lg:w-[480px] flex-shrink-0 border-l overflow-y-auto custom-scrollbar transition-colors duration-300 ${
+        <div className={`w-full lg:w-[480px] flex-shrink-0 border-l overflow-y-auto custom-scrollbar transition-colors duration-300 ${
             isDarkMode ? 'bg-gray-900/50 border-gray-800' : 'bg-gray-50/50 border-gray-200'
           }`}
         >
@@ -286,11 +266,32 @@ export default function ProjectsPage() {
               />
             </div>
 
-            <FilterSection title="Region" options={["All", "North America", "Europe", "Asia", "South America", "Africa"]} isDarkMode={isDarkMode} />
-            <FilterSection title="Partners" options={["All", "IBM", "Microsoft", "Siemens", "EDF", "Philips", "Telemed Asia", "AgriChain Solutions", "World Bank", "CityNet Africa"]} isDarkMode={isDarkMode} />
-            <FilterSection title="Case Studies" options={["All", "AI Transformation at Scale", "Green Energy for Smart Cities", "Healthcare Access in Rural Asia", "Transparent Food Supply", "Smart Cities for a Brighter Future", "Urban Innovation"]} isDarkMode={isDarkMode} />
-
-            <div className={`my-8 h-px transition-colors ${isDarkMode ? 'bg-gray-800' : 'bg-gray-200'}`} />
+            {!searchQuery && (
+              <>
+                <FilterSection 
+                  title="Region" 
+                  options={["All", "North America", "Europe", "Asia", "South America", "Africa"]} 
+                  activeFilter={regionFilter}
+                  onFilterChange={setRegionFilter}
+                  isDarkMode={isDarkMode} 
+                />
+                <FilterSection 
+                  title="Partners" 
+                  options={["All", "IBM", "Microsoft", "Siemens", "EDF", "Philips", "Telemed Asia", "AgriChain", "LogiTech", "World Bank", "CityNet Africa"]} 
+                  activeFilter={partnerFilter}
+                  onFilterChange={setPartnerFilter}
+                  isDarkMode={isDarkMode} 
+                />
+                <FilterSection 
+                  title="Category" 
+                  options={["All", "Technology", "Energy", "Healthcare", "Logistics", "Infrastructure"]} 
+                  activeFilter={categoryFilter}
+                  onFilterChange={setCategoryFilter}
+                  isDarkMode={isDarkMode} 
+                />
+                <div className={`my-8 h-px transition-colors ${isDarkMode ? 'bg-gray-800' : 'bg-gray-200'}`} />
+              </>
+            )}
 
             <div className="flex justify-between items-center mb-6">
               <h2 className={`text-lg font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
@@ -312,7 +313,7 @@ export default function ProjectsPage() {
                 ))
               ) : (
                 <div className={`text-sm text-center py-10 ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-                  No projects match your search. Try a different keyword!
+                  No projects match your search criteria. Try adjusting your filters!
                 </div>
               )}
             </div>
