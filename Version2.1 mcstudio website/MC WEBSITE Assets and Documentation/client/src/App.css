@@ -1,9 +1,19 @@
-
 @import "tailwindcss";
 
-/*
+/* Ensure the root containers have height */
+@layer base {
+  html, body, #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #000; /* Dark background for the globe */
+    color: white;
+  }
+}
 
-@theme{
-    --font-display:'Roboto';
+/* Optional: Custom Font */
+/*
+@theme {
+  --font-display: 'Roboto';
 }
 */

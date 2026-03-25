@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@react-spring/web": "^10.0.3",
     "@tailwindcss/vite": "^4.0.2",
     "axios": "^1.7.9",
+    "cobe": "^2.0.1",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "lucide-react": "^0.563.0",
