@@ -1,27 +1,35 @@
+import React from 'react';
 
-
-const OurStartUpComponent = ({pic, title,stage, subTitle, solution, services}) => {
+const OurStartUpComponent = ({ isDarkMode, pic, title, subTitle, stage, solution, services }) => {
   return (
-    <div className=" bg-white/80 py-6 px-6 sm:px-3 h-fit max-w-70 sm:max-w-50 flex-shrink-0 sm:w-fit  shadow-black/10 shadow-md rounded-lg">
-      <img
-        src={pic}
-        alt="replaceable host"
-        className="w-20 h-20 rounded-[50%]"
+    <div className={`min-w-[300px] w-[300px] p-6 shadow-md rounded-lg flex-shrink-0 transition-colors duration-300 ${
+      isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-white border border-gray-200'
+    }`}>
+      <img 
+        src={pic} 
+        alt={`${title} logo`} 
+        className="w-16 h-16 rounded-full object-cover mb-4" 
       />
-      <h1 className="font-extrabold py-4">{title}</h1>
-      <div className="flex gap-4  flex-wrap">
-        <p className=" text-xs font-semibold text-white/80 px-2 rounded-xl py-1 bg-indigo-600">
-          {subTitle}
-        </p>
-        <p className="text-xs font-semibold text-white/80 px-2 rounded-xl py-1 bg-cyan-600">
-          {stage}
-        </p>
-      </div>
-      <p className="text-sm py-4 text-black/60">
+      <h3 className={`font-bold text-lg transition-colors duration-300 ${
+        isDarkMode ? 'text-white' : 'text-gray-900'
+      }`}>
+        {title}
+      </h3>
+      <p className={`text-xs font-semibold mb-3 mt-1 transition-colors duration-300 ${
+        isDarkMode ? 'text-blue-400' : 'text-blue-600'
+      }`}>
+        {subTitle} • {stage}
+      </p>
+      <p className={`text-sm mb-4 line-clamp-3 transition-colors duration-300 ${
+        isDarkMode ? 'text-gray-300' : 'text-gray-600'
+      }`}>
         {solution}
       </p>
-      <div className="text-sm text-black/60">
-        <span className="text-black/80 font-semibold">Services:</span> {services}
+      <div className="pt-2 border-t border-gray-200 dark:border-gray-700">
+        <span className={`text-xs font-semibold block mb-2 ${
+          isDarkMode ? 'text-gray-400' : 'text-gray-500'
+        }`}>Services:</span>
+        {services}
       </div>
     </div>
   );

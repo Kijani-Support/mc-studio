@@ -1,30 +1,46 @@
+import React from 'react';
 
-
-
-
-
-const FeaturedStartUpsComponent = ({pic, title, field, stage, description, services}) => {
+const FeaturedStartUpsComponent = ({ isDarkMode, pic, title, field, stage, description, services }) => {
   return (
-    <div className=" bg-cyan-200 p-6 h-fit   shadow-black/50 shadow-lg rounded-lg">
+    <div className={`p-6 h-fit shadow-lg rounded-lg transition-colors duration-300 ${
+      isDarkMode ? 'bg-gray-800 shadow-black/80' : 'bg-cyan-200 shadow-black/50'
+    }`}>
       <img
         src={pic}
-        alt="replaceable host"
-        className="w-20 h-20 rounded-[50%]"
+        alt={`${title} logo`}
+        className="w-20 h-20 rounded-[50%] object-cover"
       />
-      <h1 className="font-extrabold py-4">{title}</h1>
-      <div className="flex gap-4  flex-wrap">
-        <p className=" text-xs font-semibold text-white/80 px-2 rounded-xl py-1 bg-indigo-600">
+      <h1 className={`font-extrabold py-4 transition-colors duration-300 ${
+        isDarkMode ? 'text-white' : 'text-gray-900'
+      }`}>
+        {title}
+      </h1>
+      
+      <div className="flex gap-4 flex-wrap">
+        <p className={`text-xs font-semibold px-3 rounded-xl py-1 transition-colors duration-300 ${
+          isDarkMode ? 'bg-indigo-500 text-white' : 'bg-indigo-600 text-white/90'
+        }`}>
           {field}
         </p>
-        <p className="text-xs font-semibold text-white/80 px-2 rounded-xl py-1 bg-cyan-600">
+        <p className={`text-xs font-semibold px-3 rounded-xl py-1 transition-colors duration-300 ${
+          isDarkMode ? 'bg-cyan-700 text-white' : 'bg-cyan-600 text-white/90'
+        }`}>
           {stage}
         </p>
       </div>
-      <p className="text-sm py-4 text-black/60">
+      
+      <p className={`text-sm py-4 transition-colors duration-300 ${
+        isDarkMode ? 'text-gray-300' : 'text-black/60'
+      }`}>
         {description}
       </p>
-      <div className="text-sm text-black/60">
-        <span className="text-black/80 font-semibold">Services:</span> {services}
+      
+      <div className={`text-sm transition-colors duration-300 ${
+        isDarkMode ? 'text-gray-300' : 'text-black/60'
+      }`}>
+        <span className={`font-semibold ${
+          isDarkMode ? 'text-gray-100' : 'text-black/80'
+        }`}>Services:</span> {services}
       </div>
     </div>
   );

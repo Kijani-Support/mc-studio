@@ -1,19 +1,17 @@
 import React, { useRef } from "react";
-import { useTheme } from "../components/Context/ThemeContext"; // <-- Import the custom hook
+import { useTheme } from "../components/Context/ThemeContext";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
 import Capture from "../assets/images/algo2.jpg";
-import OurStartUpComponent from "../components/directory_page/OurStartUpComponent"
-import FeaturedStartUpsComponent from "../components/directory_page/FeaturedStartUpsComponent"
+import OurStartUpComponent from "../components/directory_page/OurStartUpComponent";
+import FeaturedStartUpsComponent from "../components/directory_page/FeaturedStartUpsComponent";
 
-// Import icons for the services and filter section
 import { 
   Search, LayoutGrid, List, BrainCircuit, Cloud, Database, 
   Palette, Map, LineChart, Code, PenTool, ShieldCheck, 
   Cpu, Rocket, Network, ShoppingCart, Users, Glasses, Truck 
 } from 'lucide-react';
 
-// A helper component to render service tags beautifully
 const ServiceItem = ({ Icon, text, isDarkMode }) => (
   <span className={`inline-flex items-center gap-1.5 mr-3 mb-2 px-2.5 py-1 rounded-md text-xs font-medium transition-colors ${
     isDarkMode ? 'bg-gray-800 text-gray-300 border border-gray-700' : 'bg-blue-50 text-blue-800 border border-blue-100'
@@ -24,10 +22,7 @@ const ServiceItem = ({ Icon, text, isDarkMode }) => (
 );
 
 const StartUpDirectoryPage = () => {
-  // Get the global dark mode state
   const { isDarkMode } = useTheme();
-
-  // Our StartUps component side scrolling feature
   const scrollRef = useRef(null);
 
   const scrollLeft = () => {
@@ -46,7 +41,6 @@ const StartUpDirectoryPage = () => {
     <div className={`flex flex-col min-h-screen font-sans w-full overflow-x-hidden transition-colors duration-300 ${
       isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'
     }`}>
-      {/* NavBar handles its own theme via Context */}
       <NavBar />
 
       <main className="flex-grow">
@@ -77,7 +71,6 @@ const StartUpDirectoryPage = () => {
             isDarkMode ? 'border-gray-800 bg-gray-900/50' : 'border-gray-200 bg-white'
           }`}>
             
-            {/* Search Input */}
             <div className="relative w-full sm:w-1/2 md:w-1/3">
               <Search className={`absolute left-3 top-2.5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} size={16} />
               <input
@@ -91,7 +84,6 @@ const StartUpDirectoryPage = () => {
               />
             </div>
 
-            {/* Filter Buttons */}
             <div className="flex flex-wrap gap-3 justify-center items-center w-full sm:w-auto">
               <button className={`border rounded-md text-sm px-4 py-2 transition-colors ${
                 isDarkMode ? 'border-gray-700 bg-gray-800 hover:bg-gray-700 text-gray-300' : 'border-gray-300 bg-white hover:bg-gray-50'
@@ -104,7 +96,6 @@ const StartUpDirectoryPage = () => {
                 Stage
               </button>
 
-              {/* View Toggles (Replaced ||| and = with actual icons) */}
               <div className={`flex border rounded-md overflow-hidden transition-colors ${isDarkMode ? 'border-gray-700' : 'border-gray-300'}`}>
                 <button className={`p-2 transition-colors ${isDarkMode ? 'bg-gray-700 text-white' : 'bg-gray-200 text-gray-900'}`}>
                   <LayoutGrid size={16} />
@@ -193,7 +184,6 @@ const StartUpDirectoryPage = () => {
           <h2 className="font-extrabold text-2xl sm:text-3xl mb-10 max-w-7xl mx-auto">Our StartUps</h2>
 
           <div className="relative w-full max-w-7xl mx-auto">
-            {/* Left Scroll Button */}
             <button
               onClick={scrollLeft}
               className={`absolute -left-4 top-1/2 -translate-y-1/2 p-3 rounded-full shadow-lg z-10 transition-colors duration-300 hidden md:flex ${
@@ -313,7 +303,6 @@ const StartUpDirectoryPage = () => {
               />
             </div>
 
-            {/* Right Scroll Button */}
             <button
               onClick={scrollRight}
               className={`absolute -right-4 top-1/2 -translate-y-1/2 p-3 rounded-full shadow-lg z-10 transition-colors duration-300 hidden md:flex ${
@@ -325,8 +314,6 @@ const StartUpDirectoryPage = () => {
           </div>
         </section>
       </main>
-
-      {/* Footer handles its own theme via Context */}
       <Footer />
     </div>
   );

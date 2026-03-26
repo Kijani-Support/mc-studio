@@ -27,6 +27,7 @@ const PROJECTS = [
 // ─── ISOLATED GLOBE COMPONENT ──────────────────────────────────────────────
 const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
   const canvasRef = useRef();
+  const containerRef = useRef(); 
   
   const pointerRef = useRef(null);
   const [{ r }, api] = useSpring(() => ({ 
@@ -37,12 +38,14 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
   const basePhiRef = useRef(0);
   const thetaRef = useRef(0.2);
   
-  // Refs to prevent stale state inside the animation loop
   const markersRef = useRef([]);
   const hoveredRef = useRef(null);
 
+  // Sync React state into refs for the animation loop
   useEffect(() => {
     hoveredRef.current = hoveredProject;
+    
+    // Create markers with IDs exactly as Cobe expects for CSS Anchoring
     markersRef.current = filteredProjects.map(p => ({
       location: [p.lat, p.lng],
       size: hoveredProject === p.id ? 0.08 : 0.04,
@@ -51,16 +54,16 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
     }));
   }, [filteredProjects, hoveredProject]);
 
+  // Main WebGL Loop
   useEffect(() => {
     if (!canvasRef.current) return;
 
-    // FIX 1: Hardcoded internal WebGL resolution guarantees continents generate properly
-    const GLOBE_SIZE = 600 * 2; 
+    let currentWidth = canvasRef.current.offsetWidth || 500;
 
     const globe = createGlobe(canvasRef.current, {
       devicePixelRatio: 2,
-      width: GLOBE_SIZE,
-      height: GLOBE_SIZE,
+      width: currentWidth, // CSS and WebGL width must match for anchors to align
+      height: currentWidth,
       phi: basePhiRef.current,
       theta: thetaRef.current,
       dark: isDarkMode ? 1 : 0,
@@ -73,13 +76,16 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
       glowColor: isDarkMode ? [0.1, 0.1, 0.1] : [1, 1, 1],
       offset: [0, 0],
       markers: markersRef.current, 
-      // FIX 2: Removed onRender callback, migrating to animate loop below
     });
 
     let animationFrameId;
 
     const animate = () => {
-      // 1. Calculate physics and target rotations
+      // Re-measure in case the window resizes
+      if (canvasRef.current) {
+        currentWidth = canvasRef.current.offsetWidth;
+      }
+
       if (hoveredRef.current !== null) {
         const project = PROJECTS.find(p => p.id === hoveredRef.current);
         if (project) {
@@ -90,15 +96,17 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
         }
       } else {
         if (pointerRef.current === null) {
-          basePhiRef.current += 0.003; // Auto-spin
+          basePhiRef.current += 0.003; 
         }
-        thetaRef.current += (0.2 - thetaRef.current) * 0.08; // Return to base tilt
+        thetaRef.current += (0.2 - thetaRef.current) * 0.08; 
       }
 
-      // 2. Explicitly pass updated state to globe per official docs
+      // Explicitly update globe parameters on every frame
       globe.update({
         phi: basePhiRef.current + r.get(),
         theta: thetaRef.current,
+        width: currentWidth,
+        height: currentWidth,
         markers: markersRef.current
       });
 
@@ -114,7 +122,7 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
   }, [isDarkMode]); 
 
   return (
-    <div className="flex justify-center items-center w-full max-w-[600px] aspect-square relative z-10">
+    <div ref={containerRef} className="flex justify-center items-center w-full max-w-[600px] aspect-square relative z-10">
       
       <canvas
         ref={canvasRef}
@@ -147,25 +155,23 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
         }}
       />
 
-      {/* HTML Anchor Labels tied to Cobe Markers */}
+      {/* IMPLEMENTED: CSS Anchor Positioning exactly as documented */}
       {filteredProjects.map((p) => {
         const isHovered = hoveredProject === p.id;
         return (
           <div
             key={p.id}
-            className={`pointer-events-none px-2.5 py-1 rounded-md text-[10px] font-bold tracking-wider uppercase transition-all duration-300 ${
+            className={`pointer-events-none absolute whitespace-nowrap px-2 py-1 mb-2 rounded font-bold text-[10px] uppercase tracking-wider transition-all duration-300 ${
               isDarkMode 
-                ? 'bg-black/60 text-white border border-white/10 backdrop-blur-md' 
-                : 'bg-white/80 text-gray-900 border border-black/5 backdrop-blur-md'
-            } ${isHovered ? 'scale-110 shadow-lg' : 'scale-100 shadow-sm'}`}
+                ? 'bg-[#1a1a1a] text-white border border-white/10' 
+                : 'bg-white text-gray-900 border border-black/10 shadow-sm'
+            } ${isHovered ? 'scale-110 z-50' : 'scale-100 z-10'}`}
             style={{
-              position: 'absolute',
-              positionAnchor: `--cobe-project-${p.id}`,
+              positionAnchor: `--cobe-project-${p.id}`, // Links exactly to the marker ID
               bottom: 'anchor(top)',
               left: 'anchor(center)',
-              transform: 'translate(-50%, -10px)',
-              opacity: `var(--cobe-visible-project-${p.id}, 0)`,
-              zIndex: isHovered ? 50 : 10,
+              translate: '-50% 0', // Clean centering
+              opacity: `var(--cobe-visible-project-${p.id}, 0)`, // Automatically hides when behind globe
             }}
           >
             {p.region}
@@ -233,7 +239,9 @@ export default function ProjectsPage() {
 
       <main className="flex flex-1 overflow-hidden relative transition-all duration-300 ease-in-out">
         
+        {/* GLOBE AREA */}
         <div className={`flex-1 relative overflow-hidden flex items-center justify-center transition-colors duration-300 ${isDarkMode ? 'bg-[#050505]' : 'bg-[#eef2fa]'}`}>
+          
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             <div className={`w-[500px] h-[500px] rounded-full blur-[100px] opacity-30 ${isDarkMode ? 'bg-blue-600' : 'bg-blue-300'}`} />
           </div>
@@ -248,6 +256,7 @@ export default function ProjectsPage() {
           </div>
         </div>
 
+        {/* SIDEBAR AREA */}
         <div className={`w-full lg:w-[480px] flex-shrink-0 border-l overflow-y-auto custom-scrollbar transition-colors duration-300 ${isDarkMode ? 'bg-[#0a0a0a] border-gray-800' : 'bg-white border-gray-200 shadow-xl'}`}>
           <div className="p-8">
             <h2 className={`text-2xl font-bold mb-5 transition-colors ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Find Projects</h2>
