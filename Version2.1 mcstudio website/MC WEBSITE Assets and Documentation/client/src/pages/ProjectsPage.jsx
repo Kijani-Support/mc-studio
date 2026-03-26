@@ -41,7 +41,7 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
   const markersRef = useRef([]);
   const hoveredRef = useRef(null);
 
-  // Sync React state into refs for the animation loop
+  // Sync React state into refs so the animation loop doesn't trigger re-renders
   useEffect(() => {
     hoveredRef.current = hoveredProject;
     markersRef.current = filteredProjects.map(p => ({
@@ -52,44 +52,56 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
     }));
   }, [filteredProjects, hoveredProject]);
 
-  // Main WebGL Loop
+  // Main WebGL Engine
   useEffect(() => {
-    if (!canvasRef.current) return;
+    if (!canvasRef.current || !containerRef.current) return;
 
-    let currentWidth = canvasRef.current.offsetWidth || 500;
-
-    const globe = createGlobe(canvasRef.current, {
-      devicePixelRatio: 2,
-      width: currentWidth, 
-      height: currentWidth,
-      phi: basePhiRef.current,
-      theta: thetaRef.current,
-      dark: isDarkMode ? 1 : 0,
-      diffuse: 1.2,
-      scale: 1,
-      mapSamples: 16000,
-      mapBrightness: 6,
-      baseColor: isDarkMode ? [0.15, 0.15, 0.15] : [1, 1, 1], 
-      markerColor: [0.1, 0.6, 1], 
-      glowColor: isDarkMode ? [0.1, 0.1, 0.1] : [1, 1, 1],
-      offset: [0, 0],
-      markers: markersRef.current, 
-    });
-
+    let globe = null;
     let animationFrameId;
+    let currentWidth = 0;
+    
+    // Fallback to 2 for crispness on standard monitors
+    const dpr = window.devicePixelRatio || 2; 
+
+    // Function to build the globe once we have a valid width
+    const initGlobe = () => {
+      if (globe) globe.destroy();
+      
+      globe = createGlobe(canvasRef.current, {
+        devicePixelRatio: dpr,
+        width: currentWidth * dpr, // CRITICAL FIX: Multiply by DPR
+        height: currentWidth * dpr, // CRITICAL FIX: Multiply by DPR
+        phi: basePhiRef.current,
+        theta: thetaRef.current,
+        dark: isDarkMode ? 1 : 0,
+        diffuse: 1.2,
+        scale: 1,
+        mapSamples: 16000,
+        mapBrightness: 6,
+        baseColor: isDarkMode ? [0.15, 0.15, 0.15] : [1, 1, 1], 
+        markerColor: [0.1, 0.6, 1], 
+        glowColor: isDarkMode ? [0.1, 0.1, 0.1] : [1, 1, 1],
+        offset: [0, 0],
+        markers: markersRef.current, 
+      });
+    };
 
     const animate = () => {
-      if (canvasRef.current) {
-        currentWidth = canvasRef.current.offsetWidth;
-      }
+      if (!globe) return;
 
       if (hoveredRef.current !== null) {
         const project = PROJECTS.find(p => p.id === hoveredRef.current);
         if (project) {
           const targetPhi = -project.lng * (Math.PI / 180);
           const targetTheta = project.lat * (Math.PI / 180) * 0.45;
-          basePhiRef.current += (targetPhi - basePhiRef.current) * 0.08;
-          thetaRef.current += (targetTheta - thetaRef.current) * 0.08;
+          
+          // Shortest path rotation logic
+          let phiDiff = targetPhi - basePhiRef.current;
+          phiDiff = Math.atan2(Math.sin(phiDiff), Math.cos(phiDiff));
+          basePhiRef.current += phiDiff * 0.08;
+          
+          let thetaDiff = targetTheta - thetaRef.current;
+          thetaRef.current += thetaDiff * 0.08;
         }
       } else {
         if (pointerRef.current === null) {
@@ -101,26 +113,41 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
       globe.update({
         phi: basePhiRef.current + r.get(),
         theta: thetaRef.current,
-        width: currentWidth,
-        height: currentWidth,
+        width: currentWidth * dpr, // CRITICAL FIX: Keep sizing accurate per frame
+        height: currentWidth * dpr,
         markers: markersRef.current
       });
 
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    animate();
+    // CRITICAL FIX: ResizeObserver guarantees the globe never renders at 0x0 pixels
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const newWidth = entry.contentRect.width;
+        if (newWidth > 0 && newWidth !== currentWidth) {
+          currentWidth = newWidth;
+          if (!globe) {
+            initGlobe();
+            animate();
+          }
+        }
+      }
+    });
 
+    resizeObserver.observe(containerRef.current);
+
+    // Cleanup
     return () => {
+      resizeObserver.disconnect();
       cancelAnimationFrame(animationFrameId);
-      globe.destroy();
+      if (globe) globe.destroy();
     };
-  }, [isDarkMode]); 
+  }, [isDarkMode, r]); // Only re-run if theme changes
 
   return (
     <div ref={containerRef} className="flex justify-center items-center w-full max-w-[600px] aspect-square relative z-10">
       
-      {/* IMPLEMENTED: Pure CSS fallback for CSS Anchor Positioning */}
       <style>{`
         .marker-label {
           position: absolute;
@@ -129,7 +156,6 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
           translate: -50% 0;
         }
         
-        /* Alternative: show labels as a list in browsers without anchor positioning */
         @supports not ((position-anchor: --test) or (anchor-name: --test)) {
           .marker-label {
             bottom: auto;
@@ -137,7 +163,7 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
             right: 24px;
             top: var(--fallback-top);
             translate: 0 0;
-            opacity: 1 !important; /* Force visibility in fallback list */
+            opacity: 1 !important; 
           }
         }
       `}</style>
@@ -173,7 +199,6 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
         }}
       />
 
-      {/* RENDER LABELS */}
       {filteredProjects.map((p, index) => {
         const isHovered = hoveredProject === p.id;
         return (
@@ -185,11 +210,9 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
                 : 'bg-white text-gray-900 border border-black/10 shadow-sm'
             } ${isHovered ? 'scale-110 z-50 ring-2 ring-blue-500' : 'scale-100 z-10'}`}
             style={{
-              // Ties the element to the 3D marker
               positionAnchor: `--cobe-project-${p.id}`,
               opacity: `var(--cobe-visible-project-${p.id}, 0)`,
               zIndex: isHovered ? 50 : 10,
-              // Provides the vertical offset if the @supports fallback activates
               '--fallback-top': `${(index * 32) + 24}px`
             }}
           >
