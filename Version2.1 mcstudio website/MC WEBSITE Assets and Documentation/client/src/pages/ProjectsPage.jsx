@@ -44,8 +44,6 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
   // Sync React state into refs for the animation loop
   useEffect(() => {
     hoveredRef.current = hoveredProject;
-    
-    // Create markers with IDs exactly as Cobe expects for CSS Anchoring
     markersRef.current = filteredProjects.map(p => ({
       location: [p.lat, p.lng],
       size: hoveredProject === p.id ? 0.08 : 0.04,
@@ -62,7 +60,7 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
 
     const globe = createGlobe(canvasRef.current, {
       devicePixelRatio: 2,
-      width: currentWidth, // CSS and WebGL width must match for anchors to align
+      width: currentWidth, 
       height: currentWidth,
       phi: basePhiRef.current,
       theta: thetaRef.current,
@@ -81,7 +79,6 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
     let animationFrameId;
 
     const animate = () => {
-      // Re-measure in case the window resizes
       if (canvasRef.current) {
         currentWidth = canvasRef.current.offsetWidth;
       }
@@ -101,7 +98,6 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
         thetaRef.current += (0.2 - thetaRef.current) * 0.08; 
       }
 
-      // Explicitly update globe parameters on every frame
       globe.update({
         phi: basePhiRef.current + r.get(),
         theta: thetaRef.current,
@@ -124,6 +120,28 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
   return (
     <div ref={containerRef} className="flex justify-center items-center w-full max-w-[600px] aspect-square relative z-10">
       
+      {/* IMPLEMENTED: Pure CSS fallback for CSS Anchor Positioning */}
+      <style>{`
+        .marker-label {
+          position: absolute;
+          bottom: anchor(top);
+          left: anchor(center);
+          translate: -50% 0;
+        }
+        
+        /* Alternative: show labels as a list in browsers without anchor positioning */
+        @supports not ((position-anchor: --test) or (anchor-name: --test)) {
+          .marker-label {
+            bottom: auto;
+            left: auto;
+            right: 24px;
+            top: var(--fallback-top);
+            translate: 0 0;
+            opacity: 1 !important; /* Force visibility in fallback list */
+          }
+        }
+      `}</style>
+
       <canvas
         ref={canvasRef}
         style={{ 
@@ -155,23 +173,24 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
         }}
       />
 
-      {/* IMPLEMENTED: CSS Anchor Positioning exactly as documented */}
-      {filteredProjects.map((p) => {
+      {/* RENDER LABELS */}
+      {filteredProjects.map((p, index) => {
         const isHovered = hoveredProject === p.id;
         return (
           <div
             key={p.id}
-            className={`pointer-events-none absolute whitespace-nowrap px-2 py-1 mb-2 rounded font-bold text-[10px] uppercase tracking-wider transition-all duration-300 ${
+            className={`marker-label pointer-events-none whitespace-nowrap px-2 py-1 mb-2 rounded font-bold text-[10px] uppercase tracking-wider transition-all duration-300 ${
               isDarkMode 
                 ? 'bg-[#1a1a1a] text-white border border-white/10' 
                 : 'bg-white text-gray-900 border border-black/10 shadow-sm'
-            } ${isHovered ? 'scale-110 z-50' : 'scale-100 z-10'}`}
+            } ${isHovered ? 'scale-110 z-50 ring-2 ring-blue-500' : 'scale-100 z-10'}`}
             style={{
-              positionAnchor: `--cobe-project-${p.id}`, // Links exactly to the marker ID
-              bottom: 'anchor(top)',
-              left: 'anchor(center)',
-              translate: '-50% 0', // Clean centering
-              opacity: `var(--cobe-visible-project-${p.id}, 0)`, // Automatically hides when behind globe
+              // Ties the element to the 3D marker
+              positionAnchor: `--cobe-project-${p.id}`,
+              opacity: `var(--cobe-visible-project-${p.id}, 0)`,
+              zIndex: isHovered ? 50 : 10,
+              // Provides the vertical offset if the @supports fallback activates
+              '--fallback-top': `${(index * 32) + 24}px`
             }}
           >
             {p.region}
