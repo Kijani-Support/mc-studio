@@ -204,13 +204,17 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
         return (
           <div
             key={p.id}
-            className={`marker-label pointer-events-none whitespace-nowrap px-2 py-1 mb-2 rounded font-bold text-[10px] uppercase tracking-wider transition-all duration-300 ${
+            // CRITICAL FIX: Removed 'transition-all'. 
+            // We now use 'transition-colors' and 'transition-transform' so the physical x/y movement 
+            // and the opacity update instantly at 60fps without dragging behind the globe!
+            className={`marker-label pointer-events-none whitespace-nowrap px-2 py-1 mb-2 rounded font-bold text-[10px] uppercase tracking-wider transition-colors transition-transform duration-300 ${
               isDarkMode 
                 ? 'bg-[#1a1a1a] text-white border border-white/10' 
                 : 'bg-white text-gray-900 border border-black/10 shadow-sm'
             } ${isHovered ? 'scale-110 z-50 ring-2 ring-blue-500' : 'scale-100 z-10'}`}
             style={{
               positionAnchor: `--cobe-project-${p.id}`,
+              // Cobe handles the fade math dynamically (e.g., 0.99 to 0), so it doesn't need CSS transitions
               opacity: `var(--cobe-visible-project-${p.id}, 0)`,
               zIndex: isHovered ? 50 : 10,
               '--fallback-top': `${(index * 32) + 24}px`
