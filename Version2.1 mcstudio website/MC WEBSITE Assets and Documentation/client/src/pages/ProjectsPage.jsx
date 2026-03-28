@@ -69,13 +69,13 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
       
       globe = createGlobe(canvasRef.current, {
         devicePixelRatio: dpr,
-        width: currentWidth * dpr, // CRITICAL FIX: Multiply by DPR
-        height: currentWidth * dpr, // CRITICAL FIX: Multiply by DPR
+        width: currentWidth * dpr, 
+        height: currentWidth * dpr, 
         phi: basePhiRef.current,
         theta: thetaRef.current,
         dark: isDarkMode ? 1 : 0,
         diffuse: 1.2,
-        scale: 1,
+        scale: 1.0, 
         mapSamples: 16000,
         mapBrightness: 6,
         baseColor: isDarkMode ? [0.15, 0.15, 0.15] : [1, 1, 1], 
@@ -113,7 +113,7 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
       globe.update({
         phi: basePhiRef.current + r.get(),
         theta: thetaRef.current,
-        width: currentWidth * dpr, // CRITICAL FIX: Keep sizing accurate per frame
+        width: currentWidth * dpr, 
         height: currentWidth * dpr,
         markers: markersRef.current
       });
@@ -121,7 +121,6 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
       animationFrameId = requestAnimationFrame(animate);
     };
 
-    // CRITICAL FIX: ResizeObserver guarantees the globe never renders at 0x0 pixels
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
         const newWidth = entry.contentRect.width;
@@ -143,10 +142,11 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
       cancelAnimationFrame(animationFrameId);
       if (globe) globe.destroy();
     };
-  }, [isDarkMode, r]); // Only re-run if theme changes
+  }, [isDarkMode, r]); 
 
   return (
-    <div ref={containerRef} className="flex justify-center items-center w-full max-w-[600px] aspect-square relative z-10">
+    // CRITICAL FIX: Changed max-w-[600px] to max-w-[1200px] to double the canvas container size
+    <div ref={containerRef} className="flex justify-center items-center w-full max-w-[1200px] aspect-square relative z-10">
       
       <style>{`
         .marker-label {
@@ -204,9 +204,6 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
         return (
           <div
             key={p.id}
-            // CRITICAL FIX: Removed 'transition-all'. 
-            // We now use 'transition-colors' and 'transition-transform' so the physical x/y movement 
-            // and the opacity update instantly at 60fps without dragging behind the globe!
             className={`marker-label pointer-events-none whitespace-nowrap px-2 py-1 mb-2 rounded font-bold text-[10px] uppercase tracking-wider transition-colors transition-transform duration-300 ${
               isDarkMode 
                 ? 'bg-[#1a1a1a] text-white border border-white/10' 
@@ -214,7 +211,6 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
             } ${isHovered ? 'scale-110 z-50 ring-2 ring-blue-500' : 'scale-100 z-10'}`}
             style={{
               positionAnchor: `--cobe-project-${p.id}`,
-              // Cobe handles the fade math dynamically (e.g., 0.99 to 0), so it doesn't need CSS transitions
               opacity: `var(--cobe-visible-project-${p.id}, 0)`,
               zIndex: isHovered ? 50 : 10,
               '--fallback-top': `${(index * 32) + 24}px`
@@ -289,7 +285,8 @@ export default function ProjectsPage() {
         <div className={`flex-1 relative overflow-hidden flex items-center justify-center transition-colors duration-300 ${isDarkMode ? 'bg-[#050505]' : 'bg-[#eef2fa]'}`}>
           
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className={`w-[500px] h-[500px] rounded-full blur-[100px] opacity-30 ${isDarkMode ? 'bg-blue-600' : 'bg-blue-300'}`} />
+            {/* CRITICAL FIX: Doubled the size of the background glow to match the new canvas size */}
+            <div className={`w-[1000px] h-[1000px] rounded-full blur-[100px] opacity-30 ${isDarkMode ? 'bg-blue-600' : 'bg-blue-300'}`} />
           </div>
 
           <Globe filteredProjects={filteredProjects} hoveredProject={hoveredProject} isDarkMode={isDarkMode} />
