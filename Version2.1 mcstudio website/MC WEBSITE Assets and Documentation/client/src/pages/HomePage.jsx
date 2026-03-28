@@ -1,10 +1,10 @@
 import React from "react";
-import { useTheme } from "../components/Context/ThemeContext"; // <-- Import the hook
-import Footer from "../components/Footer";
-import Capture from "../assets/images/algo2.jpg";
-import HomePageImage from "../assets/images/HomePage.jpg";
-import NavBar from "../components/NavBar";
-import Portfolios from "../components/home_page/Portfolios";
+import { useTheme } from "@/components/Context/ThemeContext"; // <-- Import the hook
+import Footer from "@/components/Footer";
+import Capture from "@/assets/images/algo2.jpg";
+import HomePageImage from "@/assets/images/HomePage.jpg";
+import NavBar from "@/components/NavBar";
+import Portfolios from "@/components/home_page/Portfolios";
 
 const HomePage = () => {
   // Get the global dark mode state

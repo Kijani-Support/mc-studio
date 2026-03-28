@@ -1,11 +1,11 @@
 import React from 'react';
-import { useTheme } from "../components/Context/ThemeContext"; // <-- Import the hook
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import ProfilePageImage from "../assets/images/ProfilePage.jpg";
-import Achievements from "../components/profile_page/Achievements";
-import Services from "../components/profile_page/Services";
-import CaseStudies from "../components/profile_page/CaseStudies";
+import { useTheme } from "@/components/Context/ThemeContext"; // <-- Import the hook
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
+import ProfilePageImage from "@/assets/images/ProfilePage.jpg";
+import Achievements from "@/components/profile_page/Achievements";
+import Services from "@/components/profile_page/Services";
+import CaseStudies from "@/components/profile_page/CaseStudies";
 
 // Import icons from lucide-react
 import { 

@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import createGlobe from 'cobe';
 import { useSpring } from '@react-spring/web';
 import { Search, MapPin } from 'lucide-react';
-import { useTheme } from '../components/Context/ThemeContext';
-import NavBar from '../components/NavBar';
+import { useTheme } from '@/components/Context/ThemeContext';
+import NavBar from '@/components/NavBar';
 
 // ─── HELPER FUNCTION ───────────────────────────────────────────────────────
 const hexToRgb = (hex) => {

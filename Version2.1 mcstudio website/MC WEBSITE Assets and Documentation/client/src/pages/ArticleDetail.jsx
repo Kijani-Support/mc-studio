@@ -1,9 +1,9 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, ArrowRight, Clock, User } from 'lucide-react';
-import { useTheme } from '../components/Context/ThemeContext'; // <-- Import the hook
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
+import { useTheme } from '@/components/Context/ThemeContext'; // <-- Import the hook
+import NavBar from '@/components/NavBar';
+import Footer from '@/components/Footer';
 
 // --- Articles Database ---
 const ARTICLES_DATABASE = [

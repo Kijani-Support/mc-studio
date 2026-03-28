@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Search, Facebook, Twitter, Instagram, Linkedin, Youtube, ArrowRight, ExternalLink } from 'lucide-react';
-import { useTheme } from '../components/Context/ThemeContext'; // <-- Import the custom hook
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
+import { useTheme } from '@/components/Context/ThemeContext'; // <-- Import the custom hook
+import NavBar from '@/components/NavBar';
+import Footer from '@/components/Footer';
 
 // --- Mock Data ---
 

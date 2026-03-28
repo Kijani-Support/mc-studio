@@ -1,10 +1,10 @@
 import React, { useRef } from "react";
-import { useTheme } from "../components/Context/ThemeContext";
-import NavBar from "../components/NavBar";
-import Footer from "../components/Footer";
-import Capture from "../assets/images/algo2.jpg";
-import OurStartUpComponent from "../components/directory_page/OurStartUpComponent";
-import FeaturedStartUpsComponent from "../components/directory_page/FeaturedStartUpsComponent";
+import { useTheme } from "@/components/Context/ThemeContext";
+import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
+import Capture from "@/assets/images/algo2.jpg";
+import OurStartUpComponent from "@/components/directory_page/OurStartUpComponent";
+import FeaturedStartUpsComponent from "@/components/directory_page/FeaturedStartUpsComponent";
 
 import { 
   Search, LayoutGrid, List, BrainCircuit, Cloud, Database, 
