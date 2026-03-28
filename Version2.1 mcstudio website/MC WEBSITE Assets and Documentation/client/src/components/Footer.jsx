@@ -1,5 +1,5 @@
 import React from 'react';
-import { useTheme } from './Context/ThemeContext'; // <-- Import the hook (adjust path if needed)
+import { useTheme } from "@/components/Context/ThemeContext"; 
 import facebookSvg from "../assets/images/footer/facebook_converted.svg"
 import twitterSvg from "../assets/images/footer/twitter_converted.svg"
 import instagramSvg from "../assets/images/footer/instagram_converted.svg"

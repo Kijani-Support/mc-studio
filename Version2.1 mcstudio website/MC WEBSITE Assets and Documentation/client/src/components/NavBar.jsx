@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom'; // <-- Import useLocation
 import { Sun, Moon } from 'lucide-react';
-import { useTheme } from './Context/ThemeContext'; // <-- Import the hook (adjust path if needed)
+// With absolute paths setup, it always looks like this:
+import { useTheme } from "@/components/Context/ThemeContext";
 
 const NavBar = () => {
   const { isDarkMode, toggleTheme } = useTheme();
