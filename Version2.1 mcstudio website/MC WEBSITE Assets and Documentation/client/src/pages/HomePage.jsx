@@ -1,13 +1,13 @@
 import React from "react";
-import { useTheme } from "@/components/Context/ThemeContext"; // <-- Import the hook
+import { useTheme } from "@/components/Context/ThemeContext";
 import Footer from "@/components/Footer";
 import Capture from "@/assets/images/algo2.jpg";
 import HomePageImage from "@/assets/images/HomePage.jpg";
 import NavBar from "@/components/NavBar";
 import Portfolios from "@/components/home_page/Portfolios";
+import HeroGlobe from "@/components/home_page/HeroGlobe";
 
 const HomePage = () => {
-  // Get the global dark mode state
   const { isDarkMode } = useTheme();
 
   return (
@@ -15,24 +15,20 @@ const HomePage = () => {
       isDarkMode ? 'bg-black text-white' : 'bg-white text-gray-900'
     }`}>
       
-      {/* Pinned NavBar Wrapper */}
       <div className="fixed top-0 left-0 w-full z-50">
         <NavBar />
       </div>
 
-      {/* Added pt-24 sm:pt-32 to push content safely below the pinned navbar */}
       <main className="flex-grow pt-24 sm:pt-32 grid gap-24 pb-20">
         
         {/* HERO SECTION */}
         <section className="px-4 sm:px-12 grid gap-12 sm:grid-cols-2 items-center mt-8 sm:mt-12">
-          {/* Text */}
           <div className="grid gap-6 text-center sm:text-left">
             <h1 className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold max-w-xl leading-tight ${
               isDarkMode ? 'text-white' : 'text-gray-900'
             }`}>
               Innovate, Create, Impact.
             </h1>
-
             <p className={`text-sm sm:text-base max-w-xl leading-relaxed ${
               isDarkMode ? 'text-gray-300' : 'text-gray-700'
             }`}>
@@ -41,7 +37,6 @@ const HomePage = () => {
               digital realities. Discover solutions designed to elevate your
               startup and projects.
             </p>
-
             <button className={`py-2.5 px-6 rounded-lg w-fit text-sm sm:text-md font-semibold mx-auto sm:mx-0 transition-colors shadow-lg ${
               isDarkMode 
                 ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-900/20' 
@@ -50,8 +45,6 @@ const HomePage = () => {
               Explore Our Work
             </button>
           </div>
-
-          {/* Image */}
           <div className="flex justify-center">
             <img
               src={HomePageImage}
@@ -70,9 +63,7 @@ const HomePage = () => {
           <h2 className="text-2xl sm:text-3xl font-extrabold text-center">
             Explore Our Startups Portfolio
           </h2>
-
           <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto w-full">
-            {/* Note: Pass isDarkMode to your Portfolios component! */}
             <Portfolios
               isDarkMode={isDarkMode}
               pic={Capture}
@@ -102,7 +93,6 @@ const HomePage = () => {
           <h2 className="text-2xl sm:text-3xl font-extrabold text-center">
             Our Startups
           </h2>
-
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {["CloudForge", "BrightSpark", "NexusHub", "RocketReach"].map(
               (item) => (
@@ -128,9 +118,7 @@ const HomePage = () => {
         </section>
 
         {/* GLOBAL REACH */}
-        <section className={`py-20 px-4 grid gap-10 text-center transition-colors duration-300 ${
-          isDarkMode ? 'bg-gray-900/30' : 'bg-gray-50'
-        }`}>
+        <section className="px-4 grid gap-10 text-center">
           <div className="max-w-2xl mx-auto grid gap-4">
             <h2 className="text-3xl font-bold">
               Global Reach, Local Impact
@@ -141,9 +129,16 @@ const HomePage = () => {
             </p>
           </div>
 
-          <div className={`rounded-lg h-60 sm:h-80 w-full max-w-5xl mx-auto transition-colors duration-300 ${
-            isDarkMode ? 'bg-gray-800 border border-gray-700' : 'bg-gray-300'
-          }`} />
+          {/* GLOBE CONTAINER */}
+          <div className={`relative overflow-hidden rounded-3xl h-[400px] sm:h-[500px] w-full max-w-6xl mx-auto transition-colors duration-300 ${
+            isDarkMode ? 'bg-gray-900/50 border border-gray-800' : 'bg-gray-50 border border-gray-200 shadow-inner'
+          }`}>
+            
+            <HeroGlobe isDarkMode={isDarkMode} />
+            
+            {/* Inner Glow / Vignette */}
+            <div className="absolute inset-0 pointer-events-none rounded-3xl shadow-[inset_0_0_40px_rgba(0,0,0,0.1)] dark:shadow-[inset_0_0_60px_rgba(0,0,0,0.5)] z-20" />
+          </div>
         </section>
 
         {/* TRUSTED BY */}
@@ -151,7 +146,6 @@ const HomePage = () => {
           <h2 className="text-2xl sm:text-3xl font-bold">
             Trusted by Industry Leaders
           </h2>
-
           <div className="flex flex-wrap gap-8 justify-center items-center opacity-70">
             {Array(5)
               .fill(0)
@@ -176,11 +170,9 @@ const HomePage = () => {
           <h2 className="text-2xl sm:text-3xl font-bold max-w-xl mx-auto">
             Stay Ahead. Join Our Newsletter.
           </h2>
-
           <p className={`max-w-lg mx-auto ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>
             Receive exclusive insights, updates, and offers.
           </p>
-
           <form 
             onSubmit={(e) => e.preventDefault()} 
             className="flex flex-col sm:flex-row gap-4 justify-center max-w-2xl mx-auto w-full"
@@ -210,7 +202,6 @@ const HomePage = () => {
 
       </main>
 
-      {/* Footer */}
       <Footer />
     </div>
   );
