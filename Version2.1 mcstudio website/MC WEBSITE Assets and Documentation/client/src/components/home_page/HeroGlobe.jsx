@@ -63,8 +63,8 @@ const HeroGlobe = ({ isDarkMode }) => {
         dark: isDarkMode ? 1 : 0,
         diffuse: 1.2,
         scale: 1.0, // Makes the globe fill the viewport beautifully
-        mapSamples: 16000,
-        mapBrightness: 6,
+        mapSamples: 10000,
+        mapBrightness: 7,
         baseColor: isDarkMode ? [0.15, 0.15, 0.15] : [1, 1, 1], 
         glowColor: isDarkMode ? [0.1, 0.1, 0.1] : [1, 1, 1],
         
@@ -77,7 +77,7 @@ const HeroGlobe = ({ isDarkMode }) => {
         arcs: ARCS,
         arcColor: BLUE_COLOR,
         arcWidth: 0.25,   
-        arcHeight: 0.3,  
+        arcHeight: 0.25,  
       });
     };
 

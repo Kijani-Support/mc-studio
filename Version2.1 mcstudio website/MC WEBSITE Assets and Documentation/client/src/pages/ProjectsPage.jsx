@@ -75,7 +75,7 @@ const Globe = ({ filteredProjects, hoveredProject, isDarkMode }) => {
         theta: thetaRef.current,
         dark: isDarkMode ? 1 : 0,
         diffuse: 1.2,
-        scale: 1.0, 
+        scale: 0.9, 
         mapSamples: 16000,
         mapBrightness: 6,
         baseColor: isDarkMode ? [0.15, 0.15, 0.15] : [1, 1, 1], 
