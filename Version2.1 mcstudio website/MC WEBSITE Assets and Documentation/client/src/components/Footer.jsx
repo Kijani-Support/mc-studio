@@ -1,10 +1,10 @@
 import React from 'react';
 import { useTheme } from "@/components/Context/ThemeContext"; 
-import facebookSvg from "../assets/images/footer/facebook_converted.svg"
-import twitterSvg from "../assets/images/footer/twitter_converted.svg"
-import instagramSvg from "../assets/images/footer/instagram_converted.svg"
-import youtubeSvg from "../assets/images/footer/youtube_converted.svg"
-import linkedinSvg from "../assets/images/footer/linkedin_converted.svg"
+import facebookSvg from "@/assets/images/footer/facebook_converted.svg"
+import twitterSvg from "@/assets/images/footer/twitter_converted.svg"
+import instagramSvg from "@/assets/images/footer/instagram_converted.svg"
+import youtubeSvg from "@/assets/images/footer/youtube_converted.svg"
+import linkedinSvg from "@/assets/images/footer/linkedin_converted.svg"
 
 const Footer = () => {
   // Pull the dark mode state directly from the global context
