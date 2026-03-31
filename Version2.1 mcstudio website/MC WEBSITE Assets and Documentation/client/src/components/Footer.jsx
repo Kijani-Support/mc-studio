@@ -13,7 +13,7 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className={`grid gap-8 pt-16 px-12 w-full transition-colors duration-300 ${
+    <footer className={`grid gap-6 sm:gap-8 pt-12 sm:pt-16 px-4 sm:px-8 lg:px-12 w-full transition-colors duration-300 ${
       isDarkMode ? 'bg-black border-t border-gray-800' : 'bg-gray-200'
     }`}>
       <section className="grid justify-items-center sm:grid-cols-3 gap-10 sm:gap-20">

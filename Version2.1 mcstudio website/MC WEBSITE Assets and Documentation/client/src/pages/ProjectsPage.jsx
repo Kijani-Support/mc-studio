@@ -264,6 +264,7 @@ export default function ProjectsPage() {
   const [regionFilter, setRegionFilter] = useState('All');
   const [partnerFilter, setPartnerFilter] = useState('All');
   const [categoryFilter, setCategoryFilter] = useState('All');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const filteredProjects = PROJECTS.filter((project) => {
     if (searchQuery) {
@@ -279,10 +280,10 @@ export default function ProjectsPage() {
         <NavBar />
       </header>
 
-      <main className="flex flex-1 overflow-hidden relative transition-all duration-300 ease-in-out">
+      <main className="flex flex-1 overflow-hidden relative transition-all duration-300 ease-in-out flex-col lg:flex-row">
         
         {/* GLOBE AREA */}
-        <div className={`flex-1 relative overflow-hidden flex items-center justify-center transition-colors duration-300 ${isDarkMode ? 'bg-[#050505]' : 'bg-[#eef2fa]'}`}>
+        <div className={`flex-1 relative overflow-hidden flex flex-col items-center justify-center transition-colors duration-300 ${isDarkMode ? 'bg-[#050505]' : 'bg-[#eef2fa]'}`}>
           
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
             {/* CRITICAL FIX: Doubled the size of the background glow to match the new canvas size */}
@@ -291,18 +292,48 @@ export default function ProjectsPage() {
 
           <Globe filteredProjects={filteredProjects} hoveredProject={hoveredProject} isDarkMode={isDarkMode} />
 
-          <div className={`absolute bottom-8 left-8 z-20 backdrop-blur-md px-5 py-3 rounded-xl border shadow-lg transition-colors pointer-events-none ${isDarkMode ? 'bg-black/40 border-white/10' : 'bg-white/80 border-gray-200'}`}>
-            <div className={`flex items-center space-x-3 text-xs font-medium ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
-              <MapPin size={16} className="text-blue-500" />
+          <div className={`absolute bottom-2 sm:bottom-8 left-2 sm:left-8 z-20 backdrop-blur-md px-3 sm:px-5 py-2 sm:py-3 rounded-xl border shadow-lg transition-colors pointer-events-none text-center sm:text-left ${isDarkMode ? 'bg-black/40 border-white/10' : 'bg-white/80 border-gray-200'}`}>
+            <div className={`flex flex-col sm:flex-row items-center space-x-0 sm:space-x-3 text-xs font-medium gap-2 ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
+              <MapPin size={16} className="text-blue-500 flex-shrink-0" />
               <span>Drag to rotate · Hover a card to focus</span>
             </div>
           </div>
+
+          {/* MOBILE SIDEBAR TOGGLE BUTTON */}
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className={`absolute top-4 right-4 lg:hidden z-30 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+              isDarkMode
+                ? 'bg-blue-600 hover:bg-blue-500 text-white'
+                : 'bg-blue-800 hover:bg-blue-900 text-white'
+            }`}
+          >
+            {sidebarOpen ? '✕ Close' : '☰ Filters'}
+          </button>
         </div>
 
+        {/* OVERLAY FOR MOBILE SIDEBAR */}
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-black/50 lg:hidden z-20"
+            onClick={() => setSidebarOpen(false)}
+          />
+        )}
+
         {/* SIDEBAR AREA */}
-        <div className={`w-full lg:w-[480px] flex-shrink-0 border-l overflow-y-auto custom-scrollbar transition-colors duration-300 ${isDarkMode ? 'bg-[#0a0a0a] border-gray-800' : 'bg-white border-gray-200 shadow-xl'}`}>
-          <div className="p-8">
-            <h2 className={`text-2xl font-bold mb-5 transition-colors ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Find Projects</h2>
+        <div className={`fixed bottom-0 left-0 right-0 lg:static w-full lg:w-[480px] h-[70vh] lg:h-auto lg:flex-shrink-0 border-t lg:border-t-0 lg:border-l overflow-y-auto custom-scrollbar transition-all duration-300 ease-in-out z-30 transform lg:transform-none ${
+          sidebarOpen ? 'translate-y-0' : 'translate-y-full lg:translate-y-0'
+        } ${isDarkMode ? 'bg-[#0a0a0a] border-gray-800' : 'bg-white border-gray-200 shadow-xl lg:shadow-none'}`}>
+          <div className="p-4 sm:p-8">
+            <div className="flex items-center justify-between mb-5 lg:block">
+              <h2 className={`text-xl sm:text-2xl font-bold transition-colors ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>Find Projects</h2>
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="lg:hidden text-gray-400 hover:text-gray-600"
+              >
+                ✕
+              </button>
+            </div>
             
             <div className="relative mb-8">
               <Search className={`absolute left-3.5 top-3 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} size={16} />
