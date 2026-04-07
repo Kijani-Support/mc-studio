@@ -1,6 +1,7 @@
 import '@/App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from '@/components/Context/ThemeContext'; // <-- Import the ThemeProvider
+import ScrollToTop from '@/components/ScrollToTop';
 
 import HomePage from '@/pages/HomePage';
 import StartUpDirectoryPage from '@/pages/StartUpDirectoryPage';
@@ -16,6 +17,7 @@ function App() {
       
       <ThemeProvider>
         <Router>
+            <ScrollToTop />
             <Routes>
               {/* Homepage */}
               <Route path="/" element={<HomePage/>} />
