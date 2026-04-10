@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTheme } from "@/components/Context/ThemeContext"; // <-- Import the hook
+import { Link } from 'react-router-dom';
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import ProfilePageImage from "@/assets/images/ProfilePage.jpg";
@@ -68,13 +69,14 @@ const StartUpProfilePage = () => {
               }`}>
                 Apply Now
               </button>
-              <button className={`text-sm font-semibold rounded-lg py-2.5 px-6 border-2 transition-colors ${
-                isDarkMode 
-                  ? 'bg-transparent border-gray-600 text-gray-300 hover:border-gray-400 hover:text-white' 
-                  : 'bg-gray-900 border-gray-900 text-white hover:bg-black hover:border-black'
-              }`}>
-                Contact Us
-              </button>
+              
+            <Link to="/contact" className={`inline-block text-center text-sm font-semibold rounded-lg py-2.5 px-6 border-2 transition-colors ${
+              isDarkMode 
+                ? 'bg-transparent border-gray-600 text-gray-300 hover:border-gray-400 hover:text-white' 
+                : 'bg-gray-900 border-gray-900 text-white hover:bg-black hover:border-black'
+            }`}>
+              Contact Us
+            </Link>
             </div>
           </div>
           

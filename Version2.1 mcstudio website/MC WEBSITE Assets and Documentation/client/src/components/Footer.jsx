@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTheme } from "@/components/Context/ThemeContext"; 
+import{ Link } from 'react-router-dom';
 import facebookSvg from "@/assets/images/footer/facebook_converted.svg"
 import twitterSvg from "@/assets/images/footer/twitter_converted.svg"
 import instagramSvg from "@/assets/images/footer/instagram_converted.svg"
@@ -104,26 +105,22 @@ const Footer = () => {
             <h1 className={`font-bold text-md transition-colors duration-300 ${
               isDarkMode ? 'text-gray-200' : 'text-gray-900'
             }`}>Company</h1>
-            <ul className={`text-sm sm:text-md space-y-2 mt-2 transition-colors duration-300 ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-600'
-            }`}>
-              <li className="hover:text-blue-500 cursor-pointer transition-colors">About Us</li>
-              <li className="hover:text-blue-500 cursor-pointer transition-colors">Career</li>
-              <li className="hover:text-blue-500 cursor-pointer transition-colors">Partners</li>
-              <li className="hover:text-blue-500 cursor-pointer transition-colors">Blog</li>
+            <ul className={`text-sm sm:text-md space-y-2 mt-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <li><Link to="/" className="hover:text-blue-500 transition-colors">About Us</Link></li>
+              <li><Link to="/" className="hover:text-blue-500 transition-colors">Career</Link></li>
+              <li><Link to="/directory" className="hover:text-blue-500 transition-colors">Partners</Link></li>
+              <li><Link to="/article/1" className="hover:text-blue-500 transition-colors">Blog</Link></li>
             </ul>
           </div>
           <div>
             <h1 className={`font-bold text-md transition-colors duration-300 ${
               isDarkMode ? 'text-gray-200' : 'text-gray-900'
             }`}>Services</h1>
-            <ul className={`text-sm sm:text-md space-y-2 mt-2 transition-colors duration-300 ${
-              isDarkMode ? 'text-gray-400' : 'text-gray-600'
-            }`}>
-              <li className="hover:text-blue-500 cursor-pointer transition-colors">Strategy</li>
-              <li className="hover:text-blue-500 cursor-pointer transition-colors">Design</li>
-              <li className="hover:text-blue-500 cursor-pointer transition-colors">Development</li>
-              <li className="hover:text-blue-500 cursor-pointer transition-colors">Consulting</li>
+            <ul className={`text-sm sm:text-md space-y-2 mt-2 transition-colors duration-300 ${isDarkMode ? 'text-gray-400' : 'text-gray-600'}`}>
+              <li><Link to="/services" className="hover:text-blue-500 transition-colors">Strategy</Link></li>
+              <li><Link to="/services" className="hover:text-blue-500 transition-colors">Design</Link></li>
+              <li><Link to="/services" className="hover:text-blue-500 transition-colors">Development</Link></li>
+              <li><Link to="/services" className="hover:text-blue-500 transition-colors">Consulting</Link></li>
             </ul>
           </div>
           <div>
@@ -133,9 +130,9 @@ const Footer = () => {
             <ul className={`text-sm sm:text-md space-y-2 mt-2 transition-colors duration-300 ${
               isDarkMode ? 'text-gray-400' : 'text-gray-600'
             }`}>
-              <li className="hover:text-blue-500 cursor-pointer transition-colors">Case Studies</li>
-              <li className="hover:text-blue-500 cursor-pointer transition-colors">Projects</li>
-              <li className="hover:text-blue-500 cursor-pointer transition-colors">StartUps</li>
+              <li><Link to="/case-studies" className="hover:text-blue-500 transition-colors">Case Studies</Link></li>
+              <li><Link to="/projects" className="hover:text-blue-500 transition-colors">Projects</Link></li>
+              <li><Link to="/directory" className="hover:text-blue-500 transition-colors">StartUps</Link></li>
               <li>
                 <a 
                   href="https://www.ibm.com/partnerplus/directory/company/9718" 

@@ -76,15 +76,13 @@ const NavBar = () => {
           </button>
 
           {/* CONTACT BUTTON - Desktop Only */}
-          <button className={`hidden md:inline-block px-5 py-2 rounded text-sm font-medium transition-colors shadow-lg ${
+          <Link to="/contact" className={`hidden md:inline-block px-5 py-2 rounded text-sm font-medium transition-colors shadow-lg ${
             isDarkMode 
               ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-900/20' 
               : 'bg-blue-800 hover:bg-blue-900 text-white shadow-blue-200'
           }`}>
             Contact Us
-          </button>
-
-          {/* MOBILE MENU BUTTON */}
+          </Link>
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className={`md:hidden p-2 rounded transition-all duration-300 ${
@@ -115,13 +113,17 @@ const NavBar = () => {
                 {link.label}
               </Link>
             ))}
-            <button className={`w-full text-left px-4 py-3 rounded text-sm font-medium transition-colors ${
-              isDarkMode 
-                ? 'bg-blue-600 hover:bg-blue-500 text-white' 
-                : 'bg-blue-800 hover:bg-blue-900 text-white'
-            }`}>
+            <Link 
+              to="/contact" 
+              onClick={() => setMobileMenuOpen(false)} 
+              className={`block w-full text-center px-4 py-3 rounded text-sm font-medium transition-colors ${
+                isDarkMode 
+                  ? 'bg-blue-600 hover:bg-blue-500 text-white' 
+                  : 'bg-blue-800 hover:bg-blue-900 text-white'
+              }`}
+            >
               Contact Us
-            </button>
+            </Link>
           </div>
         </div>
       )}

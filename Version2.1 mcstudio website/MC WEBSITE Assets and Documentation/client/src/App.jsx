@@ -7,6 +7,7 @@ import HomePage from '@/pages/HomePage';
 import StartUpDirectoryPage from '@/pages/StartUpDirectoryPage';
 import StartUpProfilePage from '@/pages/StartUpProfilePage';
 import ProjectsPage from '@/pages/ProjectsPage';
+import ContactPage from '@/pages/ContactPage';
 import CaseStudies from '@/pages/CaseStudies';
 import ArticleDetail from '@/pages/ArticleDetail';
 import Services from '@/pages/Services';
@@ -33,6 +34,8 @@ function App() {
               <Route path="/article/:id" element={<ArticleDetail/>} />
               {/* Services */}
               <Route path="/services" element={<Services/>} />
+              {/* ContactPage */}
+              <Route path="/contact" element={<ContactPage/>} />
             </Routes>
         </Router>
       </ThemeProvider>

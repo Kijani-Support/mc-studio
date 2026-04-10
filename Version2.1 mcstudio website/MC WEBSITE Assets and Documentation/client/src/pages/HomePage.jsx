@@ -1,5 +1,6 @@
 import React from "react";
 import { useTheme } from "@/components/Context/ThemeContext";
+import { Link } from 'react-router-dom';
 import Footer from "@/components/Footer";
 import Capture from "@/assets/images/algo2.jpg";
 import HomePageImage from "@/assets/images/HomePage.jpg";
@@ -37,13 +38,13 @@ const HomePage = () => {
               digital realities. Discover solutions designed to elevate your
               startup and projects.
             </p>
-            <button className={`py-2.5 px-6 rounded-lg w-fit text-sm sm:text-md font-semibold mx-auto sm:mx-0 transition-colors shadow-lg ${
+            <Link to="/projects" className={`inline-block text-center py-2.5 px-6 rounded-lg w-fit text-sm sm:text-md font-semibold mx-auto sm:mx-0 transition-colors shadow-lg ${
               isDarkMode 
                 ? 'bg-blue-600 hover:bg-blue-500 text-white shadow-blue-900/20' 
                 : 'bg-blue-900 hover:bg-blue-800 text-white shadow-blue-200'
             }`}>
               Explore Our Work
-            </button>
+            </Link>
           </div>
           <div className="flex justify-center">
             <img
