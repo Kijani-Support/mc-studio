@@ -3,6 +3,9 @@ import { useTheme } from "@/components/Context/ThemeContext"; // <-- Import the 
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import ProfilePageImage from "@/assets/images/ProfilePage.jpg";
+import JuaFlowLogo from "@/assets/images/JuaFlow.jpg";
+import IBMLogo from "@/assets/images/MC_IBM.jpg";
+import PLPLogo from "@/assets/images/PLP.jpg";
 import Achievements from "@/components/profile_page/Achievements";
 import Services from "@/components/profile_page/Services";
 import CaseStudies from "@/components/profile_page/CaseStudies";
@@ -214,12 +217,22 @@ const StartUpProfilePage = () => {
             Our Valued Partners
           </h2>
           
-          <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-16 w-full max-w-5xl opacity-60">
-            {/* Replace these text elements with actual partner logos later */}
-            <span className={`text-xl font-bold uppercase tracking-widest ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Partner One</span>
-            <span className={`text-xl font-bold uppercase tracking-widest ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Partner Two</span>
-            <span className={`text-xl font-bold uppercase tracking-widest ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Partner Three</span>
-            <span className={`text-xl font-bold uppercase tracking-widest ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>Partner Four</span>
+          <div className="flex flex-wrap justify-center items-center gap-8 sm:gap-16 w-full max-w-5xl">
+            <img 
+              src={JuaFlowLogo} 
+              alt="JuaFlow Partner" 
+              className={`h-16 sm:h-20 object-contain transition-opacity duration-300 ${isDarkMode ? 'opacity-70 hover:opacity-100' : 'opacity-80 hover:opacity-100'}`}
+            />
+            <img 
+              src={IBMLogo} 
+              alt="IBM Partner" 
+              className={`h-16 sm:h-20 object-contain transition-opacity duration-300 ${isDarkMode ? 'opacity-70 hover:opacity-100' : 'opacity-80 hover:opacity-100'}`}
+            />
+            <img 
+              src={PLPLogo} 
+              alt="PLP Partner" 
+              className={`h-16 sm:h-20 object-contain transition-opacity duration-300 ${isDarkMode ? 'opacity-70 hover:opacity-100' : 'opacity-80 hover:opacity-100'}`}
+            />
           </div>
         </section>
       </main>

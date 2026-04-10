@@ -32,39 +32,69 @@ const Footer = () => {
           {/* social media links and icons */}
           <ul className="flex p-2 gap-4 no-bullets">
             <li>
-              <img 
-                src={linkedinSvg} 
-                alt="linkedin logo" 
-                className={`h-5 transition-all duration-300 ${isDarkMode ? 'invert opacity-75' : ''}`} 
-              />
+              <a 
+                href="https://www.linkedin.com/showcase/modus-chora-studio/?originalSubdomain=ke" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <img 
+                  src={linkedinSvg} 
+                  alt="linkedin logo" 
+                  className={`h-5 transition-all duration-300 cursor-pointer hover:opacity-100 ${isDarkMode ? 'invert opacity-75' : ''}`} 
+                />
+              </a>
             </li>
             <li>
-              <img 
-                src={twitterSvg} 
-                alt="twitter logo" 
-                className={`h-5 transition-all duration-300 ${isDarkMode ? 'invert opacity-75' : ''}`} 
-              />
+              <a 
+                href="https://x.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <img 
+                  src={twitterSvg} 
+                  alt="twitter logo" 
+                  className={`h-5 transition-all duration-300 cursor-pointer hover:opacity-100 ${isDarkMode ? 'invert opacity-75' : ''}`} 
+                />
+              </a>
             </li>
             <li>
-              <img 
-                src={facebookSvg} 
-                alt="facebook logo" 
-                className={`h-5 transition-all duration-300 ${isDarkMode ? 'invert opacity-75' : ''}`} 
-              />
+              <a 
+                href="https://web.facebook.com/ndutahs/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <img 
+                  src={facebookSvg} 
+                  alt="facebook logo" 
+                  className={`h-5 transition-all duration-300 cursor-pointer hover:opacity-100 ${isDarkMode ? 'invert opacity-75' : ''}`} 
+                />
+              </a>
             </li>
             <li>
-              <img 
-                src={instagramSvg} 
-                alt="instagram logo" 
-                className={`h-5 transition-all duration-300 ${isDarkMode ? 'invert opacity-75' : ''}`} 
-              />
+              <a 
+                href="https://www.instagram.com/mcsq_studio/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <img 
+                  src={instagramSvg} 
+                  alt="instagram logo" 
+                  className={`h-5 transition-all duration-300 cursor-pointer hover:opacity-100 ${isDarkMode ? 'invert opacity-75' : ''}`} 
+                />
+              </a>
             </li>
             <li>
-              <img 
-                src={youtubeSvg} 
-                alt="youtube logo" 
-                className={`h-5 transition-all duration-300 ${isDarkMode ? 'invert opacity-75' : ''}`} 
-              />
+              <a 
+                href="https://www.youtube.com/@mcsqstudio" 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                <img 
+                  src={youtubeSvg} 
+                  alt="youtube logo" 
+                  className={`h-5 transition-all duration-300 cursor-pointer hover:opacity-100 ${isDarkMode ? 'invert opacity-75' : ''}`} 
+                />
+              </a>
             </li>
           </ul>
         </div>
@@ -106,7 +136,26 @@ const Footer = () => {
               <li className="hover:text-blue-500 cursor-pointer transition-colors">Case Studies</li>
               <li className="hover:text-blue-500 cursor-pointer transition-colors">Projects</li>
               <li className="hover:text-blue-500 cursor-pointer transition-colors">StartUps</li>
-              <li className="hover:text-blue-500 cursor-pointer transition-colors">IBM Products</li>
+              <li>
+                <a 
+                  href="https://www.ibm.com/partnerplus/directory/company/9718" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-blue-500 transition-colors"
+                >
+                  IBM Products
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://www.ibm.com/partnerplus/directory/company/9718" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-blue-500 transition-colors"
+                >
+                  IBM Partnership
+                </a>
+              </li>
             </ul>
           </div>
           <div>
