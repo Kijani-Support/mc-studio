@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "@/components/Context/ThemeContext";
 import { Link } from 'react-router-dom';
 import Footer from "@/components/Footer";
@@ -10,6 +10,37 @@ import HeroGlobe from "@/components/home_page/HeroGlobe";
 
 const HomePage = () => {
   const { isDarkMode } = useTheme();
+
+  // Newsletter State
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState({ text: '', type: '' });
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (!email) return;
+    
+    setLoading(true);
+    setMessage({ text: '', type: '' });
+
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }), // firstName is optional in your backend
+      });
+
+      if (!response.ok) throw new Error('Failed to subscribe');
+
+      setMessage({ text: '✓ Successfully subscribed!', type: 'success' });
+      setEmail('');
+    } catch (err) {
+      console.error('Newsletter error:', err);
+      setMessage({ text: 'Failed to subscribe. Please try again.', type: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className={`flex flex-col min-h-screen font-display w-full overflow-x-hidden transition-colors duration-300 ${
@@ -134,10 +165,7 @@ const HomePage = () => {
           <div className={`relative overflow-hidden rounded-3xl h-[400px] sm:h-[500px] w-full max-w-6xl mx-auto transition-colors duration-300 ${
             isDarkMode ? 'bg-gray-900/50 border border-gray-800' : 'bg-gray-50 border border-gray-200 shadow-inner'
           }`}>
-            
             <HeroGlobe isDarkMode={isDarkMode} />
-            
-            {/* Inner Glow / Vignette */}
             <div className="absolute inset-0 pointer-events-none rounded-3xl shadow-[inset_0_0_40px_rgba(0,0,0,0.1)] dark:shadow-[inset_0_0_60px_rgba(0,0,0,0.5)] z-20" />
           </div>
         </section>
@@ -174,31 +202,47 @@ const HomePage = () => {
           <p className={`max-w-lg mx-auto ${isDarkMode ? 'text-gray-400' : 'text-gray-700'}`}>
             Receive exclusive insights, updates, and offers.
           </p>
-          <form 
-            onSubmit={(e) => e.preventDefault()} 
-            className="flex flex-col sm:flex-row gap-4 justify-center max-w-2xl mx-auto w-full"
-          >
-            <input
-              type="email"
-              placeholder="Your Email Address"
-              className={`px-4 py-3 rounded-lg w-full sm:w-80 border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
-                isDarkMode 
-                  ? 'bg-black border-gray-700 text-white placeholder-gray-500' 
-                  : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
-              }`}
-              required
-            />
-            <button 
-              type="submit"
-              className={`font-semibold px-8 py-3 rounded-lg transition-colors ${
-                isDarkMode 
-                  ? 'bg-blue-600 hover:bg-blue-500 text-white' 
-                  : 'bg-blue-900 hover:bg-blue-800 text-white'
-              }`}
+          
+          <div className="max-w-2xl mx-auto w-full">
+            <form 
+              onSubmit={handleSubscribe} 
+              className="flex flex-col sm:flex-row gap-4 justify-center w-full"
             >
-              Subscribe
-            </button>
-          </form>
+              <input
+                type="email"
+                placeholder="Your Email Address"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={`px-4 py-3 rounded-lg w-full sm:w-80 border focus:outline-none focus:ring-2 focus:ring-blue-500 transition-colors ${
+                  isDarkMode 
+                    ? 'bg-black border-gray-700 text-white placeholder-gray-500' 
+                    : 'bg-white border-gray-300 text-gray-900 placeholder-gray-400'
+                }`}
+                required
+              />
+              <button 
+                type="submit"
+                disabled={loading}
+                className={`font-semibold px-8 py-3 rounded-lg transition-colors ${
+                  isDarkMode 
+                    ? 'bg-blue-600 hover:bg-blue-500 text-white disabled:opacity-50' 
+                    : 'bg-blue-900 hover:bg-blue-800 text-white disabled:opacity-50'
+                }`}
+              >
+                {loading ? 'Subscribing...' : 'Subscribe'}
+              </button>
+            </form>
+            
+            {message.text && (
+              <p className={`mt-4 text-sm font-semibold ${
+                message.type === 'success' 
+                  ? (isDarkMode ? 'text-green-400' : 'text-green-600') 
+                  : (isDarkMode ? 'text-red-400' : 'text-red-600')
+              }`}>
+                {message.text}
+              </p>
+            )}
+          </div>
         </section>
 
       </main>

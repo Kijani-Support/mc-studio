@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, ArrowRight, Clock, User } from 'lucide-react';
-import { useTheme } from '@/components/Context/ThemeContext'; // <-- Import the hook
+import { useTheme } from '@/components/Context/ThemeContext';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
 
@@ -91,39 +91,90 @@ const SidebarCard = ({ article, isDarkMode, onClick }) => (
   </div>
 );
 
-const NewsletterWidget = ({ isDarkMode }) => (
-  <div className={`rounded-xl p-6 border transition-colors duration-300 ${
-    isDarkMode ? 'bg-gray-900/50 border-gray-800' : 'bg-white border-gray-200 shadow-sm'
-  }`}>
-    <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
-      Stay Updated
-    </h3>
-    <p className={`text-xs mb-4 leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
-      Sign up for our newsletter to receive the latest updates, articles, and exclusive offers.
-    </p>
-    <div className="space-y-3">
-      <div className="relative">
-        <input 
-          type="email" 
-          placeholder="Enter your email" 
-          className={`w-full border text-sm rounded-lg px-4 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all ${
+// Interactive Newsletter Widget
+const NewsletterWidget = ({ isDarkMode }) => {
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState({ text: '', type: '' });
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+    if (!email) return;
+
+    setLoading(true);
+    setMessage({ text: '', type: '' });
+
+    try {
+      const response = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) throw new Error('Failed to subscribe');
+
+      setMessage({ text: '✓ Successfully subscribed!', type: 'success' });
+      setEmail('');
+    } catch (err) {
+      console.error('Newsletter error:', err);
+      setMessage({ text: 'Failed to subscribe. Please try again.', type: 'error' });
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className={`rounded-xl p-6 border transition-colors duration-300 ${
+      isDarkMode ? 'bg-gray-900/50 border-gray-800' : 'bg-white border-gray-200 shadow-sm'
+    }`}>
+      <h3 className={`text-xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-gray-900'}`}>
+        Stay Updated
+      </h3>
+      <p className={`text-xs mb-4 leading-relaxed ${isDarkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+        Sign up for our newsletter to receive the latest updates, articles, and exclusive offers.
+      </p>
+      
+      <form onSubmit={handleSubscribe} className="space-y-3">
+        <div className="relative">
+          <input 
+            type="email" 
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+            className={`w-full border text-sm rounded-lg px-4 py-3 focus:outline-none focus:ring-1 focus:ring-blue-500 transition-all ${
+              isDarkMode 
+                ? 'bg-black border-gray-700 text-gray-300 placeholder-gray-600' 
+                : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400'
+            }`}
+          />
+          <Mail className={`absolute right-3 top-3 ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} size={16} />
+        </div>
+        <button 
+          type="submit"
+          disabled={loading}
+          className={`w-full font-bold py-3 rounded-lg text-sm transition-all ${
             isDarkMode 
-              ? 'bg-black border-gray-700 text-gray-300 placeholder-gray-600' 
-              : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400'
+              ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-[0_4px_14px_0_rgba(37,99,235,0.39)] disabled:opacity-50' 
+              : 'bg-blue-800 hover:bg-blue-900 text-white shadow-md disabled:opacity-50'
           }`}
-        />
-        <Mail className={`absolute right-3 top-3 ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} size={16} />
-      </div>
-      <button className={`w-full font-bold py-3 rounded-lg text-sm transition-all ${
-        isDarkMode 
-          ? 'bg-blue-600 hover:bg-blue-700 text-white shadow-[0_4px_14px_0_rgba(37,99,235,0.39)]' 
-          : 'bg-blue-800 hover:bg-blue-900 text-white shadow-md'
-      }`}>
-        Subscribe Now
-      </button>
+        >
+          {loading ? 'Subscribing...' : 'Subscribe Now'}
+        </button>
+      </form>
+      
+      {message.text && (
+        <p className={`mt-3 text-xs font-semibold text-center ${
+          message.type === 'success' 
+            ? (isDarkMode ? 'text-green-400' : 'text-green-600') 
+            : (isDarkMode ? 'text-red-400' : 'text-red-600')
+        }`}>
+          {message.text}
+        </p>
+      )}
     </div>
-  </div>
-);
+  );
+};
 
 // --- Main App ---
 
