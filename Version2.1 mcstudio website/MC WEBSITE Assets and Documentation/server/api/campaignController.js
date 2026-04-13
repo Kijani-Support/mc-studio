@@ -1,5 +1,11 @@
-const BREVO_API_KEY = process.env.BREVO_API_KEY;
 const BREVO_API_URL = 'https://api.brevo.com/v3';
+
+// Helper for headers to ensure process.env is read at runtime
+const getHeaders = () => ({
+  'accept': 'application/json',
+  'content-type': 'application/json',
+  'api-key': process.env.BREVO_API_KEY,
+});
 
 /**
  * Get all campaigns from Brevo
@@ -10,35 +16,20 @@ export const getAllCampaigns = async (req, res) => {
     const { limit = 50, offset = 0, status } = req.query;
 
     let url = `${BREVO_API_URL}/emailCampaigns?limit=${limit}&offset=${offset}`;
-    if (status) {
-      url += `&status=${status}`; // 'draft', 'sent', 'archive', 'scheduled'
-    }
+    if (status) url += `&status=${status}`;
 
     const response = await fetch(url, {
       method: 'GET',
-      headers: {
-        'accept': 'application/json',
-        'api-key': BREVO_API_KEY,
-      },
+      headers: getHeaders(),
     });
 
-    if (!response.ok) {
-      throw new Error(`Failed to fetch campaigns: ${response.statusText}`);
-    }
-
+    if (!response.ok) throw new Error(`Failed to fetch campaigns: ${response.statusText}`);
+    
     const result = await response.json();
-
-    res.status(200).json({
-      success: true,
-      data: result.campaigns,
-      count: result.count,
-    });
+    res.status(200).json({ success: true, data: result.campaigns, count: result.count });
   } catch (error) {
     console.error('Get campaigns error:', error);
-    res.status(500).json({
-      error: 'Failed to retrieve campaigns',
-      details: error.message,
-    });
+    res.status(500).json({ error: 'Failed to retrieve campaigns', details: error.message });
   }
 };
 
@@ -49,43 +40,25 @@ export const getAllCampaigns = async (req, res) => {
 export const getCampaign = async (req, res) => {
   try {
     const { campaignId } = req.params;
+    if (!campaignId) return res.status(400).json({ error: 'Campaign ID is required' });
 
-    if (!campaignId) {
-      return res.status(400).json({ error: 'Campaign ID is required' });
-    }
-
-    const response = await fetch(
-      `${BREVO_API_URL}/emailCampaigns/${campaignId}`,
-      {
-        method: 'GET',
-        headers: {
-          'accept': 'application/json',
-          'api-key': BREVO_API_KEY,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Failed to fetch campaign: ${response.statusText}`);
-    }
-
-    const campaign = await response.json();
-
-    res.status(200).json({
-      success: true,
-      data: campaign,
+    const response = await fetch(`${BREVO_API_URL}/emailCampaigns/${campaignId}`, {
+      method: 'GET',
+      headers: getHeaders(),
     });
+
+    if (!response.ok) throw new Error(`Failed to fetch campaign: ${response.statusText}`);
+    
+    const campaign = await response.json();
+    res.status(200).json({ success: true, data: campaign });
   } catch (error) {
     console.error('Get campaign error:', error);
-    res.status(500).json({
-      error: 'Failed to retrieve campaign',
-      details: error.message,
-    });
+    res.status(500).json({ error: 'Failed to retrieve campaign', details: error.message });
   }
 };
 
 /**
- * Update campaign in Brevo (update content before sending)
+ * Update campaign in Brevo
  * PUT /api/campaign/:campaignId
  */
 export const updateCampaign = async (req, res) => {
@@ -93,48 +66,27 @@ export const updateCampaign = async (req, res) => {
     const { campaignId } = req.params;
     const { subject, htmlContent, fromEmail, fromName, scheduledAt } = req.body;
 
-    if (!campaignId) {
-      return res.status(400).json({ error: 'Campaign ID is required' });
-    }
+    if (!campaignId) return res.status(400).json({ error: 'Campaign ID is required' });
 
     const updateData = {};
     if (subject) updateData.subject = subject;
     if (htmlContent) updateData.htmlContent = htmlContent;
     if (fromEmail || fromName) {
-      updateData.sender = {
-        name: fromName || 'ModusChora Studio',
-        email: fromEmail,
-      };
+      updateData.sender = { name: fromName || 'ModusChora Studio', email: fromEmail };
     }
     if (scheduledAt) updateData.scheduledAt = scheduledAt;
 
-    const response = await fetch(
-      `${BREVO_API_URL}/emailCampaigns/${campaignId}`,
-      {
-        method: 'PUT',
-        headers: {
-          'accept': 'application/json',
-          'content-type': 'application/json',
-          'api-key': BREVO_API_KEY,
-        },
-        body: JSON.stringify(updateData),
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Failed to update campaign: ${response.statusText}`);
-    }
-
-    res.status(200).json({
-      success: true,
-      message: 'Campaign updated successfully!',
+    const response = await fetch(`${BREVO_API_URL}/emailCampaigns/${campaignId}`, {
+      method: 'PUT',
+      headers: getHeaders(),
+      body: JSON.stringify(updateData),
     });
+
+    if (!response.ok) throw new Error(`Failed to update campaign: ${response.statusText}`);
+    res.status(200).json({ success: true, message: 'Campaign updated successfully!' });
   } catch (error) {
     console.error('Update campaign error:', error);
-    res.status(500).json({
-      error: 'Failed to update campaign',
-      details: error.message,
-    });
+    res.status(500).json({ error: 'Failed to update campaign', details: error.message });
   }
 };
 
@@ -147,45 +99,32 @@ export const sendCampaign = async (req, res) => {
     const { campaignId } = req.params;
     const { testEmail } = req.body;
 
-    if (!campaignId) {
-      return res.status(400).json({ error: 'Campaign ID is required' });
-    }
+    if (!campaignId) return res.status(400).json({ error: 'Campaign ID is required' });
 
-    let endpoint = `${BREVO_API_URL}/emailCampaigns/${campaignId}/send`;
-
-    // If testEmail is provided, send a test email instead
-    if (testEmail) {
-      endpoint = `${BREVO_API_URL}/emailCampaigns/${campaignId}/sendTest`;
-    }
+    const endpoint = testEmail 
+      ? `${BREVO_API_URL}/emailCampaigns/${campaignId}/sendTest`
+      : `${BREVO_API_URL}/emailCampaigns/${campaignId}/send`;
 
     const payload = testEmail ? { emailTo: [testEmail] } : {};
 
     const response = await fetch(endpoint, {
       method: 'POST',
-      headers: {
-        'accept': 'application/json',
-        'content-type': 'application/json',
-        'api-key': BREVO_API_KEY,
-      },
+      headers: getHeaders(),
       body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
-      throw new Error(`Failed to send campaign: ${response.statusText}`);
+        const errorText = await response.text();
+        throw new Error(`Failed to send campaign: ${errorText}`);
     }
 
     res.status(200).json({
       success: true,
-      message: testEmail
-        ? `Test email sent to ${testEmail}`
-        : 'Campaign sent successfully!',
+      message: testEmail ? `Test email sent to ${testEmail}` : 'Campaign sent successfully!',
     });
   } catch (error) {
     console.error('Send campaign error:', error);
-    res.status(500).json({
-      error: 'Failed to send campaign',
-      details: error.message,
-    });
+    res.status(500).json({ error: 'Failed to send campaign', details: error.message });
   }
 };
 
@@ -196,35 +135,17 @@ export const sendCampaign = async (req, res) => {
 export const deleteCampaign = async (req, res) => {
   try {
     const { campaignId } = req.params;
+    if (!campaignId) return res.status(400).json({ error: 'Campaign ID is required' });
 
-    if (!campaignId) {
-      return res.status(400).json({ error: 'Campaign ID is required' });
-    }
-
-    const response = await fetch(
-      `${BREVO_API_URL}/emailCampaigns/${campaignId}`,
-      {
-        method: 'DELETE',
-        headers: {
-          'accept': 'application/json',
-          'api-key': BREVO_API_KEY,
-        },
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(`Failed to delete campaign: ${response.statusText}`);
-    }
-
-    res.status(200).json({
-      success: true,
-      message: 'Campaign deleted successfully!',
+    const response = await fetch(`${BREVO_API_URL}/emailCampaigns/${campaignId}`, {
+      method: 'DELETE',
+      headers: getHeaders(),
     });
+
+    if (!response.ok) throw new Error(`Failed to delete campaign: ${response.statusText}`);
+    res.status(200).json({ success: true, message: 'Campaign deleted successfully!' });
   } catch (error) {
     console.error('Delete campaign error:', error);
-    res.status(500).json({
-      error: 'Failed to delete campaign',
-      details: error.message,
-    });
+    res.status(500).json({ error: 'Failed to delete campaign', details: error.message });
   }
-};
+};  
