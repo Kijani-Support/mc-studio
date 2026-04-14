@@ -11,11 +11,11 @@ import Achievements from "@/components/profile_page/Achievements";
 import Services from "@/components/profile_page/Services";
 import CaseStudies from "@/components/profile_page/CaseStudies";
 
-// Import icons from lucide-react
+// Import icons from react-icons
 import { 
-  DollarSign, Users, TrendingUp, Globe, 
-  Code, Palette, ShieldCheck, Compass, Megaphone, Lightbulb 
-} from 'lucide-react';
+  FiDollarSign, FiUsers, FiTrendingUp, FiGlobe, 
+  FiCode, FiEdit3, FiShield, FiCompass, FiSpeaker, FiZap 
+} from 'react-icons/fi';
 
 const StartUpProfilePage = () => {
   // Get the global dark mode state
@@ -102,28 +102,28 @@ const StartUpProfilePage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 justify-items-center w-full max-w-7xl">
             <Achievements
               isDarkMode={isDarkMode}
-              icon={<DollarSign size={28} className="text-blue-500" />}
+              icon={<FiDollarSign size={28} className="text-blue-500" />}
               title="$75M"
               subTitle="Funding Raised"
               description="Seed & Series B secured"
             />
             <Achievements
               isDarkMode={isDarkMode}
-              icon={<Users size={28} className="text-blue-500" />}
+              icon={<FiUsers size={28} className="text-blue-500" />}
               title="120+"
               subTitle="Employee Count"
               description="Dedicated team of innovators"
             />
             <Achievements
               isDarkMode={isDarkMode}
-              icon={<TrendingUp size={28} className="text-blue-500" />}
+              icon={<FiTrendingUp size={28} className="text-blue-500" />}
               title="150%"
               subTitle="Annual Growth"
               description="Year-over-year revenue increase"
             />
             <Achievements
               isDarkMode={isDarkMode}
-              icon={<Globe size={28} className="text-blue-500" />}
+              icon={<FiGlobe size={28} className="text-blue-500" />}
               title="5 Countries"
               subTitle="Global Presence"
               description="Expanding reach and impact"
@@ -142,37 +142,37 @@ const StartUpProfilePage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl w-full">
             <Services
               isDarkMode={isDarkMode}
-              icon={<Code size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />}
+              icon={<FiCode size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />}
               title="Custom Software Dev"
               description="Tailored solutions for unique business needs."
             />
             <Services
               isDarkMode={isDarkMode}
-              icon={<Palette size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />}
+              icon={<FiEdit3 size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />}
               title="UI/UX Design & Proto"
               description="Creating intuitive and engaging user experiences."
             />
             <Services
               isDarkMode={isDarkMode}
-              icon={<ShieldCheck size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />}
+              icon={<FiShield size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />}
               title="Cybersecurity Consulting"
               description="Ensuring robust protection against digital threats."
             />
             <Services
               isDarkMode={isDarkMode}
-              icon={<Compass size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />}
+              icon={<FiCompass size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />}
               title="Strategic Market Entry"
               description="Guidance for successful expansion into new markets."
             />
             <Services
               isDarkMode={isDarkMode}
-              icon={<Megaphone size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />}
+              icon={<FiSpeaker size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />}
               title="Brand & Marketing Strategy"
               description="Developing powerful brands and impactful campaigns."
             />
             <Services
               isDarkMode={isDarkMode}
-              icon={<Lightbulb size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />}
+              icon={<FiZap size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />}
               title="Innovation Workshops"
               description="Fostering creativity and problem-solving within teams."
             />

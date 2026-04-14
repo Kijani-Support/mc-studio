@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Facebook, Twitter, Instagram, Linkedin, Youtube, ArrowRight, ExternalLink } from 'lucide-react';
+import { FiSearch, FiFacebook, FiTwitter, FiInstagram, FiLinkedin, FiYoutube, FiArrowRight, FiExternalLink } from 'react-icons/fi';
 import { useTheme } from '@/components/Context/ThemeContext'; // <-- Import the custom hook
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -126,7 +126,7 @@ const HeroSection = ({ isDarkMode }) => (
           isDarkMode ? 'bg-blue-600 hover:bg-blue-500 text-white' : 'bg-blue-700 hover:bg-blue-800 text-white'
         }`}>
           <span>Review Dossier</span>
-          <ArrowRight size={16} />
+          <FiArrowRight size={16} />
         </button>
       </div>
     </div>
@@ -189,7 +189,7 @@ const StoryCard = ({ story, isDarkMode }) => (
       <a href="#" className={`text-sm font-semibold flex items-center mt-auto group-hover:translate-x-1 transition-all duration-300 ${
         isDarkMode ? 'text-white hover:text-blue-400' : 'text-gray-900 hover:text-blue-700'
       }`}>
-        Learn More <ArrowRight size={14} className="ml-1" />
+        Learn More <FiArrowRight size={14} className="ml-1" />
       </a>
     </div>
   </div>
@@ -254,7 +254,7 @@ export default function CaseStudiesPage() {
           {/* Filter Bar */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
             <div className="relative w-full md:w-64">
-              <Search className={`absolute left-3 top-2.5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} size={16} />
+              <FiSearch className={`absolute left-3 top-2.5 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} size={16} />
               <input 
                 type="text" 
                 placeholder="Search case studies..." 

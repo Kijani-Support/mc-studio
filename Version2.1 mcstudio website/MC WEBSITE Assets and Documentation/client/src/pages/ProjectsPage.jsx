@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import createGlobe from 'cobe';
 import { useSpring } from '@react-spring/web';
-import { Search, MapPin } from 'lucide-react';
+import { FiSearch, FiMapPin } from 'react-icons/fi';
 import { useTheme } from '@/components/Context/ThemeContext';
 import NavBar from '@/components/NavBar';
 
@@ -294,7 +294,7 @@ export default function ProjectsPage() {
 
           <div className={`absolute bottom-2 sm:bottom-8 left-2 sm:left-8 z-20 backdrop-blur-md px-3 sm:px-5 py-2 sm:py-3 rounded-xl border shadow-lg transition-colors pointer-events-none text-center sm:text-left ${isDarkMode ? 'bg-black/40 border-white/10' : 'bg-white/80 border-gray-200'}`}>
             <div className={`flex flex-col sm:flex-row items-center space-x-0 sm:space-x-3 text-xs font-medium gap-2 ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
-              <MapPin size={16} className="text-blue-500 flex-shrink-0" />
+              <FiMapPin size={16} className="text-blue-500 flex-shrink-0" />
               <span>Drag to rotate · Hover a card to focus</span>
             </div>
           </div>
@@ -336,7 +336,7 @@ export default function ProjectsPage() {
             </div>
             
             <div className="relative mb-8">
-              <Search className={`absolute left-3.5 top-3 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} size={16} />
+              <FiSearch className={`absolute left-3.5 top-3 ${isDarkMode ? 'text-gray-500' : 'text-gray-400'}`} size={16} />
               <input type="text" placeholder="Search projects by title, region, or partner..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className={`w-full pl-10 pr-4 py-2.5 border rounded-lg text-sm focus:outline-none focus:ring-1 transition-all ${isDarkMode ? 'bg-gray-800 border-gray-700 text-white placeholder-gray-500 focus:border-blue-500 focus:ring-blue-500' : 'bg-gray-50 border-gray-200 text-gray-900 focus:border-blue-600 focus:ring-blue-600'}`} />
             </div>
 

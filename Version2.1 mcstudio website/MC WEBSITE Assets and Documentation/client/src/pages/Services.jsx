@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { 
-  Facebook, Twitter, Instagram, Linkedin, Youtube, 
-  Lightbulb, Palette, Code, Users, CheckCircle2, ChevronDown, ChevronUp 
-} from 'lucide-react';
+  FiZap, FiEdit3, FiCode, FiUsers, FiCheckCircle, FiChevronDown, FiChevronUp 
+} from 'react-icons/fi';
 import { useTheme } from "@/components/Context/ThemeContext"; // <-- Import the hook
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -11,25 +10,25 @@ import Footer from '@/components/Footer';
 
 const COMPETENCIES = [
   {
-    icon: <Lightbulb className="w-8 h-8 text-blue-600 mb-4" />,
+    icon: <FiZap className="w-8 h-8 text-blue-600 mb-4" />,
     title: "Strategic Consultation",
     description: "Navigate your digital journey with confidence. We provide strategic consulting to align your technology investments with your business goals, ensuring every move drives value and competitive advantage.",
     linkText: "Explore Strategy"
   },
   {
-    icon: <Palette className="w-8 h-8 text-blue-600 mb-4" />,
+    icon: <FiEdit3 className="w-8 h-8 text-blue-600 mb-4" />,
     title: "User Experience Design",
     description: "Crafting intuitive, engaging, and beautiful user experiences. Our design team focuses on the end-user, ensuring your digital products are not only aesthetically pleasing but also functional and easy to navigate.",
     linkText: "View Design Portfolio"
   },
   {
-    icon: <Code className="w-8 h-8 text-blue-600 mb-4" />,
+    icon: <FiCode className="w-8 h-8 text-blue-600 mb-4" />,
     title: "Full-Stack Development",
     description: "Robust, scalable, and secure software solutions tailored to your unique needs. From front-end interfaces to back-end architecture, our development team utilizes the latest technologies to build applications that perform flawlessly.",
     linkText: "Our Tech Stack"
   },
   {
-    icon: <Users className="w-8 h-8 text-blue-600 mb-4" />,
+    icon: <FiUsers className="w-8 h-8 text-blue-600 mb-4" />,
     title: "Digital Transformation",
     description: "Modernizing businesses for the digital age. We guide you through the process of integrating digital technologies into all areas of your business, fundamentally changing how you operate and deliver value to customers.",
     linkText: "Transformation Cases"
@@ -114,8 +113,8 @@ const FAQItem = ({ faq, isDarkMode }) => {
           isDarkMode ? 'text-gray-200' : 'text-gray-900'
         }`}>{faq.question}</span>
         {isOpen 
-          ? <ChevronUp className={isDarkMode ? 'text-gray-400' : 'text-gray-500'} size={20} /> 
-          : <ChevronDown className={isDarkMode ? 'text-gray-400' : 'text-gray-500'} size={20} />
+          ? <FiChevronUp className={isDarkMode ? 'text-gray-400' : 'text-gray-500'} size={20} /> 
+          : <FiChevronDown className={isDarkMode ? 'text-gray-400' : 'text-gray-500'} size={20} />
         }
       </button>
       {isOpen && (
@@ -253,7 +252,7 @@ export default function ServicesPage() {
                   <ul className="space-y-4 mb-8 flex-grow text-sm">
                     {plan.features.map((feature, i) => (
                       <li key={i} className="flex items-start">
-                        <CheckCircle2 
+                        <FiCheckCircle 
                           size={18} 
                           className={`mr-3 mt-0.5 flex-shrink-0 ${plan.isPopular ? 'text-green-400' : 'text-green-600'}`} 
                         />

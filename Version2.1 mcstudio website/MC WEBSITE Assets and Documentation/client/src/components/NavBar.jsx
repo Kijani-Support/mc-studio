@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom'; // <-- Import useLocation
-import { Sun, Moon, Menu, X } from 'lucide-react';
+import { FiSun, FiMoon, FiMenu, FiX } from 'react-icons/fi';
 // With absolute paths setup, it always looks like this:
 import { useTheme } from "@/components/Context/ThemeContext";
 
@@ -72,7 +72,7 @@ const NavBar = () => {
             }`}
             aria-label="Toggle Dark Mode"
           >
-            {isDarkMode ? <Sun size={20} /> : <Moon size={20} />}
+            {isDarkMode ? <FiSun size={20} /> : <FiMoon size={20} />}
           </button>
 
           {/* CONTACT BUTTON - Desktop Only */}
@@ -92,7 +92,7 @@ const NavBar = () => {
             }`}
             aria-label="Toggle Mobile Menu"
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
           </button>
         </div>
       </nav>

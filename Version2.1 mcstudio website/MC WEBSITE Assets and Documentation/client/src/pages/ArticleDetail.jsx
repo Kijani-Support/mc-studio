@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Linkedin, Youtube, Mail, ArrowRight, Clock, User } from 'lucide-react';
+import { FiFacebook, FiTwitter, FiInstagram, FiLinkedin, FiYoutube, FiMail, FiArrowRight, FiClock, FiUser } from 'react-icons/fi';
 import { useTheme } from '@/components/Context/ThemeContext';
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
@@ -148,7 +148,7 @@ const NewsletterWidget = ({ isDarkMode }) => {
                 : 'bg-gray-50 border-gray-300 text-gray-900 placeholder-gray-400'
             }`}
           />
-          <Mail className={`absolute right-3 top-3 ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} size={16} />
+          <FiMail className={`absolute right-3 top-3 ${isDarkMode ? 'text-gray-600' : 'text-gray-400'}`} size={16} />
         </div>
         <button 
           type="submit"
@@ -230,11 +230,11 @@ export default function ArticleDetailPage() {
               isDarkMode ? 'text-blue-400 border-gray-800' : 'text-blue-700 border-gray-200'
             }`}>
               <div className="flex items-center space-x-2">
-                <User size={16} />
+                <FiUser size={16} />
                 <span className="font-semibold">{currentArticle.author}</span>
               </div>
               <div className="flex items-center space-x-2">
-                <Clock size={16} />
+                <FiClock size={16} />
                 <span>{currentArticle.date}</span>
               </div>
             </div>
@@ -278,10 +278,10 @@ export default function ArticleDetailPage() {
               </div>
               <div className="flex space-x-3">
                  <button className={`p-2 rounded-full text-white transition-colors ${isDarkMode ? 'bg-blue-600 hover:bg-blue-500' : 'bg-blue-600 hover:bg-blue-700'}`}>
-                   <Twitter size={16}/>
+                   <FiTwitter size={16}/>
                  </button>
                  <button className={`p-2 rounded-full text-white transition-colors ${isDarkMode ? 'bg-blue-800 hover:bg-blue-700' : 'bg-blue-800 hover:bg-blue-900'}`}>
-                   <Linkedin size={16}/>
+                   <FiLinkedin size={16}/>
                  </button>
               </div>
             </div>
