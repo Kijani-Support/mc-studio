@@ -26,6 +26,7 @@ const SUCCESS_STORIES = [
     tags: ["E-commerce", "Logistics", "Efficiency"],
     partners: "UrbanLogistics",
     projects: "IntelliLogistics",
+    link:"https://livesend.ibm.com/i/KfqACNdWZ8LnEPLUSSIGNOC6bprm3Ldi5wOqPUiavYBEbJVD73Qx9Z6gkwgqvUoEqPpyvTt41hPLUSSIGNTtQXXEvVh1rvq6V2TKMTOy6ZCjahuVVJ8x9ERPwtHhVPLUSSIGNcNDzPLUSSIGNugfWpL6TZcUrxNI_m_BjCvrsakz___djErYZQ63O36HeWbH4OXJZKCNYEQUALSIGN",
   },
   {
     id: 2,
@@ -35,6 +36,7 @@ const SUCCESS_STORIES = [
     tags: ["Fintech", "UI/UX", "Engagement"],
     partners: "PayView Solutions",
     projects: "FinView Redesign",
+    link:"https://livesend.ibm.com/i/KfqACNdWZ8LnEPLUSSIGNOC6bprm3Ldi5wOqPUiavYBEbJVD73Qx9Z6gkwgqvUoEqPpyvTt41hPLUSSIGNTtQXXEvVh1rvq6V2TKMTOy6ZCjahuVVJ8x9ERPwtHhVPLUSSIGNcNDzPLUSSIGNugfWpL6TZcUrxNI_m_BjCvrsakz___djErYZQ63O36HeWbH4OXJZKCNYEQUALSIGN"
   },
   {
     id: 3,
@@ -44,6 +46,7 @@ const SUCCESS_STORIES = [
     tags: ["Automotive", "AI", "Manufacturing"],
     partners: "AutoTech Innovations",
     projects: "Predictive Assembly",
+    link:"https://livesend.ibm.com/i/KfqACNdWZ8LnEPLUSSIGNOC6bprm3Ldi5wOqPUiavYBEbJVD73Qx9Z6gkwgqvUoEqPpyvTt41hPLUSSIGNTtQXXEvVh1rvq6V2TKMTOy6ZCjahuVVJ8x9ERPwtHhVPLUSSIGNcNDzPLUSSIGNugfWpL6TZcUrxNI_m_BjCvrsakz___djErYZQ63O36HeWbH4OXJZKCNYEQUALSIGN"
   },
   {
     id: 4,
@@ -53,6 +56,7 @@ const SUCCESS_STORIES = [
     tags: ["Education", "Marketing", "Growth"],
     partners: "LearnFlow Academy",
     projects: "EduLaunch Campaign",
+    link:"https://livesend.ibm.com/i/KfqACNdWZ8LnEPLUSSIGNOC6bprm3Ldi5wOqPUiavYBEbJVD733BZajaPLUSSIGNubvmLLaCArzkhVdAUuZ4pd8KjyQfshpptr9csXpamp3si5lulM1w12JaAqSloqUBX___ENir3JoHyyOYOnbYttWUtCySP2vfbHRMneZ2yGFlMfhBcDjgKmH7R7UEQUALSIGN",
   },
   {
     id: 5,
@@ -62,6 +66,7 @@ const SUCCESS_STORIES = [
     tags: ["Cloud", "SaaS", "Infrastructure"],
     partners: "Aether Cloud",
     projects: "Horizon Cloud Mig",
+    link:"https://livesend.ibm.com/i/KfqACNdWZ8LnEPLUSSIGNOC6bprm3Ldi5wOqPUiavYBEbJVD733BZajaPLUSSIGNubvmLLaCArzkhVdAUuZ4pd8KjyQfshpptr9csXpamp3si5lulM1w12JaAqSloqUBX___ENir3JoHyyOYOnbYttWUtCySP2vfbHRMneZ2yGFlMfhBcDjgKmH7R7UEQUALSIGN",
   },
   {
     id: 6,
@@ -71,6 +76,7 @@ const SUCCESS_STORIES = [
     tags: ["Energy", "Branding", "Web Dev"],
     partners: "TerraVolt Solutions",
     projects: "EcoConnect Platform",
+    link:"https://livesend.ibm.com/i/KfqACNdWZ8LnEPLUSSIGNOC6bprm3Ldi5wOqPUiavYBEbJVD71NLqqWRtvACh6BduWeR2hjY8ZPEaFHkE9mNPjxAZPVMnHSsr_kPc2ohKde39o9Lr9jl75sLcrSQUV_Kv_TxArmsmcvX1WCZ78tPLUSSIGNAN6Eiw8OxQJZ_VnysIvYj8PUNhLMJYEQUALSIGN",
   }
 ];
 
@@ -186,7 +192,7 @@ const StoryCard = ({ story, isDarkMode }) => (
         </div>
       </div>
 
-      <a href="#" className={`text-sm font-semibold flex items-center mt-auto group-hover:translate-x-1 transition-all duration-300 ${
+      <a href={`${story.link}`} className={`text-sm font-semibold flex items-center mt-auto group-hover:translate-x-1 transition-all duration-300 ${
         isDarkMode ? 'text-white hover:text-blue-400' : 'text-gray-900 hover:text-blue-700'
       }`}>
         Learn More <FiArrowRight size={14} className="ml-1" />
