@@ -127,10 +127,10 @@ export const handleContactForm = async (req, res) => {
       headers: getHeaders(),
       body: JSON.stringify({
         sender: {
-          email: process.env.SMTP_FROM_EMAIL || 'noreply@modusadora.com',
-          name: 'Modusadora Website'
+          email: process.env.SMTP_FROM_EMAIL || 'noreply@mcstudio.com',
+          name: 'MC Studio Website'
         },
-        to: [{ email: process.env.CONTACT_NOTIFICATION_EMAIL || 'contact@modusadora.com' }],
+        to: [{ email: process.env.CONTACT_NOTIFICATION_EMAIL || 'contact@mcstudio.com' }],
         subject: `New Contact Form Submission: ${subject}`,
         htmlContent: `
           <h2>New Contact Form Submission</h2>
