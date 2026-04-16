@@ -1,0 +1,138 @@
+name: Publish to JFrog
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch to build from (defaults to main)'
+        required: false
+        default: 'main'
+        type: string
+      version:
+        description: 'Version of the package to release (beta/alpha versions allowed)'
+        required: false
+        type: string
+      artifact_path:
+        description: 'Path to the artifact directory (defaults to root)'
+        required: false
+        default: '.'
+        type: string
+      artifact_name:
+        description: 'Name of the artifact for logging'
+        required: false
+        default: 'package'
+        type: string
+  workflow_call:
+    inputs:
+      branch:
+        description: 'Branch to build from'
+        required: false
+        default: 'main'
+        type: string
+      version:
+        description: 'Version of the package to release'
+        required: false
+        type: string
+      artifact_path:
+        description: 'Path to the artifact directory'
+        required: false
+        default: '.'
+        type: string
+      artifact_name:
+        description: 'Name of the artifact for logging'
+        required: false
+        default: 'package'
+        type: string
+    secrets:
+      JFROG_REPOSITORY_URL:
+        required: true
+      JFROG_USERNAME:
+        required: true
+      JFROG_PASSWORD:
+        required: true
+
+jobs:
+  publish-to-jfrog:
+    environment: ArtifactPublish
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.branch || github.ref }}
+
+      - name: 🔎 Validate version format
+        if: inputs.version != ''
+        run: |
+          version="${{ inputs.version }}"
+          if ! [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+([ab][0-9]+)?$ ]]; then
+            echo "::error::Invalid version format: $version. Use formats like 0.5.0, 0.5.0a1, or 0.5.0b1"
+            exit 1
+          fi
+          echo "✅ Version format is valid: $version"
+
+      - name: 📝 Update version in pyproject.toml
+        if: inputs.version != ''
+        run: |
+          cd "${{ inputs.artifact_path }}"
+          version="${{ inputs.version }}"
+          sed -i "s/^version = .*/version = \"$version\"/" pyproject.toml
+          echo "✅ Updated ${{ inputs.artifact_name }} version to $version"
+          echo "🔍 Current ${{ inputs.artifact_path }}/pyproject.toml version:"
+          grep '^version = ' pyproject.toml
+
+      - name: 🐍 Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: ⚙️ Build wheels
+        run: |
+          cd "${{ inputs.artifact_path }}"
+          python3 -m pip install --upgrade pip build setuptools wheel
+          python3 -m build
+          echo "✅ ${{ inputs.artifact_name }} build completed. Artifacts in ${{ inputs.artifact_path }}/dist/:"
+          ls -lh dist/
+
+      - name: 📦 Install Twine
+        run: pip install --quiet --upgrade twine
+
+      - name: 🚀 Publish to JFrog
+        env:
+          JFROG_URL: ${{ secrets.JFROG_REPOSITORY_URL }}
+          JFROG_USERNAME: ${{ secrets.JFROG_USERNAME }}
+          JFROG_PASSWORD: ${{ secrets.JFROG_PASSWORD }}
+        run: |
+          cd "${{ inputs.artifact_path }}"
+          if [[ -z "$JFROG_URL" ]]; then
+            echo "::error::JFROG_REPOSITORY_URL secret is not set"
+            exit 1
+          fi
+          if [[ -z "$JFROG_USERNAME" ]]; then
+            echo "::error::JFROG_USERNAME secret is not set"
+            exit 1
+          fi
+          if [[ -z "$JFROG_PASSWORD" ]]; then
+            echo "::error::JFROG_PASSWORD secret is not set"
+            exit 1
+          fi
+          
+          echo "🔑 Authenticated as $JFROG_USERNAME"
+          echo "🌐 Publishing ${{ inputs.artifact_name }} to: $JFROG_URL"
+          python3 -m twine upload \
+            --non-interactive \
+            --repository-url "$JFROG_URL" dist/* \
+            --username "$JFROG_USERNAME" --password "$JFROG_PASSWORD"
+
+      - name: 📋 Summary
+        run: |
+          cd "${{ inputs.artifact_path }}"
+          if [[ -n "${{ inputs.version }}" ]]; then
+            version="${{ inputs.version }}"
+          else
+            version=$(grep '^version = ' pyproject.toml | sed 's/version = "\(.*\)"/\1/')
+          fi
+          branch="${{ inputs.branch || github.ref_name }}"
+          echo "✅ Successfully published ${{ inputs.artifact_name }} version: $version"
+          echo "📦 Source branch: $branch"
+          echo "🏗️ Uploaded artifacts from: ${{ inputs.artifact_path }}/dist/"

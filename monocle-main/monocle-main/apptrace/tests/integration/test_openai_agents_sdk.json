@@ -1,0 +1,672 @@
+[{
+    "name": "openai.resources.responses.AsyncResponses.create",
+    "context": {
+        "trace_id": "0x26d435f4b3a42555a3ded8c6a30af143",
+        "span_id": "0xdb1dbbb030774a8f",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xabab328941689176",
+    "start_time": "2025-11-19T04:47:00.953571Z",
+    "end_time": "2025-11-19T04:47:03.461439Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.6.0",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/prasad/repos/monocle2ai/monocle-test-framework/.venv/lib/python3.12/site-packages/agents/models/openai_responses.py:274",
+        "workflow.name": "agents_sdk_dev_1",
+        "entity.1.type": "inference.openai",
+        "entity.1.provider_name": "api.openai.com",
+        "entity.1.inference_endpoint": "https://api.openai.com/v1/",
+        "entity.2.name": "gpt-4o",
+        "entity.2.type": "model.llm.gpt-4o",
+        "span.type": "inference",
+        "scope.agentic.turn": "0x70d4eff96fc5612caf775d6114d6c402",
+        "scope.agentic.invocation": "0x6d7295786c71cc9db6b9088aed35055b",
+        "entity.count": 3,
+        "span.subtype": "tool_call"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2025-11-19T04:47:00.953662Z",
+            "attributes": {
+                "input": [
+                    "{\"system\": \"You are a weather information specialist. Use the available weather tools to provide accurate weather information for cities.\"}",
+                    "{\"user\": \"What's the weather like in New York, London, and Tokyo? Please provide the temperature for each city.\"}"
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2025-11-19T04:47:03.461349Z",
+            "attributes": {
+                "error_code": "completed",
+                "response": "{\"tools\": [{\"tool_id\": \"call_vFOCgGTNL5PzGjXmMPVHe2XY\", \"tool_name\": \"get_weather\", \"tool_arguments\": \"{\\\"city\\\":\\\"New York\\\"}\"}, {\"tool_id\": \"call_ah2d0ytOJHm8aGCCfpitj5hS\", \"tool_name\": \"get_weather\", \"tool_arguments\": \"{\\\"city\\\":\\\"London\\\"}\"}, {\"tool_id\": \"call_z0QumLqW4A7fItd6XfXtEhXe\", \"tool_name\": \"get_weather\", \"tool_arguments\": \"{\\\"city\\\":\\\"Tokyo\\\"}\"}]}"
+            }
+        },
+        {
+            "name": "metadata",
+            "timestamp": "2025-11-19T04:47:03.461402Z",
+            "attributes": {
+                "completion_tokens": 60,
+                "prompt_tokens": 45,
+                "total_tokens": 105
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "agents_sdk_dev_1"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "mcp.shared.session.BaseSession.send_request",
+    "context": {
+        "trace_id": "0x26d435f4b3a42555a3ded8c6a30af143",
+        "span_id": "0x1cc5639a846cbdde",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0x5f23047155333546",
+    "start_time": "2025-11-19T04:47:03.463565Z",
+    "end_time": "2025-11-19T04:47:03.485776Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.6.0",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/prasad/repos/monocle2ai/monocle-test-framework/.venv/lib/python3.12/site-packages/mcp/client/session.py:293",
+        "workflow.name": "agents_sdk_dev_1",
+        "entity.1.name": "get_weather",
+        "entity.1.type": "mcp.server",
+        "entity.1.url": "http://localhost:8001/weather/mcp/",
+        "span.type": "agentic.mcp.invocation",
+        "scope.agentic.turn": "0x70d4eff96fc5612caf775d6114d6c402",
+        "scope.agentic.invocation": "0x6d7295786c71cc9db6b9088aed35055b",
+        "entity.count": 1,
+        "span.subtype": "routing"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2025-11-19T04:47:03.463688Z",
+            "attributes": {
+                "input": [
+                    "{\"city\": \"New York\"}"
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2025-11-19T04:47:03.485764Z",
+            "attributes": {
+                "output": "{\n  \"temperature\": 50\n}"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "agents_sdk_dev_1"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "agents.tool.FunctionTool.__init__",
+    "context": {
+        "trace_id": "0x26d435f4b3a42555a3ded8c6a30af143",
+        "span_id": "0x5f23047155333546",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xabab328941689176",
+    "start_time": "2025-11-19T04:47:03.462485Z",
+    "end_time": "2025-11-19T04:47:03.486335Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.6.0",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/prasad/repos/monocle2ai/monocle-test-framework/.venv/lib/python3.12/site-packages/agents/mcp/util.py:157",
+        "workflow.name": "agents_sdk_dev_1",
+        "entity.1.name": "get_weather",
+        "entity.1.description": "\n    Get mock weather information for a specified city.\n    \n    Args:\n        city: Name of the city to get weather for (e.g., \"London\", \"New York\", \"Tokyo\")\n    \n    Returns:\n        Dictionary containing mock weather information with random temperature between 40-100.\n    ",
+        "entity.2.name": "Weather Assistant",
+        "entity.2.type": "agent.openai_agents",
+        "is_mcp": true,
+        "span.type": "agentic.tool.invocation",
+        "entity.1.type": "tool.mcp",
+        "scope.agentic.turn": "0x70d4eff96fc5612caf775d6114d6c402",
+        "scope.agentic.invocation": "0x6d7295786c71cc9db6b9088aed35055b",
+        "entity.count": 2,
+        "span.subtype": "content_generation"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2025-11-19T04:47:03.462642Z",
+            "attributes": {
+                "input": "{\"city\":\"New York\"}"
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2025-11-19T04:47:03.486325Z",
+            "attributes": {
+                "response": "{\"type\":\"text\",\"text\":\"{\\n  \\\"temperature\\\": 50\\n}\",\"annotations\":null,\"meta\":null}"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "agents_sdk_dev_1"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "mcp.shared.session.BaseSession.send_request",
+    "context": {
+        "trace_id": "0x26d435f4b3a42555a3ded8c6a30af143",
+        "span_id": "0xde601d5e550fc00a",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xc36dd761b49cb9fa",
+    "start_time": "2025-11-19T04:47:03.464483Z",
+    "end_time": "2025-11-19T04:47:03.487320Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.6.0",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/prasad/repos/monocle2ai/monocle-test-framework/.venv/lib/python3.12/site-packages/mcp/client/session.py:293",
+        "workflow.name": "agents_sdk_dev_1",
+        "entity.1.name": "get_weather",
+        "entity.1.type": "mcp.server",
+        "entity.1.url": "http://localhost:8001/weather/mcp/",
+        "span.type": "agentic.mcp.invocation",
+        "scope.agentic.turn": "0x70d4eff96fc5612caf775d6114d6c402",
+        "scope.agentic.invocation": "0x6d7295786c71cc9db6b9088aed35055b",
+        "entity.count": 1,
+        "span.subtype": "routing"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2025-11-19T04:47:03.464577Z",
+            "attributes": {
+                "input": [
+                    "{\"city\": \"London\"}"
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2025-11-19T04:47:03.487313Z",
+            "attributes": {
+                "output": "{\n  \"temperature\": 48\n}"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "agents_sdk_dev_1"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "agents.tool.FunctionTool.__init__",
+    "context": {
+        "trace_id": "0x26d435f4b3a42555a3ded8c6a30af143",
+        "span_id": "0xc36dd761b49cb9fa",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xabab328941689176",
+    "start_time": "2025-11-19T04:47:03.463876Z",
+    "end_time": "2025-11-19T04:47:03.487804Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.6.0",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/prasad/repos/monocle2ai/monocle-test-framework/.venv/lib/python3.12/site-packages/agents/mcp/util.py:157",
+        "workflow.name": "agents_sdk_dev_1",
+        "entity.1.name": "get_weather",
+        "entity.1.description": "\n    Get mock weather information for a specified city.\n    \n    Args:\n        city: Name of the city to get weather for (e.g., \"London\", \"New York\", \"Tokyo\")\n    \n    Returns:\n        Dictionary containing mock weather information with random temperature between 40-100.\n    ",
+        "entity.2.name": "Weather Assistant",
+        "entity.2.type": "agent.openai_agents",
+        "is_mcp": true,
+        "span.type": "agentic.tool.invocation",
+        "entity.1.type": "tool.mcp",
+        "scope.agentic.turn": "0x70d4eff96fc5612caf775d6114d6c402",
+        "scope.agentic.invocation": "0x6d7295786c71cc9db6b9088aed35055b",
+        "entity.count": 2,
+        "span.subtype": "content_generation"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2025-11-19T04:47:03.463955Z",
+            "attributes": {
+                "input": "{\"city\":\"London\"}"
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2025-11-19T04:47:03.487799Z",
+            "attributes": {
+                "response": "{\"type\":\"text\",\"text\":\"{\\n  \\\"temperature\\\": 48\\n}\",\"annotations\":null,\"meta\":null}"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "agents_sdk_dev_1"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "mcp.shared.session.BaseSession.send_request",
+    "context": {
+        "trace_id": "0x26d435f4b3a42555a3ded8c6a30af143",
+        "span_id": "0xef30b2b5a87476c5",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xf36a049b40669bb6",
+    "start_time": "2025-11-19T04:47:03.465320Z",
+    "end_time": "2025-11-19T04:47:03.488138Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.6.0",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/prasad/repos/monocle2ai/monocle-test-framework/.venv/lib/python3.12/site-packages/mcp/client/session.py:293",
+        "workflow.name": "agents_sdk_dev_1",
+        "entity.1.name": "get_weather",
+        "entity.1.type": "mcp.server",
+        "entity.1.url": "http://localhost:8001/weather/mcp/",
+        "span.type": "agentic.mcp.invocation",
+        "scope.agentic.turn": "0x70d4eff96fc5612caf775d6114d6c402",
+        "scope.agentic.invocation": "0x6d7295786c71cc9db6b9088aed35055b",
+        "entity.count": 1,
+        "span.subtype": "routing"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2025-11-19T04:47:03.465411Z",
+            "attributes": {
+                "input": [
+                    "{\"city\": \"Tokyo\"}"
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2025-11-19T04:47:03.488133Z",
+            "attributes": {
+                "output": "{\n  \"temperature\": 44\n}"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "agents_sdk_dev_1"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "agents.tool.FunctionTool.__init__",
+    "context": {
+        "trace_id": "0x26d435f4b3a42555a3ded8c6a30af143",
+        "span_id": "0xf36a049b40669bb6",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xabab328941689176",
+    "start_time": "2025-11-19T04:47:03.464709Z",
+    "end_time": "2025-11-19T04:47:03.488545Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.6.0",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/prasad/repos/monocle2ai/monocle-test-framework/.venv/lib/python3.12/site-packages/agents/mcp/util.py:157",
+        "workflow.name": "agents_sdk_dev_1",
+        "entity.1.name": "get_weather",
+        "entity.1.description": "\n    Get mock weather information for a specified city.\n    \n    Args:\n        city: Name of the city to get weather for (e.g., \"London\", \"New York\", \"Tokyo\")\n    \n    Returns:\n        Dictionary containing mock weather information with random temperature between 40-100.\n    ",
+        "entity.2.name": "Weather Assistant",
+        "entity.2.type": "agent.openai_agents",
+        "is_mcp": true,
+        "span.type": "agentic.tool.invocation",
+        "entity.1.type": "tool.mcp",
+        "scope.agentic.turn": "0x70d4eff96fc5612caf775d6114d6c402",
+        "scope.agentic.invocation": "0x6d7295786c71cc9db6b9088aed35055b",
+        "entity.count": 2,
+        "span.subtype": "content_generation"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2025-11-19T04:47:03.464786Z",
+            "attributes": {
+                "input": "{\"city\":\"Tokyo\"}"
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2025-11-19T04:47:03.488538Z",
+            "attributes": {
+                "response": "{\"type\":\"text\",\"text\":\"{\\n  \\\"temperature\\\": 44\\n}\",\"annotations\":null,\"meta\":null}"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "agents_sdk_dev_1"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "agents.run.AgentRunner._run_single_turn",
+    "context": {
+        "trace_id": "0x26d435f4b3a42555a3ded8c6a30af143",
+        "span_id": "0xabab328941689176",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0x2fd248f5a6b869be",
+    "start_time": "2025-11-19T04:47:00.953015Z",
+    "end_time": "2025-11-19T04:47:03.488900Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.6.0",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/prasad/repos/monocle2ai/monocle-test-framework/.venv/lib/python3.12/site-packages/agents/run.py:420",
+        "workflow.name": "agents_sdk_dev_1",
+        "entity.1.type": "agent.openai_agents",
+        "entity.1.name": "Weather Assistant",
+        "entity.1.description": "None",
+        "entity.1.instructions": "You are a weather information specialist. Use the available weather tools to provide accurate weather information for cities.",
+        "span.type": "agentic.invocation",
+        "scope.agentic.turn": "0x70d4eff96fc5612caf775d6114d6c402",
+        "scope.agentic.invocation": "0x6d7295786c71cc9db6b9088aed35055b",
+        "entity.count": 1,
+        "span.subtype": "content_processing"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2025-11-19T04:47:00.953074Z",
+            "attributes": {
+                "input": [
+                    "What's the weather like in New York, London, and Tokyo? Please provide the temperature for each city."
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2025-11-19T04:47:03.488889Z",
+            "attributes": {}
+        },
+        {
+            "name": "metadata",
+            "timestamp": "2025-11-19T04:47:03.488894Z",
+            "attributes": {}
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "agents_sdk_dev_1"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "openai.resources.responses.AsyncResponses.create",
+    "context": {
+        "trace_id": "0x26d435f4b3a42555a3ded8c6a30af143",
+        "span_id": "0x6494fd1d630d1ac8",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xd6b155725fe14ad6",
+    "start_time": "2025-11-19T04:47:03.504384Z",
+    "end_time": "2025-11-19T04:47:04.431478Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.6.0",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/prasad/repos/monocle2ai/monocle-test-framework/.venv/lib/python3.12/site-packages/agents/models/openai_responses.py:274",
+        "workflow.name": "agents_sdk_dev_1",
+        "entity.1.type": "inference.openai",
+        "entity.1.provider_name": "api.openai.com",
+        "entity.1.inference_endpoint": "https://api.openai.com/v1/",
+        "entity.2.name": "gpt-4o",
+        "entity.2.type": "model.llm.gpt-4o",
+        "span.type": "inference",
+        "scope.agentic.turn": "0x70d4eff96fc5612caf775d6114d6c402",
+        "scope.agentic.invocation": "0x215e85d45940ee787f62916c3cd515a9",
+        "entity.count": 3,
+        "span.subtype": "turn_end"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2025-11-19T04:47:03.504539Z",
+            "attributes": {
+                "input": [
+                    "{\"system\": \"You are a weather information specialist. Use the available weather tools to provide accurate weather information for cities.\"}",
+                    "{\"user\": \"What's the weather like in New York, London, and Tokyo? Please provide the temperature for each city.\"}",
+                    "{\"tool_function\": \"get_weather\", \"tool_arguments\": \"{\\\"city\\\":\\\"New York\\\"}\", \"call_id\": \"call_vFOCgGTNL5PzGjXmMPVHe2XY\"}",
+                    "{\"tool_function\": \"get_weather\", \"tool_arguments\": \"{\\\"city\\\":\\\"London\\\"}\", \"call_id\": \"call_ah2d0ytOJHm8aGCCfpitj5hS\"}",
+                    "{\"tool_function\": \"get_weather\", \"tool_arguments\": \"{\\\"city\\\":\\\"Tokyo\\\"}\", \"call_id\": \"call_z0QumLqW4A7fItd6XfXtEhXe\"}",
+                    "{\"call_id\": \"call_vFOCgGTNL5PzGjXmMPVHe2XY\", \"output\": \"{\\\"type\\\":\\\"text\\\",\\\"text\\\":\\\"{\\\\n  \\\\\\\"temperature\\\\\\\": 50\\\\n}\\\",\\\"annotations\\\":null,\\\"meta\\\":null}\"}",
+                    "{\"call_id\": \"call_ah2d0ytOJHm8aGCCfpitj5hS\", \"output\": \"{\\\"type\\\":\\\"text\\\",\\\"text\\\":\\\"{\\\\n  \\\\\\\"temperature\\\\\\\": 48\\\\n}\\\",\\\"annotations\\\":null,\\\"meta\\\":null}\"}",
+                    "{\"call_id\": \"call_z0QumLqW4A7fItd6XfXtEhXe\", \"output\": \"{\\\"type\\\":\\\"text\\\",\\\"text\\\":\\\"{\\\\n  \\\\\\\"temperature\\\\\\\": 44\\\\n}\\\",\\\"annotations\\\":null,\\\"meta\\\":null}\"}"
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2025-11-19T04:47:04.431350Z",
+            "attributes": {
+                "error_code": "completed",
+                "response": "{\"assistant\": \"Here are the current temperatures:\\n\\n- **New York:** 50\\u00b0F\\n- **London:** 48\\u00b0F\\n- **Tokyo:** 44\\u00b0F\"}"
+            }
+        },
+        {
+            "name": "metadata",
+            "timestamp": "2025-11-19T04:47:04.431422Z",
+            "attributes": {
+                "completion_tokens": 32,
+                "prompt_tokens": 275,
+                "total_tokens": 307
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "agents_sdk_dev_1"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "agents.run.AgentRunner._run_single_turn",
+    "context": {
+        "trace_id": "0x26d435f4b3a42555a3ded8c6a30af143",
+        "span_id": "0xd6b155725fe14ad6",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0x2fd248f5a6b869be",
+    "start_time": "2025-11-19T04:47:03.503244Z",
+    "end_time": "2025-11-19T04:47:04.433081Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.6.0",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/prasad/repos/monocle2ai/monocle-test-framework/.venv/lib/python3.12/site-packages/agents/run.py:434",
+        "workflow.name": "agents_sdk_dev_1",
+        "entity.1.type": "agent.openai_agents",
+        "entity.1.name": "Weather Assistant",
+        "entity.1.description": "None",
+        "entity.1.instructions": "You are a weather information specialist. Use the available weather tools to provide accurate weather information for cities.",
+        "span.type": "agentic.invocation",
+        "scope.agentic.turn": "0x70d4eff96fc5612caf775d6114d6c402",
+        "scope.agentic.invocation": "0x215e85d45940ee787f62916c3cd515a9",
+        "entity.count": 1,
+        "span.subtype": "content_processing"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2025-11-19T04:47:03.503328Z",
+            "attributes": {
+                "input": [
+                    "What's the weather like in New York, London, and Tokyo? Please provide the temperature for each city."
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2025-11-19T04:47:04.433026Z",
+            "attributes": {
+                "response": "Here are the current temperatures:\n\n- **New York:** 50\u00b0F\n- **London:** 48\u00b0F\n- **Tokyo:** 44\u00b0F"
+            }
+        },
+        {
+            "name": "metadata",
+            "timestamp": "2025-11-19T04:47:04.433046Z",
+            "attributes": {}
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "agents_sdk_dev_1"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "agents.run.Runner.run",
+    "context": {
+        "trace_id": "0x26d435f4b3a42555a3ded8c6a30af143",
+        "span_id": "0x2fd248f5a6b869be",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0x421f8ab3eeb44efb",
+    "start_time": "2025-11-19T04:47:00.931832Z",
+    "end_time": "2025-11-19T04:47:04.433304Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.6.0",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/prasad/repos/monocle2ai/monocle-test-framework/apptrace/tests/integration/test_openai_agents_sdk.py:252",
+        "workflow.name": "agents_sdk_dev_1",
+        "entity.1.type": "agent.openai_agents",
+        "span.type": "agentic.turn",
+        "scope.agentic.turn": "0x70d4eff96fc5612caf775d6114d6c402",
+        "entity.count": 1,
+        "span.subtype": "turn"
+    },
+    "events": [
+        {
+            "name": "data.input",
+            "timestamp": "2025-11-19T04:47:00.931881Z",
+            "attributes": {
+                "input": [
+                    "What's the weather like in New York, London, and Tokyo? Please provide the temperature for each city."
+                ]
+            }
+        },
+        {
+            "name": "data.output",
+            "timestamp": "2025-11-19T04:47:04.433281Z",
+            "attributes": {
+                "response": "Here are the current temperatures:\n\n- **New York:** 50\u00b0F\n- **London:** 48\u00b0F\n- **Tokyo:** 44\u00b0F"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "agents_sdk_dev_1"
+        },
+        "schema_url": ""
+    }
+}
+,{
+    "name": "workflow",
+    "context": {
+        "trace_id": "0x26d435f4b3a42555a3ded8c6a30af143",
+        "span_id": "0x421f8ab3eeb44efb",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": null,
+    "start_time": "2025-11-19T04:47:00.931767Z",
+    "end_time": "2025-11-19T04:47:04.433335Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "monocle_apptrace.version": "0.6.0",
+        "monocle_apptrace.language": "python",
+        "span_source": "/Users/prasad/repos/monocle2ai/monocle-test-framework/apptrace/tests/integration/test_openai_agents_sdk.py:252",
+        "scope.agentic.turn": "0x70d4eff96fc5612caf775d6114d6c402",
+        "workflow.name": "agents_sdk_dev_1",
+        "span.type": "workflow",
+        "entity.1.name": "agents_sdk_dev_1",
+        "entity.1.type": "workflow.generic",
+        "entity.2.type": "app_hosting.generic",
+        "entity.2.name": "generic"
+    },
+    "events": [],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "service.name": "agents_sdk_dev_1"
+        },
+        "schema_url": ""
+    }
+}
+]
