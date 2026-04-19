@@ -3,7 +3,7 @@ const serverless = require('serverless-http');
 const cors = require('cors');
 
 // Import your existing logic
-const brevoRoutes = require('Version2.1 mcstudio website/MC WEBSITE Assets and Documentation/server/api/brevoRoutes');
+const brevoRoutes = require('/Version2.1 mcstudio website/MC WEBSITE Assets and Documentation/server/api/brevoRoutes');
 
 const app = express();
 
