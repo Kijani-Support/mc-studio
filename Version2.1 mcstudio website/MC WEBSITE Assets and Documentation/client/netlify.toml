@@ -3,7 +3,7 @@
   base = "Version2.1 mcstudio website/MC WEBSITE Assets and Documentation/client"
   command = "cd .. && npm install express serverless-http cors && cd client && npm install && npm run build"
   publish = "dist"
-  functions = "../netlify/functions"
+  functions = "Version2.1 mcstudio website/MC WEBSITE Assets and Documentation/netlify/functions"
 
 # Environment variables
 [build.environment]
