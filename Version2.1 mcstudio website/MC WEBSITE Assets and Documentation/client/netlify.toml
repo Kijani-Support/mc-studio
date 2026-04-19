@@ -1,21 +1,47 @@
+# Build configuration for Netlify deployment
 [build]
-  base = "main/Version2.1 mcstudio website/MC WEBSITE Assets and Documentation"
-  command = "cd client && npm install && npm run build"
-  publish = "client/dist"
-  functions = "server/api"
+  base = "Version2.1 mcstudio website/MC WEBSITE Assets and Documentation/client"
+  command = "npm install && npm run build"
+  publish = "dist"
+  functions = "../server/api"
 
+# Environment variables
+[build.environment]
+  NODE_VERSION = "18"
+  NPM_FLAGS = "--legacy-peer-deps"
+
+# Development server configuration
 [dev]
   command = "npm run dev"
   port = 3000
+  targetPort = 5173
 
+# Cache configuration for faster deployments
+[build.cache]
+  inputs = ["package.json", "package-lock.json"]
+  outputs = ["node_modules"]
+
+# Redirects for SPA routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
+  force = false
+  conditions = {Language = ["en"]}
 
+# API CORS headers
 [[headers]]
   for = "/api/*"
   [headers.values]
     Access-Control-Allow-Origin = "*"
     Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
-    Access-Control-Allow-Headers = "Content-Type"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+# Security headers
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
