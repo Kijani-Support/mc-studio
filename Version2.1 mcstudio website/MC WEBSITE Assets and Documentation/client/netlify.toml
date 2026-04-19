@@ -1,54 +1,44 @@
-# Build configuration for Netlify deployment
 [build]
-  base = "Version2.1 mcstudio website/MC WEBSITE Assets and Documentation/client"
-  # Installs backend dependencies at root, then builds the frontend
-  command = "cd .. && npm install express serverless-http cors dotenv && cd client && npm install && npm run build"
-  publish = "dist"
-  # Use a relative path from the 'client' base folder
-  functions = "../netlify/functions"
+  # 1. Install backend dependencies from the new top-level package.json
+  # 2. Move into client, install frontend dependencies, and build Vite
+  command = "npm install && cd client && npm install && npm run build"
+  
+  # Tell Netlify where the Vite build output lives relative to the root
+  publish = "client/dist"
 
-# Environment variables
 [build.environment]
   NODE_VERSION = "20"
   NPM_FLAGS = "--legacy-peer-deps"
 
-# Development server configuration
-[dev]
-  command = "npm run dev"
-  port = 3000
-  targetPort = 5173
-
-# Cache configuration for faster deployments
-[build.cache]
-  inputs = ["package.json", "package-lock.json"]
-  outputs = ["node_modules"]
-
-# Netlify Functions configuration
 [functions]
-  # Grab the server files located one directory up from 'client'
-  included_files = ["../server/api/**"]
+  # Explicitly tell Netlify where functions live
+  directory = "netlify/functions"
+  # Bundle the local server files
+  included_files = ["server/api/**"]
   node_bundler = "esbuild"
 
 # --------------------------------------------------------
-# IMPORTANT: API redirects MUST come before the SPA catch-all
+# ROUTING
 # --------------------------------------------------------
 
-# API redirect to serverless functions
+# API redirect to serverless functions MUST come first
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200
   force = true
 
-# Redirects for SPA routing (Catch-all)
+# Catch-all redirect for the React/Vite SPA
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
   force = false
-  conditions = {Language = ["en"]}
 
-# API CORS headers
+# --------------------------------------------------------
+# HEADERS
+# --------------------------------------------------------
+
 [[headers]]
   for = "/api/*"
   [headers.values]
@@ -56,7 +46,6 @@
     Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
     Access-Control-Allow-Headers = "Content-Type, Authorization"
 
-# Security headers
 [[headers]]
   for = "/*"
   [headers.values]
