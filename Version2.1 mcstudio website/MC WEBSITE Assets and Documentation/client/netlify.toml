@@ -3,7 +3,7 @@
   base = "Version2.1 mcstudio website/MC WEBSITE Assets and Documentation/client"
   command = "npm install && npm run build"
   publish = "dist"
-  functions = "../server/api"
+  functions = "../netlify/functions"
 
 # Environment variables
 [build.environment]
