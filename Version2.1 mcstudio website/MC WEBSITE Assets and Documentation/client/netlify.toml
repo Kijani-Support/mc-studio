@@ -23,7 +23,7 @@
 
 # Netlify Functions configuration
 [functions]
-  
+  included_files = ["server/api/**"]
   node_bundler = "esbuild"
 
 # Redirects for SPA routing

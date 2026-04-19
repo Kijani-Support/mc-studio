@@ -3,7 +3,7 @@ const serverless = require('serverless-http');
 const cors = require('cors');
 
 // Import your existing logic
-const brevoRoutes = require('./server/api/brevoController');
+const brevoRoutes = require('../../server/api/brevoController');
 
 const app = express();
 
