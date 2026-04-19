@@ -2,23 +2,35 @@ const express = require('express');
 const serverless = require('serverless-http');
 const cors = require('cors');
 
-// 1. Destructure the specific functions from your controller
-const { subscribeToNewsletter, handleContactForm } = require('../../server/api/brevoController');
+// Import the whole module first
+const brevoController = require('../../server/api/brevoController');
+
+// Safely extract the functions, accounting for bundler quirks
+const subscribeToNewsletter = brevoController.subscribeToNewsletter || (brevoController.default && brevoController.default.subscribeToNewsletter);
+const handleContactForm = brevoController.handleContactForm || (brevoController.default && brevoController.default.handleContactForm);
 
 const app = express();
-
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// 2. Create an explicit Express Router
 const router = express.Router();
 
-// 3. Define the POST routes and attach your controller functions
-router.post('/subscribe', subscribeToNewsletter);
-router.post('/contact', handleContactForm);
+// A simple test route to verify the API is successfully booting
+router.get('/status', (req, res) => res.json({ status: 'API is online!' }));
 
-// 4. Mount the router at the Netlify function path
+// Defensive routing: Only attach routes if the functions successfully imported
+if (typeof subscribeToNewsletter === 'function') {
+  router.post('/subscribe', subscribeToNewsletter);
+} else {
+  console.error('CRITICAL: subscribeToNewsletter failed to import.');
+}
+
+if (typeof handleContactForm === 'function') {
+  router.post('/contact', handleContactForm);
+} else {
+  console.error('CRITICAL: handleContactForm failed to import.');
+}
+
 app.use('/.netlify/functions/api', router);
 
 module.exports.handler = serverless(app);

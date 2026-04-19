@@ -1,17 +1,12 @@
 const BREVO_API_URL = 'https://api.brevo.com/v3';
 
-// Helper to get headers with the API key
 const getHeaders = () => ({
   'accept': 'application/json',
   'content-type': 'application/json',
   'api-key': process.env.BREVO_API_KEY,
 });
 
-/**
- * Subscribe user to newsletter via Brevo
- * POST /api/subscribe
- */
-exports.subscribeToNewsletter = async (req, res) => {
+const subscribeToNewsletter = async (req, res) => {
   try {
     const { email, firstName } = req.body;
 
@@ -21,7 +16,6 @@ exports.subscribeToNewsletter = async (req, res) => {
 
     const listId = parseInt(process.env.BREVO_LIST_ID);
 
-    // 1. Create/Update Contact
     const contactResponse = await fetch(`${BREVO_API_URL}/contacts`, {
       method: 'POST',
       headers: getHeaders(),
@@ -38,7 +32,6 @@ exports.subscribeToNewsletter = async (req, res) => {
       console.warn('Contact creation warning (might already exist):', errorText);
     }
 
-    // 2. Send Welcome Email Template
     const emailResponse = await fetch(`${BREVO_API_URL}/smtp/email`, {
       method: 'POST',
       headers: getHeaders(),
@@ -67,11 +60,7 @@ exports.subscribeToNewsletter = async (req, res) => {
   }
 };
 
-/**
- * Handle contact form submission via Brevo
- * POST /api/contact
- */
-exports.handleContactForm = async (req, res) => {
+const handleContactForm = async (req, res) => {
   try {
     const { firstName, lastName, email, phone, subject, message } = req.body;
 
@@ -81,7 +70,6 @@ exports.handleContactForm = async (req, res) => {
       });
     }
 
-    // 1. Add contact to Brevo database
     const contactResponse = await fetch(`${BREVO_API_URL}/contacts`, {
       method: 'POST',
       headers: getHeaders(),
@@ -102,7 +90,6 @@ exports.handleContactForm = async (req, res) => {
       console.warn('Contact creation warning:', errorText);
     }
 
-    // 2. Send confirmation template to the customer
     const customerEmailResponse = await fetch(`${BREVO_API_URL}/smtp/email`, {
       method: 'POST',
       headers: getHeaders(),
@@ -121,7 +108,6 @@ exports.handleContactForm = async (req, res) => {
       console.error('Failed to send customer confirmation:', errorText);
     }
 
-    // 3. Send raw HTML notification to your team
     const teamEmailResponse = await fetch(`${BREVO_API_URL}/smtp/email`, {
       method: 'POST',
       headers: getHeaders(),
@@ -160,4 +146,10 @@ exports.handleContactForm = async (req, res) => {
       details: error.message,
     });
   }
+};
+
+// Explicitly export at the bottom
+module.exports = {
+  subscribeToNewsletter,
+  handleContactForm
 };
