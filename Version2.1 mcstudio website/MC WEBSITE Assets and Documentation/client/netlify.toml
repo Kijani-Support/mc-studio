@@ -21,6 +21,11 @@
   inputs = ["package.json", "package-lock.json"]
   outputs = ["node_modules"]
 
+# Netlify Functions configuration
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
 # Redirects for SPA routing
 [[redirects]]
   from = "/*"
@@ -28,6 +33,13 @@
   status = 200
   force = false
   conditions = {Language = ["en"]}
+
+# API redirect to serverless functions
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
 
 # API CORS headers
 [[headers]]
