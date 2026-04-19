@@ -1,12 +1,12 @@
-import express from 'express';
-import { subscribeToNewsletter, handleContactForm } from './brevoController.js';
-import {
+const express = require('express');
+const { subscribeToNewsletter, handleContactForm } = require('./brevoController.js');
+const {
   getCampaign,
   updateCampaign,
   sendCampaign,
   deleteCampaign,
   getAllCampaigns,
-} from './campaignController.js';
+} = require('./campaignController.js');
 
 const router = express.Router();
 
@@ -48,4 +48,4 @@ router.post('/campaign/:campaignId/send', sendCampaign);
 // DELETE /api/campaign/:campaignId
 router.delete('/campaign/:campaignId', deleteCampaign);
 
-export default router;
+module.exports = router;

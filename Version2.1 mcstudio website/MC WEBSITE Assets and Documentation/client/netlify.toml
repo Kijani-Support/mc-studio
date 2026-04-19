@@ -1,9 +1,11 @@
 # Build configuration for Netlify deployment
 [build]
   base = "Version2.1 mcstudio website/MC WEBSITE Assets and Documentation/client"
-  command = "cd .. && npm install express serverless-http cors && cd client && npm install && npm run build"
+  # Installs backend dependencies at root, then builds the frontend
+  command = "cd .. && npm install express serverless-http cors dotenv && cd client && npm install && npm run build"
   publish = "dist"
-  functions = "Version2.1 mcstudio website/MC WEBSITE Assets and Documentation/netlify/functions"
+  # Use a relative path from the 'client' base folder
+  functions = "../netlify/functions"
 
 # Environment variables
 [build.environment]
@@ -23,16 +25,13 @@
 
 # Netlify Functions configuration
 [functions]
-  included_files = ["server/api/**"]
+  # Grab the server files located one directory up from 'client'
+  included_files = ["../server/api/**"]
   node_bundler = "esbuild"
 
-# Redirects for SPA routing
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-  force = false
-  conditions = {Language = ["en"]}
+# --------------------------------------------------------
+# IMPORTANT: API redirects MUST come before the SPA catch-all
+# --------------------------------------------------------
 
 # API redirect to serverless functions
 [[redirects]]
@@ -40,6 +39,14 @@
   to = "/.netlify/functions/api/:splat"
   status = 200
   force = true
+
+# Redirects for SPA routing (Catch-all)
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+  conditions = {Language = ["en"]}
 
 # API CORS headers
 [[headers]]

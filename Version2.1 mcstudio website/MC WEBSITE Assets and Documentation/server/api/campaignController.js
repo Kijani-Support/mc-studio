@@ -11,7 +11,7 @@ const getHeaders = () => ({
  * Get all campaigns from Brevo
  * GET /api/campaigns?limit=50&offset=0&status=sent
  */
-export const getAllCampaigns = async (req, res) => {
+exports.getAllCampaigns = async (req, res) => {
   try {
     const { limit = 50, offset = 0, status } = req.query;
 
@@ -37,7 +37,7 @@ export const getAllCampaigns = async (req, res) => {
  * Get campaign by ID from Brevo
  * GET /api/campaign/:campaignId
  */
-export const getCampaign = async (req, res) => {
+exports.getCampaign = async (req, res) => {
   try {
     const { campaignId } = req.params;
     if (!campaignId) return res.status(400).json({ error: 'Campaign ID is required' });
@@ -61,7 +61,7 @@ export const getCampaign = async (req, res) => {
  * Update campaign in Brevo
  * PUT /api/campaign/:campaignId
  */
-export const updateCampaign = async (req, res) => {
+exports.updateCampaign = async (req, res) => {
   try {
     const { campaignId } = req.params;
     const { subject, htmlContent, fromEmail, fromName, scheduledAt } = req.body;
@@ -94,7 +94,7 @@ export const updateCampaign = async (req, res) => {
  * Send campaign from Brevo (test send or full send)
  * POST /api/campaign/:campaignId/send
  */
-export const sendCampaign = async (req, res) => {
+exports.sendCampaign = async (req, res) => {
   try {
     const { campaignId } = req.params;
     const { testEmail } = req.body;
@@ -132,7 +132,7 @@ export const sendCampaign = async (req, res) => {
  * Delete campaign from Brevo
  * DELETE /api/campaign/:campaignId
  */
-export const deleteCampaign = async (req, res) => {
+exports.deleteCampaign = async (req, res) => {
   try {
     const { campaignId } = req.params;
     if (!campaignId) return res.status(400).json({ error: 'Campaign ID is required' });
@@ -148,4 +148,4 @@ export const deleteCampaign = async (req, res) => {
     console.error('Delete campaign error:', error);
     res.status(500).json({ error: 'Failed to delete campaign', details: error.message });
   }
-};  
+};

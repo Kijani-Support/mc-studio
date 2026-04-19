@@ -1,7 +1,7 @@
-import 'dotenv/config'; // <-- CRITICAL FIX: Must be the very first import
-import express from 'express';
-import cors from 'cors';
-import brevoRoutes from './api/brevoRoutes.js';
+require('dotenv').config(); // <-- CRITICAL FIX: Must be the very first import
+const express = require('express');
+const cors = require('cors');
+const brevoRoutes = require('./api/brevoRoutes.js');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
