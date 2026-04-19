@@ -11,7 +11,7 @@ const getHeaders = () => ({
  * Subscribe user to newsletter via Brevo
  * POST /api/subscribe
  */
-export const subscribeToNewsletter = async (req, res) => {
+exports.subscribeToNewsletter = async (req, res) => {
   try {
     const { email, firstName } = req.body;
 
@@ -71,7 +71,7 @@ export const subscribeToNewsletter = async (req, res) => {
  * Handle contact form submission via Brevo
  * POST /api/contact
  */
-export const handleContactForm = async (req, res) => {
+exports.handleContactForm = async (req, res) => {
   try {
     const { firstName, lastName, email, phone, subject, message } = req.body;
 
