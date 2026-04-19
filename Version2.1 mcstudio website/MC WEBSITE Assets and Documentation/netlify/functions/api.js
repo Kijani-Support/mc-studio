@@ -172,7 +172,8 @@ router.post('/contact', async (req, res) => {
   }
 });
 
-// Mount the router
+// Mount the router for both the clean URL and the raw Netlify URL
+app.use('/api', router);
 app.use('/.netlify/functions/api', router);
 
 module.exports.handler = serverless(app);
