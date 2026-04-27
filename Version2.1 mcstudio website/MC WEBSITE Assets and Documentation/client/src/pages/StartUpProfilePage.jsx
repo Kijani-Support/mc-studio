@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom';
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import ProfilePageImage from "@/assets/images/ProfilePage.jpg";
-import JuaFlowLogo from "@/assets/images/JuaFlow.jpg";
-import IBMLogo from "@/assets/images/MC_IBM.jpg";
-import PLPLogo from "@/assets/images/PLP.jpg";
+import JuaFlowLogo from "@/assets/images/JuaFlow.png";
+import IBMLogo from "@/assets/images/MC_IBM.png";
+import PLPLogo from "@/assets/images/PLP.png";
 import Achievements from "@/components/profile_page/Achievements";
 import Services from "@/components/profile_page/Services";
 import CaseStudies from "@/components/profile_page/CaseStudies";
@@ -223,12 +223,12 @@ const StartUpProfilePage = () => {
             <img 
               src={JuaFlowLogo} 
               alt="JuaFlow Partner" 
-              className={`h-16 sm:h-20 object-contain transition-opacity duration-300 ${isDarkMode ? 'opacity-70 hover:opacity-100' : 'opacity-80 hover:opacity-100'}`}
+              className={`h-16 sm:h-20 object-contain transition-all duration-300 ${isDarkMode ? 'brightness-0 invert opacity-100 hover:opacity-80' : 'opacity-80 hover:opacity-100'}`}
             />
             <img 
               src={IBMLogo} 
               alt="IBM Partner" 
-              className={`h-16 sm:h-20 object-contain transition-opacity duration-300 ${isDarkMode ? 'opacity-70 hover:opacity-100' : 'opacity-80 hover:opacity-100'}`}
+              className={`h-16 sm:h-20 object-contain transition-opacity duration-300 ${isDarkMode ? 'brightness-0 invert opacity-100 hover:opacity-80': 'opacity-80 hover:opacity-100'}`}
             />
             <img 
               src={PLPLogo} 

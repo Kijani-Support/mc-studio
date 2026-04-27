@@ -3,13 +3,14 @@ import { FiSearch, FiFacebook, FiTwitter, FiInstagram, FiLinkedin, FiYoutube, Fi
 import { useTheme } from '@/components/Context/ThemeContext'; // <-- Import the custom hook
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import KlinikCaseStudy from '@/assets/images/Klinik.jpg';
 
 // --- Mock Data ---
 
 const HERO_CASE_STUDY = {
   title: "Klinik: Digital Transformation for a Global Healthcare Leader",
   description: "Our strategic partnership helped a major healthcare provider modernize its patient engagement platforms, resulting in improved patient satisfaction by 30% and operational efficiency gains of 20%.",
-  image: "https://images.unsplash.com/photo-1576091160550-217358c7db81?auto=format&fit=crop&q=80&w=1600",
+  image: KlinikCaseStudy,
   stats: [
     { value: "+30%", label: "Patient Satisfaction" },
     { value: "+20%", label: "Operational Efficiency" },

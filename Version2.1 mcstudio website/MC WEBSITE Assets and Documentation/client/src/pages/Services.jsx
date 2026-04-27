@@ -5,6 +5,7 @@ import {
 import { useTheme } from "@/components/Context/ThemeContext"; // <-- Import the hook
 import NavBar from '@/components/NavBar';
 import Footer from '@/components/Footer';
+import teamImage from '@/assets/images/IMG_4029.jpg';
 
 // --- Mock Data ---
 
@@ -163,7 +164,7 @@ export default function ServicesPage() {
             </div>
             <div className="w-full md:w-1/2">
               <img 
-                src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200" 
+                src={teamImage}
                 alt="Team working together" 
                 className={`rounded-2xl w-full h-auto object-cover transition-all duration-300 ${
                   isDarkMode ? 'shadow-2xl shadow-blue-900/20 opacity-90' : 'shadow-xl'
