@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "groupBy": ["county"],
+  "filters": {},
+  "metrics": {
+    "learner_count": "COUNT",
+    "completion_rate": "COMPLETION_RATE",
+    "avg_score": "AVG_SCORE"
+  }
+}

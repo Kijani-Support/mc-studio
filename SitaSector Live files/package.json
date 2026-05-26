@@ -1,0 +1,17 @@
+{
+  "name": "sita-sector-live-files",
+  "version": "1.0.0",
+  "description": "Sita Sector Sprint — full monorepo with IBM integration stubs",
+  "private": true,
+  "scripts": {
+    "test": "node scripts/test-all-sectors.js",
+    "test:fintech": "node fintech/tests/cbk_pipeline.test.js",
+    "test:retail": "node retail/tests/mdm_unification.test.js",
+    "test:edtech": "node edtech/tests/donor_transformer.test.js",
+    "setup:django": "python scripts/setup_django.py"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "pg": "^8.11.3"
+  }
+}

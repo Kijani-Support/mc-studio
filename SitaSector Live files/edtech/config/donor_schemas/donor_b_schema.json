@@ -1,0 +1,10 @@
+{
+  "version": "1.1",
+  "groupBy": ["subject", "grade_level"],
+  "filters": { "learning_mode": "blended" },
+  "metrics": {
+    "enrolled": "COUNT",
+    "completed_modules": "COUNT_COMPLETED",
+    "mean_score": "AVG_SCORE"
+  }
+}
