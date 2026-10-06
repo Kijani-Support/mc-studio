@@ -1,0 +1,19 @@
+{
+  "name": "mc-website-assets-and-documentation",
+  "version": "1.0.0",
+  "description": "This directory contains all assets, media, and documentation for the MC Studio website v2.1.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "serverless-http": "^4.0.0"
+  }
+}

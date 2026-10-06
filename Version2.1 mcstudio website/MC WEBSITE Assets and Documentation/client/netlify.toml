@@ -1,0 +1,55 @@
+[build]
+  # 1. Install backend dependencies from the new top-level package.json
+  # 2. Move into client, install frontend dependencies, and build Vite
+  command = "npm install && cd client && npm install && npm run build"
+  
+  # Tell Netlify where the Vite build output lives relative to the root
+  publish = "client/dist"
+
+[build.environment]
+  NODE_VERSION = "20"
+  NPM_FLAGS = "--legacy-peer-deps"
+
+[functions]
+  # Explicitly tell Netlify where functions live
+  directory = "netlify/functions"
+  # Bundle the local server files
+  included_files = ["server/api/**"]
+  node_bundler = "esbuild"
+
+# --------------------------------------------------------
+# ROUTING
+# --------------------------------------------------------
+
+# API redirect to serverless functions MUST come first
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+# Catch-all redirect for the React/Vite SPA
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+  force = false
+
+# --------------------------------------------------------
+# HEADERS
+# --------------------------------------------------------
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "GET, POST, PUT, DELETE, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, Authorization"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"

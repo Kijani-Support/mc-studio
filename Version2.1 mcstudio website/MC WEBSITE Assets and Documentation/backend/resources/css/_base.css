@@ -1,0 +1,38 @@
+:root {
+  --color-primary: theme("colors.emerald.900");
+  --color-secondary: theme("colors.slate.200");
+  --color-success: theme("colors.emerald.600");
+  --color-info: theme("colors.cyan.500");
+  --color-warning: theme("colors.yellow.400");
+  --color-pending: theme("colors.amber.500");
+  --color-danger: theme("colors.rose.600");
+  --color-light: theme("colors.slate.100");
+  --color-dark: theme("colors.slate.800");
+  --color-slate-50: theme("colors.slate.50");
+  --color-slate-100: theme("colors.slate.100");
+  --color-slate-200: theme("colors.slate.200");
+  --color-slate-300: theme("colors.slate.300");
+  --color-slate-400: theme("colors.slate.400");
+  --color-slate-500: theme("colors.slate.500");
+  --color-slate-600: theme("colors.slate.600");
+  --color-slate-700: theme("colors.slate.700");
+  --color-slate-800: theme("colors.slate.800");
+  --color-slate-900: theme("colors.slate.900");
+  --sidebar-width: 16rem;
+}
+
+/* Default dark-mode colors */
+.dark {
+  --color-primary: theme("colors.emerald.800");
+  --color-slate-500: theme("colors.slate.400");
+  --color-darkmode-50: 87 103 132;
+  --color-darkmode-100: 74 90 121;
+  --color-darkmode-200: 65 81 114;
+  --color-darkmode-300: 53 69 103;
+  --color-darkmode-400: 48 61 93;
+  --color-darkmode-500: 41 53 82;
+  --color-darkmode-600: 40 51 78;
+  --color-darkmode-700: 35 45 69;
+  --color-darkmode-800: 27 37 59;
+  --color-darkmode-900: 15 23 42;
+}

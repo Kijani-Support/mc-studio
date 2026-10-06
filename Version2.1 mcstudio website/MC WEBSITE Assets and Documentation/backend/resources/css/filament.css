@@ -1,0 +1,129 @@
+@import '../../vendor/filament/filament/resources/css/app.css';
+
+@import "./_base.css";
+
+:root{
+  --collapsed-sidebar-width: 7.5rem;
+}
+.filament-login-page{
+  background-image: url('/public/images/bg-2.jpeg') !important;
+  background-size: cover;
+}
+.filament-main-topbar {
+  position: relative;
+  /* transform-style: preserve-3d; */
+  @apply z-10 lg:rounded-tl-[35px] dark:!bg-darkmode-700 lg:dark:rounded-tl-[35px];
+}
+
+/* .filament-main-topbar::before{  */
+.content-holder::before{
+  content: '';
+  z-index: 11;
+  transform: translateZ(-1px);
+  transition: all ease 100ms;
+  @apply w-0 lg:w-[1.5%] inset-y-0 absolute bg-white/10 mt-8 ml-[-1.3rem]
+  dark:bg-darkmode-400 dark:opacity-50 dark:ml-[-1.3rem]
+  lg:rounded-tl-[40px] min-h-screen;
+}
+
+.filament-sidebar,
+.filament-sidebar-open {
+  @apply !bg-[var(--color-primary)] lg:border-none;
+}
+
+.dark .filament-sidebar {
+    @apply !bg-gray-800;
+}
+
+ .filament-sidebar-header::before {
+  background-image: none;
+}
+
+.filament-sidebar-header a {
+  @apply text-white;
+}
+
+aside header.filament-sidebar-header {
+ @apply border-0 py-12;
+}
+
+aside header.filament-sidebar-header > div {
+ @apply px-9;
+}
+
+aside nav.filament-sidebar-nav .filament-sidebar-group ul{
+ @apply lg:mx-2;
+}
+
+.filament-sidebar-item a {
+ @apply text-slate-50;
+}
+
+.filament-sidebar-item a > span{
+ @apply bg-slate-300 dark:text-primary-500 dark:bg-darkmode-500/100;
+}
+
+.filament-sidebar-item.filament-sidebar-item-active a {
+ @apply text-white;
+}
+
+.filament-sidebar-item.filament-sidebar-item-active a > span {
+ @apply bg-white text-primary-900 dark:bg-darkmode-500/100 dark:text-white;
+}
+
+.filament-main {
+ @apply bg-[var(--color-primary)] dark:bg-darkmode-800 gap-y-0 space-y-6;
+}
+
+.filament-main-content {
+  @apply max-w-none py-6 min-h-[90vh];
+}
+
+.filament-main > :not([hidden]) ~ :not([hidden]) {
+  @apply my-0;
+}
+
+.filament-main-content,
+.filament-main-footer,
+.filament-page {
+  /* transform-style: preserve-3d; */
+  /* transform: translateZ(0); */
+  @apply bg-gray-100 dark:bg-darkmode-700;
+}
+.filament-main-footer{
+  @apply pt-6;
+}
+
+.filament-dropdown-panel {
+  @apply z-50;
+}
+
+.filament-sidebar-group button *{
+  @apply text-slate-50;
+}
+
+.filament-sidebar-nav ul :not(li.filament-sidebar-group){
+  @apply mr-0;
+}
+
+[multiple], [type=date], [type=datetime-local],
+[type=email], [type=month], [type=number],
+[type=password], [type=tel], [type=text],
+[type=time], [type=url], [type=week],
+select, textarea {
+  --tw-shadow: 0 0 #0000;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #fff;
+  border-color: #6b7280;
+  border-width: 1px;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  padding: 0.5rem 0.75rem;
+}
+[type=search] {
+  background-color: #fff;
+  border-color: #6b7280;
+  border-width: 1px;
+}

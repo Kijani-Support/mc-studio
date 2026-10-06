@@ -1,0 +1,1 @@
+<img src="{{ $logo }}" {{ $logo ? 'data-auto-embed="base64" data-auto-embed' : '' }}>
